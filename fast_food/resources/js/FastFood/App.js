@@ -22,7 +22,7 @@ function App(props) {
     return (
         <div className="AppComponent post" id="Application">
             <BrowserRouter basename={CONFIG.WEB.USER_POST}>
-
+        
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/profile" component={ProfilePage} />

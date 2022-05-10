@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiaDiemsTable extends Migration
+class CreateDiemMuaHangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateDiaDiemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dia_diems', function (Blueprint $table) {
+        Schema::create('diem_mua_hangs', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_dia_diem');
-            $table->date('thoi_gian_mo');
-            $table->date('thoi_gian_dong');
-            $table->unsignedBigInteger('danh_gia_id');
-            $table->boolean('trang_thai')->nullable()->default(1);
+            $table->bigInteger('so_diem');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('don_hang_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +30,6 @@ class CreateDiaDiemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dia_diems');
+        Schema::dropIfExists('diem_mua_hangs');
     }
 }

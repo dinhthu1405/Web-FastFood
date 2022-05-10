@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuanAnsTable extends Migration
+class CreateTrangThaiDonHangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateQuanAnsTable extends Migration
      */
     public function up()
     {
-        Schema::create('quan_ans', function (Blueprint $table) {
+        Schema::create('trang_thai_don_hangs', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_quan');
-            $table->date('thoi_gian_mo')->nullable();
-            $table->date('thoi_gian_dong')->nullable();
-            $table->string('sdt')->nullable();
-            $table->unsignedBigInteger('dia_diem_id');
-            $table->unsignedBigInteger('ma_giam_gia_id');
-            $table->unsignedBigInteger('danh_gia_id');
+            $table->string('ten_trang_thai');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
@@ -35,6 +29,6 @@ class CreateQuanAnsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quan_ans');
+        Schema::dropIfExists('trang_thai_don_hangs');
     }
 }

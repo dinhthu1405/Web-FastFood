@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuanAn;
-use App\Http\Requests\StoreQuanAnRequest;
-use App\Http\Requests\UpdateQuanAnRequest;
+use App\Models\DiemMuaHang;
+use App\Http\Requests\StoreDiemMuaHangRequest;
+use App\Http\Requests\UpdateDiemMuaHangRequest;
 
-class QuanAnController extends Controller
+class DiemMuaHangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class QuanAnController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreQuanAnRequest  $request
+     * @param  \App\Http\Requests\StoreDiemMuaHangRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreQuanAnRequest $request)
+    public function store(StoreDiemMuaHangRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class QuanAnController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\QuanAn  $quanAn
+     * @param  \App\Models\DiemMuaHang  $diemMuaHang
      * @return \Illuminate\Http\Response
      */
-    public function show(QuanAn $quanAn)
+    public function show(DiemMuaHang $diemMuaHang)
     {
         //
     }
@@ -53,10 +53,10 @@ class QuanAnController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\QuanAn  $quanAn
+     * @param  \App\Models\DiemMuaHang  $diemMuaHang
      * @return \Illuminate\Http\Response
      */
-    public function edit(QuanAn $quanAn)
+    public function edit(DiemMuaHang $diemMuaHang)
     {
         //
     }
@@ -64,11 +64,11 @@ class QuanAnController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateQuanAnRequest  $request
-     * @param  \App\Models\QuanAn  $quanAn
+     * @param  \App\Http\Requests\UpdateDiemMuaHangRequest  $request
+     * @param  \App\Models\DiemMuaHang  $diemMuaHang
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateQuanAnRequest $request, QuanAn $quanAn)
+    public function update(UpdateDiemMuaHangRequest $request, DiemMuaHang $diemMuaHang)
     {
         //
     }
@@ -76,10 +76,10 @@ class QuanAnController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuanAn  $quanAn
+     * @param  \App\Models\DiemMuaHang  $diemMuaHang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(QuanAn $quanAn)
+    public function destroy(DiemMuaHang $diemMuaHang)
     {
         //
     }
