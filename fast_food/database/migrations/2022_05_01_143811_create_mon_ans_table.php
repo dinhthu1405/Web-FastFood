@@ -17,9 +17,10 @@ class CreateMonAnsTable extends Migration
             $table->id();
             $table->string('ten_mon');
             $table->double('don_gia');
-            $table->string('tinh_trang');
-            $table->unsignedBigInteger('quan_an_id');
+            $table->boolean('tinh_trang')->nullable()->default(1);
+            $table->unsignedBigInteger('dia_diem_id');
             $table->unsignedBigInteger('loai_mon_an_id');
+            $table->unsignedBigInteger('danh_gia_id');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -15,8 +15,8 @@ class CreateLichSuMuaHangsTable extends Migration
     {
         Schema::create('lich_su_mua_hangs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mon_an_id');
-            $table->unsignedBigInteger('quan_an_id');
+            $table->unsignedBigInteger('don_hang_id');
+            $table->unsignedBigInteger('trang_thai_don_hang_id');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
