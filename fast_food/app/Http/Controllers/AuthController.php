@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -12,10 +13,15 @@ class AuthController extends Controller
     public function login()
     {
         // return view('auth/login');
-
+        $countId = User::all();
         if (Auth::check()) {
-
             return view('/home');
+        } else
+        
+        if ($countId->count() == 0) {
+            return view('auth/register');
+        } else {
+            return view('auth/login');
         }
         // else{
         //     Auth::logout();
@@ -25,24 +31,24 @@ class AuthController extends Controller
         //     $request->session()->regenerateToken();
         //     return back()->with('error', 'Tài khoản của bạn đã bị khóa');
         // }
-        return view('auth/login');
+
     }
     public function checkLogin(Request $request)
     {
         $this->validate(
             $request,
             [
-                'Email' => 'required',
-                'MatKhau' => 'required|alphaNum|min:6',
+                'email' => 'required',
+                'password' => 'required|alphaNum|min:6',
             ],
             [
-                'Email.required' => 'Bạn chưa nhập email',
-                'MatKhau.required' => 'Bạn chưa nhập mật khẩu',
-                'MatKhau.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
+                'email.required' => 'Bạn chưa nhập email',
+                'password.required' => 'Bạn chưa nhập mật khẩu',
+                'password.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
             ]
         );
-        $user_data = (['email' => $request->Email, 'password' => $request->MatKhau, 'trang_thai' => 1]);
-        $user = User::all()->where('trang_thai', 0);
+        $user_data = (['email' => $request->email, 'password' => $request->password, 'trang_thai' => 1]);
+        // $user = User::all()->where('trang_thai', 0);
         // $user=Auth::check();
         //  dd($user);
         //     if($user){
@@ -55,14 +61,9 @@ class AuthController extends Controller
         //         return back()->with('error', 'Tài khoản của bạn đã bị khóa, hãy liên hệ với Admin.');
 
         // }else
-        if (Auth::attempt($user_data) && Auth::user()->phan_quyen == 1) {
+        if (Auth::attempt($user_data) && Auth::user()->phan_loai_tai_khoan == 1) {
             $request->session()->regenerate();
             return redirect('/home')->with('success', 'Đăng nhập thành công');
-        } else if (Auth::attempt($user_data) && Auth::user()->phan_quyen == 0) {
-            $request->session()->regenerate();
-            // dd(redirect('loi/xemLoi'));
-            return redirect('loi');
-            // return view('component/loi/loi-xemLoi', ['lstLoi' => $lstLoi]);
         } else {
             return back()->with('error', 'Đăng nhập không thành công');
         }
@@ -78,32 +79,35 @@ class AuthController extends Controller
         $this->validate(
             $request,
             [
-                'Email' => 'required',
-                'MatKhau' => 'required|alphaNum|min:6',
+                'email' => 'required',
+                'password' => 'required|alphaNum|min:6',
             ],
             [
-                'Email.required' => 'Bạn chưa nhập email',
-                'MatKhau.required' => 'Bạn chưa nhập mật khẩu',
-                'MatKhau.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
+                'email.required' => 'Bạn chưa nhập email',
+                'password.required' => 'Bạn chưa nhập mật khẩu',
+                'password.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
             ]
         );
         // $user = User::create(request(['Email', 'MatKhau']));
         $user = new User();
         $user->fill([
-            'email' => $request->input('Email'),
+            'email' => $request->input('email'),
             // 'mat_khau' => encrypt($request->input('MatKhau')),
-            'password' => $request->input('MatKhau'),
-            'hinh_anh' => '',
+            'password' => $request->input('password'),
+            'diem_mua_hang_id' => 0,
             'ho_ten' => '',
             'sdt' => '',
-            'ngay_sinh' => date('d-m-Y'),
+            'dia_chi' => '',
+            'ngay_sinh' => date('Y-m-d'),
             'phan_loai_tai_khoan' => 1,
+            'remember_token' => Str::random(length: 10),
+            // 'remember_token' => '',
         ]);
-        
-        $user->save();
         // dd($user);
+        $user->save();
+
         auth()->login($user);
-        return redirect()->to('/home');
+        return redirect()->to('/home')->with('success', 'Đăng ký thành công');
     }
 
     public function logout(Request $request)

@@ -50,7 +50,7 @@
     @else
     @include('pages/header')
     @yield('content')
-    @include('pages/header')
+    @include('pages/footer')
 
     @endif
     <!-- Core JS -->

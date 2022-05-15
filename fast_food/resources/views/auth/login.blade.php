@@ -20,6 +20,7 @@
                 {{ $error }}
             </div>
             @endforeach
+            @endif
             <!-- Register -->
             <div class="card">
                 <div class="card-body">
@@ -67,7 +68,8 @@
                     <h4 class="mb-2">Chào mừng bạn tới FastFood 👋</h4>
                     <p class="mb-4">Vui lòng đăng nhập để truy cập trang quản trị</p>
 
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="{{ route('checkLogin') }}" method="POST">
+                        {!! csrf_field() !!}
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email" placeholder="Nhập vào email" autofocus />

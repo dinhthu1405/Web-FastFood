@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MonAnController;
+use App\Http\Controllers\LoaiMonAnController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SinglePageController;
 
@@ -21,6 +23,10 @@ Route::get('/', function () {
 });
 Route::resource('app', SinglePageController::class);
 Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+
+//Resource
+Route::resource('monAn', MonAnController::class)->middleware('auth');
+Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
 
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');
