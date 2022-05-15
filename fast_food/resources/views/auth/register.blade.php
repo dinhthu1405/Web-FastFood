@@ -1,16 +1,14 @@
 @extends('layouts.app', ['pageId' => 'register'])
 @section('title', 'Trang đăng ký')
-@error('title')
+<!-- @error('title')
 <div class="alert alert-danger">{{ $message }}</div>
-@enderror
+@enderror -->
 @section('content')
 <!-- Content -->
 
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
-            <?php //Hiển thị thông báo thành công
-            ?>
             @if ( Session::has('success') )
             <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
             @endif

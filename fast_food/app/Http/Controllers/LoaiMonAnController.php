@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoaiMonAn;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreLoaiMonAnRequest;
 use App\Http\Requests\UpdateLoaiMonAnRequest;
 
@@ -16,6 +18,8 @@ class LoaiMonAnController extends Controller
     public function index()
     {
         //
+        $lstLoaiMonAn = LoaiMonAn::all();
+        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
     }
 
     /**
@@ -26,6 +30,7 @@ class LoaiMonAnController extends Controller
     public function create()
     {
         //
+        return view('component/loai-mon-an/loaimonan-create');
     }
 
     /**
@@ -37,6 +42,26 @@ class LoaiMonAnController extends Controller
     public function store(StoreLoaiMonAnRequest $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenLoai' => 'required',
+            ],
+            [
+                'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
+            ]
+        );
+        $loaiMonAn = new LoaiMonAn();
+        $loaiMonAn->fill([
+            'ten_loai' => $request->input('TenLoai'),
+        ]);
+        $ktLoaiMonAn = LoaiMonAn::where('ten_loai', $request->input('TenLoai'))->first();
+        if ($ktLoaiMonAn) {
+            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
+        } else {
+            $loaiMonAn->save();
+            return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
+        }
     }
 
     /**
@@ -59,6 +84,7 @@ class LoaiMonAnController extends Controller
     public function edit(LoaiMonAn $loaiMonAn)
     {
         //
+        return view('component/loai-mon-an/loaimonan-edit', compact('loaiMonAn'));
     }
 
     /**
@@ -71,6 +97,25 @@ class LoaiMonAnController extends Controller
     public function update(UpdateLoaiMonAnRequest $request, LoaiMonAn $loaiMonAn)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenLoai' => 'required',
+            ],
+            [
+                'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
+            ]
+        );
+        $loaiMonAn->fill([
+            'ten_loai' => $request->input('TenLoai'),
+        ]);
+        $ktLoaiMonAn = LoaiMonAn::where('ten_loai', $request->input('TenLoai'))->first();
+        if ($ktLoaiMonAn) {
+            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
+        } else {
+            $loaiMonAn->save();
+            return Redirect::route('loaiMonAn.index')->with('success', 'Chỉnh sửa loại món ăn thành công');
+        }
     }
 
     /**

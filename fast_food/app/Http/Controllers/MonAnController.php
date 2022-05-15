@@ -16,6 +16,7 @@ class MonAnController extends Controller
     public function index()
     {
         //
+        return view('component/mon-an/monan-show');
     }
 
     /**
@@ -26,6 +27,7 @@ class MonAnController extends Controller
     public function create()
     {
         //
+        return view('component/mon-an/monan-create');
     }
 
     /**
