@@ -15,7 +15,7 @@ class CreateDonHangsTable extends Migration
     {
         Schema::create('don_hangs', function (Blueprint $table) {
             $table->id();
-            $table->string('ma_dh');
+            $table->string('ma_dh')->unique();
             $table->dateTime('ngay_lap_dh');
             $table->double('tong_tien');
             $table->unsignedBigInteger('trang_thai_don_hang_id');

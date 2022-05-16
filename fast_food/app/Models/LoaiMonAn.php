@@ -20,4 +20,9 @@ class LoaiMonAn extends Model
         'ten_loai',
         'trang_thai',
     ];
+
+    public function monAns()
+    {
+        return $this->hasMany(MonAn::class);
+    }
 }

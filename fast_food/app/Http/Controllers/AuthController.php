@@ -94,7 +94,6 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             // 'mat_khau' => encrypt($request->input('MatKhau')),
             'password' => $request->input('password'),
-            'diem_mua_hang_id' => 0,
             'ho_ten' => '',
             'sdt' => '',
             'dia_chi' => '',

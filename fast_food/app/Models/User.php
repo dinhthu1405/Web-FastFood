@@ -27,7 +27,6 @@ class User extends Authenticatable
         'ngay_sinh',
         'dia_chi',
         'phan_loai_tai_khoan',
-        'diem_mua_hang_id',
         'trang_thai',
     ];
 

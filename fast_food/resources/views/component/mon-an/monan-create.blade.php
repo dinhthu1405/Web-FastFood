@@ -15,11 +15,11 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Tên món</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tên món" />
+                        <input type="text" name="TenMon" class="form-control" id="exampleFormControlInput1" placeholder="Tên món" />
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
-                        <input type="file" class="form-control" name="images[]" accept="image/*" onchange="loadFile(event)" id="exampleFormControlInput1" placeholder="Hình ảnh" />
+                        <input type="file" class="form-control" name="images[]" accept="image/*" onchange="loadFile(event)" multiple id="exampleFormControlInput1" placeholder="Hình ảnh" />
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Xem trước hình</label>
@@ -32,37 +32,46 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlSelect1" class="form-label">Example select</label>
-                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="exampleFormControlSelect1" class="form-label">Loại món ăn</label>
+                        <select class="form-select" name="MonAn" id="exampleFormControlSelect1" aria-label="Default select example">
+                            <option selected>-- Chọn loại món ăn --</option>
+                            @foreach ($lstLoaiMonAn as $loaiMonAn)
+                            <option value="{{ $loaiMonAn->id }}">{{ $loaiMonAn->ten_loai }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleDataList" class="form-label">Datalist example</label>
-                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." />
-                        <datalist id="datalistOptions">
-                            <option value="San Francisco"></option>
-                            <option value="New York"></option>
-                            <option value="Seattle"></option>
-                            <option value="Los Angeles"></option>
-                            <option value="Chicago"></option>
-                        </datalist>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlSelect2" class="form-label">Example multiple select</label>
-                        <select multiple class="form-select" id="exampleFormControlSelect2" aria-label="Multiple select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="exampleFormControlSelect1" class="form-label">Địa điểm</label>
+                        <select class="form-select" name="MonAn" id="exampleFormControlSelect1" aria-label="Default select example">
+                            <option selected>-- Chọn địa điểm --</option>
+                            @foreach ($lstDiaDiem as $diaDiem)
+                            <option value="{{ $diaDiem->id }}">{{ $diaDiem->ten_dia_diem }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <div>
-                        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <div class="mb-3">
+                        <label for="exampleDataList" class="form-label">Đơn giá</label>
+                        <input type="number" name="DonGia" class="form-control" min="1" id="exampleFormControlInput1" placeholder="Đơn giá" />
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleDataList" class="form-label">Số lượng</label>
+                        <input type="number" name="SoLuong" class="form-control" min="1" id="exampleFormControlInput1" placeholder="Đơn giá" />
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlSelect1" class="form-label">Tình trạng món ăn</label>
+                        <select class="form-select" name="TinhTrang" id="exampleFormControlSelect1" aria-label="Default select example">
+                            <option selected>Còn món</option>
+                            <option>Hết món</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-5 mb-3">
+                            <button type="submit" class="btn btn-success py-2 mb-4">Thêm món ăn</button>
+                        </div>
+                        <div class="col-md-2"></div>
                     </div>
                 </div>
             </div>

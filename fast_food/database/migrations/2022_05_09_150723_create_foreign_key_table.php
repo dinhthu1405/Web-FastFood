@@ -13,17 +13,17 @@ class CreateForeignKeyTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('diem_mua_hang_id')->references('id')->on('diem_mua_hangs');
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->foreign('diem_mua_hang_id')->references('id')->on('diem_mua_hangs');
+        // });
         Schema::table('mon_ans', function (Blueprint $table) {
             $table->foreign('dia_diem_id')->references('id')->on('dia_diems');
             $table->foreign('loai_mon_an_id')->references('id')->on('loai_mon_ans');
             $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
         });
-        Schema::table('dia_diems', function (Blueprint $table) {
-            $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
-        });
+        // Schema::table('dia_diems', function (Blueprint $table) {
+        //     $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
+        // });
         Schema::table('hinh_anhs', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
             $table->foreign('user_id')->references('id')->on('users');
