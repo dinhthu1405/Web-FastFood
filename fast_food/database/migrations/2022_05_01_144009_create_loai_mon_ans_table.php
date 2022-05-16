@@ -15,7 +15,7 @@ class CreateLoaiMonAnsTable extends Migration
     {
         Schema::create('loai_mon_ans', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_loai');
+            $table->string('ten_loai')->unique();
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

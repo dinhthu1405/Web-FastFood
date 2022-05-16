@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MonAnController;
+use App\Http\Controllers\DiaDiemController;
 use App\Http\Controllers\LoaiMonAnController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SinglePageController;
@@ -27,6 +28,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middl
 //Resource
 Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
+Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
 
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoaiMonAn;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreLoaiMonAnRequest;
@@ -39,7 +40,7 @@ class LoaiMonAnController extends Controller
      * @param  \App\Http\Requests\StoreLoaiMonAnRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLoaiMonAnRequest $request)
+    public function store(Request $request)
     {
         //
         $this->validate(
@@ -94,7 +95,7 @@ class LoaiMonAnController extends Controller
      * @param  \App\Models\LoaiMonAn  $loaiMonAn
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLoaiMonAnRequest $request, LoaiMonAn $loaiMonAn)
+    public function update(Request $request, LoaiMonAn $loaiMonAn)
     {
         //
         $this->validate(

@@ -13,7 +13,7 @@ class StoreDiaDiemRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoreDiaDiemRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+
+            [
+                'TenDiaDiem' => 'required|unique:dia_diems,TenDiaDiem',
+            ],
+            [
+                'TenDiaDiem.required' => 'Bạn chưa nhập Email',
+                'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+            ]
         ];
     }
 }

@@ -80,7 +80,7 @@
                     </li>
                     <!-- Địa điểm -->
                     <li class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('diaDiem.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-store-alt"></i>
                             <div data-i18n="Analytics">Địa điểm</div>
                         </a>

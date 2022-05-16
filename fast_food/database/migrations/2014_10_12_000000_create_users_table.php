@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->date('ngay_sinh');
             $table->string('dia_chi');
             $table->integer('phan_loai_tai_khoan');
-            $table->unsignedBigInteger('diem_mua_hang_id');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->rememberToken();
             $table->timestamps();

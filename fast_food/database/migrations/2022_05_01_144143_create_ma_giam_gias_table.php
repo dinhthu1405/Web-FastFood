@@ -15,7 +15,7 @@ class CreateMaGiamGiasTable extends Migration
     {
         Schema::create('ma_giam_gias', function (Blueprint $table) {
             $table->id();
-            $table->string('ten_ma');
+            $table->string('ten_ma')->unique();
             $table->double('loai_giam_gia');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();

@@ -19,6 +19,7 @@ class CreateDanhGiasTable extends Migration
             $table->string('noi_dung');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('mon_an_id');
+            $table->unsignedBigInteger('dia_diem_id');
             $table->unsignedBigInteger('nguoi_giao_hang_id');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();

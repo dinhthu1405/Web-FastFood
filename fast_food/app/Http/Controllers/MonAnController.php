@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\MonAn;
+use App\Models\LoaiMonAn;
+use App\Models\DiaDiem;
 use App\Http\Requests\StoreMonAnRequest;
 use App\Http\Requests\UpdateMonAnRequest;
 
@@ -16,7 +19,8 @@ class MonAnController extends Controller
     public function index()
     {
         //
-        return view('component/mon-an/monan-show');
+        $lstMonAn = MonAn::all();
+        return view('component/mon-an/monan-show', compact('lstMonAn'));
     }
 
     /**
@@ -27,7 +31,9 @@ class MonAnController extends Controller
     public function create()
     {
         //
-        return view('component/mon-an/monan-create');
+        $lstLoaiMonAn = LoaiMonAn::all();
+        $lstDiaDiem = DiaDiem::all();
+        return view('component/mon-an/monan-create', compact('lstLoaiMonAn', 'lstDiaDiem'));
     }
 
     /**
@@ -36,9 +42,10 @@ class MonAnController extends Controller
      * @param  \App\Http\Requests\StoreMonAnRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMonAnRequest $request)
+    public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -70,7 +77,7 @@ class MonAnController extends Controller
      * @param  \App\Models\MonAn  $monAn
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMonAnRequest $request, MonAn $monAn)
+    public function update(Request $request, MonAn $monAn)
     {
         //
     }
