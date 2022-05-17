@@ -32,16 +32,16 @@
                     <tbody class="table-border-bottom-0">
                         <tr>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $diaDiem->ten_dia_diem }}</strong></td>
-                            <td>{{ $diaDiem->thoi_gian_mo }</td>
-                            <td>{{ $diaDiem->thoi_gian_dong }</td>
+                            <td>{{ $diaDiem->thoi_gian_mo }}</td>
+                            <td>{{ $diaDiem->thoi_gian_dong }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Xoá</a>
+                                        <a class="dropdown-item" href="{{ route('diaDiem.edit', $diaDiem->id)}}"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
+                                        <a class="dropdown-item" href="{{ route('diaDiem.xoa', $diaDiem->id)}}"><i class="bx bx-trash me-1"></i> Xoá</a>
                                     </div>
                                 </div>
                             </td>

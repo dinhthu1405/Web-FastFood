@@ -16,8 +16,8 @@ class CreateDiaDiemsTable extends Migration
         Schema::create('dia_diems', function (Blueprint $table) {
             $table->id();
             $table->string('ten_dia_diem')->unique();
-            $table->dateTime('thoi_gian_mo');
-            $table->dateTime('thoi_gian_dong');
+            $table->time('thoi_gian_mo');
+            $table->time('thoi_gian_dong');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

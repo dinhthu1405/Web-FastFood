@@ -6,6 +6,7 @@ use App\Models\DiaDiem;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiaDiemRequest;
 use App\Http\Requests\UpdateDiaDiemRequest;
+use Carbon\Carbon;
 
 class DiaDiemController extends Controller
 {
@@ -17,7 +18,7 @@ class DiaDiemController extends Controller
     public function index()
     {
         //
-        $lstDiaDiem = DiaDiem::all();
+        $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
         return view('component/dia-diem/diadiem-show', compact('lstDiaDiem'));
     }
 
@@ -41,6 +42,18 @@ class DiaDiemController extends Controller
     public function store(StoreDiaDiemRequest $request)
     {
         //
+
+        // $weekMap = [
+        //     0 => 'Chủ nhật',
+        //     1 => 'Thứ hai',
+        //     2 => 'Thứ ba',
+        //     3 => 'Thứ tư',
+        //     4 => 'Thứ năm',
+        //     5 => 'Thứ sáu',
+        //     6 => 'Thứ bảy',
+        // ];
+        // $carbon = Carbon::now();
+        // dd($weekMap[$carbon->dayOfWeek]);
         $this->validate(
             $request,
             [
@@ -64,10 +77,8 @@ class DiaDiemController extends Controller
             return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
         } else {
             $diaDiem->save(); //lưu xong mới có mã địa điểm
+            return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         }
-        $diaDiem->save(); //lưu xong mới có mã địa điểm
-
-        return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
     }
 
     /**
@@ -90,6 +101,7 @@ class DiaDiemController extends Controller
     public function edit(DiaDiem $diaDiem)
     {
         //
+        return view('component/dia-diem/diadiem-edit', compact('diaDiem'));
     }
 
     /**
@@ -102,6 +114,22 @@ class DiaDiemController extends Controller
     public function update(UpdateDiaDiemRequest $request, DiaDiem $diaDiem)
     {
         //
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'TenDiaDiem' => 'required|unique:dia_diems,ten_dia_diem',
+        //     ],
+        //     [
+        //         'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+        //         'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+        //     ]
+        // );
+        $diaDiem->fill([
+            'thoi_gian_mo' => $request->input('ThoiGianMo'),
+            'thoi_gian_dong' => $request->input('ThoiGianDong'),
+        ]);
+        $diaDiem->save(); //lưu xong mới có mã địa điểm
+        return Redirect::route('diaDiem.index')->with('success', 'Sửa địa điểm thành công');
     }
 
     /**
@@ -113,5 +141,13 @@ class DiaDiemController extends Controller
     public function destroy(DiaDiem $diaDiem)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $diaDiem = DiaDiem::find($id);
+        $diaDiem->trang_thai = 0;
+        $diaDiem->save();
+        return Redirect::route('diaDiem.index');
     }
 }
