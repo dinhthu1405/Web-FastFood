@@ -30,6 +30,10 @@ Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
 Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
 
+//Xoá dữ liệu
+Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
+Route::get('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');
+
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'checkRegister'])->name('checkRegister');

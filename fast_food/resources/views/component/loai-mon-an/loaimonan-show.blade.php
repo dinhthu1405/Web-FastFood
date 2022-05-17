@@ -37,7 +37,7 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('loaiMonAn.edit', $loaiMonAn->id) }}"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Xoá</a>
+                                        <a class="dropdown-item" href="{{ route('loaiMonAn.xoa', $loaiMonAn->id) }}"><i class="bx bx-trash me-1"></i> Xoá</a>
                                     </div>
                                 </div>
                             </td>

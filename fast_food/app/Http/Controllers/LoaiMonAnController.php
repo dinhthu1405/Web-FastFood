@@ -19,7 +19,7 @@ class LoaiMonAnController extends Controller
     public function index()
     {
         //
-        $lstLoaiMonAn = LoaiMonAn::all();
+        $lstLoaiMonAn = LoaiMonAn::all()->where('trang_thai', 1);
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
     }
 
@@ -101,22 +101,18 @@ class LoaiMonAnController extends Controller
         $this->validate(
             $request,
             [
-                'TenLoai' => 'required',
+                'TenLoai' => 'required|unique:loai_mon_ans,ten_loai',
             ],
             [
                 'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
+                'TenLoai.unique' => 'Tên loại món ăn đã tồn tại',
             ]
         );
         $loaiMonAn->fill([
             'ten_loai' => $request->input('TenLoai'),
         ]);
-        $ktLoaiMonAn = LoaiMonAn::where('ten_loai', $request->input('TenLoai'))->first();
-        if ($ktLoaiMonAn) {
-            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
-        } else {
-            $loaiMonAn->save();
-            return Redirect::route('loaiMonAn.index')->with('success', 'Chỉnh sửa loại món ăn thành công');
-        }
+        $loaiMonAn->save();
+        return Redirect::route('loaiMonAn.index')->with('success', 'Chỉnh sửa loại món ăn thành công');
     }
 
     /**
@@ -128,5 +124,13 @@ class LoaiMonAnController extends Controller
     public function destroy(LoaiMonAn $loaiMonAn)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $loaiMonAn = LoaiMonAn::find($id);
+        $loaiMonAn->trang_thai = 0;
+        $loaiMonAn->save();
+        return Redirect::route('loaiMonAn.index');
     }
 }

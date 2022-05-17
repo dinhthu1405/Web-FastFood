@@ -19,7 +19,7 @@ class MonAnController extends Controller
     public function index()
     {
         //
-        $lstMonAn = MonAn::all();
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
         return view('component/mon-an/monan-show', compact('lstMonAn'));
     }
 

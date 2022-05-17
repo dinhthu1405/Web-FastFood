@@ -23,16 +23,6 @@ class DiaDiem extends Model
         'trang_thai',
     ];
 
-    protected $weekMap = [
-        0 => 'SU',
-        1 => 'MO',
-        2 => 'TU',
-        3 => 'WE',
-        4 => 'TH',
-        5 => 'FR',
-        6 => 'SA',
-    ];
-
     public function monAns()
     {
         return $this->hasMany(MonAn::class);
