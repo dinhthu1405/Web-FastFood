@@ -25,11 +25,12 @@ class MonAnController extends Controller
         return view('component/mon-an/monan-show', compact('lstMonAn'));
     }
 
-    public function images($id){
-        $monAn=MonAn::find($id);
-        if(!$monAn) abort(404);
-        $images= $monAn->hinhAnhs;
-        return view('component/mon-an/monan-image',compact('monAn','images'));
+    public function images($id)
+    {
+        $monAn = MonAn::find($id);
+        if (!$monAn) abort(404);
+        $images = $monAn->hinhAnhs;
+        return view('component/mon-an/monan-image', compact('monAn', 'images'));
     }
 
     /**
@@ -61,7 +62,7 @@ class MonAnController extends Controller
                 // 'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
                 'images' => 'required|max:2048',
                 'DiaDiem' => 'required',
-                'LoaiMonAn'=> 'required',
+                'LoaiMonAn' => 'required',
             ],
             [
                 'TenMonAn.required' => 'Bạn chưa nhập tên món ăn',
@@ -84,21 +85,21 @@ class MonAnController extends Controller
             'loai_mon_an_id' => $request->input('LoaiMonAn'),
         ]);
         // dd($monAn);
-            $monAn->save();
+        $monAn->save();
 
-            $images=array();
-            if($request->hasFile('images')){
-                foreach($request->file('images') as $file){
-                    $images= $file->store('images/mon_an/'.$monAn->id, 'public');
+        $images = array();
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $images = $file->store('images/mon_an/' . $monAn->id, 'public');
 
-                    HinhAnh::insert([
-                        'duong_dan'=>$images,
-                        'mon_an_id'=>$monAn->id,
-                        'trang_thai'=>1,
-                    ]);
-                }
+                HinhAnh::insert([
+                    'duong_dan' => $images,
+                    'mon_an_id' => $monAn->id,
+                    'trang_thai' => 1,
+                ]);
             }
-            return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
+        }
+        return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
     }
 
     /**
@@ -123,7 +124,7 @@ class MonAnController extends Controller
         //
         $lstLoaiMonAn = LoaiMonAn::all();
         $lstDiaDiem = DiaDiem::all();
-        return view('component/mon-an/monan-edit', compact('monAn','lstLoaiMonAn','lstDiaDiem'));
+        return view('component/mon-an/monan-edit', compact('monAn', 'lstLoaiMonAn', 'lstDiaDiem'));
     }
 
     /**
@@ -139,16 +140,12 @@ class MonAnController extends Controller
         $this->validate(
             $request,
             [
-                'TenMonAn' => 'required|unique:mon_ans,ten_mon',
                 // 'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-                'images' => 'required|max:2048',
+                'images' => 'max:2048',
                 'DiaDiem' => 'required',
-                'LoaiMonAn'=> 'required',
+                'LoaiMonAn' => 'required',
             ],
             [
-                'TenMonAn.required' => 'Bạn chưa nhập tên món ăn',
-                'TenMonAn.unique' => 'Tên món ăn đã tồn tại',
-                'images.required' => 'Bạn chưa chọn hình ảnh',
                 // 'images.image' => 'File bạn chọn không phải là hình ảnh',
                 'images.max' => 'Bạn chỉ được chọn file hình ảnh có dung lượng nhỏ hơn 2MB',
                 // 'images.mimes' => 'Bạn chỉ được chọn file hình ảnh có đuôi jpg, png, jpeg, gif, svg',
@@ -157,36 +154,40 @@ class MonAnController extends Controller
             ]
         );
 
-        $images=array();
-        $hinhAnh=HinhAnh::where('mon_an_id',$monAn->id)->get();
+        $images = array();
+        $hinhAnh = HinhAnh::where('mon_an_id', $monAn->id)->get();
 
-        if($request->hasFile('images')){
-            foreach($hinhAnh as $hinh){
+        if ($request->hasFile('images')) {
+            foreach ($hinhAnh as $hinh) {
                 $hinh->update([
-                    'trang_thai'=>0,
+                    'trang_thai' => 0,
                 ]);
             }
-            foreach($request->file('images') as $file){
-                $images= $file->store('images/mon_an/'.$monAn->id, 'public');
+            foreach ($request->file('images') as $file) {
+                $images = $file->store('images/mon_an/' . $monAn->id, 'public');
 
                 HinhAnh::insert([
-                    'duong_dan'=>$images,
-                    'mon_an_id'=>$monAn->id,
-                    'trang_thai'=>1,
+                    'duong_dan' => $images,
+                    'mon_an_id' => $monAn->id,
+                    'trang_thai' => 1,
                 ]);
             }
         }
+        if ($request->input('TinhTrang') == 'Còn món') {
+            $tinhTrang = 1;
+        } else {
+            $tinhTrang = 0;
+        }
         $monAn->fill([
-            'ten_mon' => $request->input('TenMonAn'),
             'don_gia' => $request->input('DonGia'),
             'so_luong' => $request->input('SoLuong'),
-            'tinh_trang' => 1,
+            'tinh_trang' => $tinhTrang,
             'dia_diem_id' => $request->input('DiaDiem'),
             'loai_mon_an_id' => $request->input('LoaiMonAn'),
         ]);
         // dd($monAn);
-            $monAn->save();
-            return Redirect::route('monAn.index')->with('success', 'Sửa món ăn thành công');
+        $monAn->save();
+        return Redirect::route('monAn.index')->with('success', 'Sửa món ăn thành công');
     }
 
     /**
@@ -202,10 +203,10 @@ class MonAnController extends Controller
 
     public function xoa($id)
     {
-        $monAn=MonAn::find($id);
-        $monAn->trang_thai=0;
+        $monAn = MonAn::find($id);
+        $monAn->trang_thai = 0;
         $monAn->save();
-        $monAn->hinhAnhs()->update(['hinh_anhs.trang_thai'=>0]);
+        $monAn->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
         return Redirect::route('monAn.index');
     }
 }

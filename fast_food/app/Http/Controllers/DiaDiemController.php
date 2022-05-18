@@ -148,6 +148,7 @@ class DiaDiemController extends Controller
         $diaDiem = DiaDiem::find($id);
         $diaDiem->trang_thai = 0;
         $diaDiem->save();
+        $diaDiem->monAns()->update(['mon_ans.trang_thai' => 0]);
         return Redirect::route('diaDiem.index');
     }
 }
