@@ -18,8 +18,8 @@ class CreateChiTietDonHangsTable extends Migration
             $table->double('don_gia');
             $table->integer('so_luong');
             $table->double('thanh_tien');
-            $table->unsignedBigInteger('don_hang_id');
-            $table->unsignedBigInteger('mon_an_id');
+            $table->unsignedBigInteger('don_hang_id')->nullable();//khoá ngoại
+            $table->unsignedBigInteger('mon_an_id')->nullable();//khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
