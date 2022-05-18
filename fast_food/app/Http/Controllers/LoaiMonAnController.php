@@ -57,9 +57,8 @@ class LoaiMonAnController extends Controller
         $loaiMonAn->fill([
             'ten_loai' => $request->input('TenLoai'),
         ]);
-            $loaiMonAn->save();
-            return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
-
+        $loaiMonAn->save();
+        return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
     }
 
     /**
@@ -128,6 +127,7 @@ class LoaiMonAnController extends Controller
         $loaiMonAn = LoaiMonAn::find($id);
         $loaiMonAn->trang_thai = 0;
         $loaiMonAn->save();
+        $loaiMonAn->monAns()->update(['mon_ans.trang_thai' => 0]);
         return Redirect::route('loaiMonAn.index');
     }
 }
