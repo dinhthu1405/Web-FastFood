@@ -46,23 +46,20 @@ class LoaiMonAnController extends Controller
         $this->validate(
             $request,
             [
-                'TenLoai' => 'required',
+                'TenLoai' => 'required|unique:loai_mon_ans,ten_loai',
             ],
             [
                 'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
+                'TenLoai.unique' => 'Tên loại món ăn đã tồn tại',
             ]
         );
         $loaiMonAn = new LoaiMonAn();
         $loaiMonAn->fill([
             'ten_loai' => $request->input('TenLoai'),
         ]);
-        $ktLoaiMonAn = LoaiMonAn::where('ten_loai', $request->input('TenLoai'))->first();
-        if ($ktLoaiMonAn) {
-            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
-        } else {
             $loaiMonAn->save();
             return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
-        }
+
     }
 
     /**

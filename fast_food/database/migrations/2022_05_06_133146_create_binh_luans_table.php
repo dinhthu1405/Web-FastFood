@@ -17,8 +17,8 @@ class CreateBinhLuansTable extends Migration
             $table->id();
             $table->text('noi_dung');
             $table->dateTime('thoi_gian');
-            $table->unsignedBigInteger('mon_an_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('mon_an_id')->nullable();//khoá ngoại
+            $table->unsignedBigInteger('user_id')->nullable();//khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

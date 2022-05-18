@@ -16,8 +16,8 @@ class CreateDiemMuaHangsTable extends Migration
         Schema::create('diem_mua_hangs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('so_diem');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('don_hang_id');
+            $table->unsignedBigInteger('user_id')->nullable();//khoá ngoại
+            $table->unsignedBigInteger('don_hang_id')->nullable();//khoá ngoại
             $table->timestamps();
             $table->softDeletes();
         });

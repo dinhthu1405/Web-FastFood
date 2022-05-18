@@ -36,4 +36,9 @@ class MonAn extends Model
     {
         return $this->belongsTo(DiaDiem::class);
     }
+
+    public function hinhAnhs()
+    {
+        return $this->hasMany(HinhAnh::class);
+    }
 }

@@ -15,7 +15,7 @@ class CreateAnhBiasTable extends Migration
     {
         Schema::create('anh_bias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mon_an_id');
+            $table->unsignedBigInteger('mon_an_id')->nullable();//khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

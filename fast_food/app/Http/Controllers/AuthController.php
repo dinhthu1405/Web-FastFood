@@ -17,7 +17,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return view('/home');
         } else
-        
+
         if ($countId->count() == 0) {
             return view('auth/register');
         } else {
