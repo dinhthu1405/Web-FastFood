@@ -21,7 +21,7 @@ class MonAnController extends Controller
     public function index()
     {
         //
-        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         return view('component/mon-an/monan-show', compact('lstMonAn'));
     }
 
@@ -31,6 +31,16 @@ class MonAnController extends Controller
         if (!$monAn) abort(404);
         $images = $monAn->hinhAnhs;
         return view('component/mon-an/monan-image', compact('monAn', 'images'));
+    }
+
+    public function search(Request $request)
+    {
+        // Get the search value from the request
+        $search = $request->input('search');
+        // Search in the title and body columns from the posts table
+        $lstMonAn = MonAn::where('ten_mon', 'LIKE', '%' . $search . '%')->get();
+        // return $lstDiaDanh;
+        return view('component/mon-an/monan-show', ['lstMonAn' => $lstMonAn]);
     }
 
     /**
