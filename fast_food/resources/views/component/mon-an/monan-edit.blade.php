@@ -80,8 +80,8 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Tình trạng món ăn</label>
                                 <select class="form-select" name="TinhTrang" id="exampleFormControlSelect1" aria-label="Default select example">
-                                    <option {{ $monAn->tinh_trang == 1 ? 'selected' : '' }}>Còn món</option>
-                                    <option {{ $monAn->tinh_trang == 0 ? 'selected' : '' }}>Hết món</option>
+                                    <option {{ $monAn->tinh_trang == 'Còn món' ? 'selected' : '' }}>Còn món</option>
+                                    <option {{ $monAn->tinh_trang == 'Hết món' ? 'selected' : '' }}>Hết món</option>
                                 </select>
                             </div>
                             <div class="row">

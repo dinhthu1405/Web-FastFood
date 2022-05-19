@@ -184,9 +184,9 @@ class MonAnController extends Controller
             }
         }
         if ($request->input('TinhTrang') == 'Còn món') {
-            $tinhTrang = 1;
+            $tinhTrang = 'Còn món';
         } else {
-            $tinhTrang = 0;
+            $tinhTrang = 'Hết món';
         }
         $monAn->fill([
             'don_gia' => $request->input('DonGia'),

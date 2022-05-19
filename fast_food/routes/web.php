@@ -37,6 +37,8 @@ Route::get('/monAn/xoa/{id}', [MonAnController::class, 'xoa'])->name('monAn.xoa'
 
 //Tìm kiếm
 Route::post('/monAn/search/', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
+Route::post('/loaiMonAn/search/', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
+Route::post('/diaDiem/search/', [DiaDiemController::class, 'search'])->name('diaDiem.search')->middleware('auth');
 
 //Hình ảnh
 Route::get('/monAn/images/{id}', [MonAnController::class, 'images'])->name('monAn.images')->middleware('auth');
