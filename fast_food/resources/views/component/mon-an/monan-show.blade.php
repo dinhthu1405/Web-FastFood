@@ -16,6 +16,19 @@
                         ăn</button></a>
             </div>
         </div>
+        <form action="{{ route('monAn.search') }}" method="post">
+            {{ csrf_field() }}
+            <label>Tìm kiếm</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <input class="form-control" type="search" name="search" required />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+        <br />
         <!-- Bootstrap Table with Header - Light -->
         <div class="card">
             <h5 class="card-header">Danh sách món ăn</h5>

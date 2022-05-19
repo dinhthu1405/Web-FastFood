@@ -6,20 +6,16 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        , made with ❤️ by
-                        <a href="https://themeselection.com" target="_blank"
-                            class="footer-link fw-bolder">ThemeSelection</a>
+                        , làm với ❤️ bởi
+                        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                     </div>
                     <div>
-                        <a href="https://themeselection.com/license/" class="footer-link me-4"
-                            target="_blank">License</a>
-                        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+                        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">Giấy phép</a>
+                        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">Thêm chủ đề</a>
 
-                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                            target="_blank" class="footer-link me-4">Documentation</a>
+                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Tài liệu</a>
 
-                        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                            target="_blank" class="footer-link me-4">Support</a>
+                        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Hỗ trợ</a>
                     </div>
                 </div>
             </footer>
@@ -38,6 +34,5 @@
             <!-- / Layout wrapper -->
 
             <div class="buy-now">
-                <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
-                    class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
+                <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank" class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
             </div>
