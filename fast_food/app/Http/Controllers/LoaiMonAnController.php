@@ -23,6 +23,16 @@ class LoaiMonAnController extends Controller
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
     }
 
+    public function search(Request $request)
+    {
+        // Get the search value from the request
+        $search = $request->input('search');
+        // Search in the title and body columns from the posts table
+        $lstLoaiMonAn = LoaiMonAn::where('ten_loai', 'LIKE', '%' . $search . '%')->get();
+        // return $lstDiaDanh;
+        return view('component/loai-mon-an/loaimonan-show', ['lstLoaiMonAn' => $lstLoaiMonAn]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiaDiem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiaDiemRequest;
 use App\Http\Requests\UpdateDiaDiemRequest;
@@ -20,6 +21,16 @@ class DiaDiemController extends Controller
         //
         $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
         return view('component/dia-diem/diadiem-show', compact('lstDiaDiem'));
+    }
+
+    public function search(Request $request)
+    {
+        // Get the search value from the request
+        $search = $request->input('search');
+        // Search in the title and body columns from the posts table
+        $lstDiaDiem = DiaDiem::where('ten_dia_diem', 'LIKE', '%' . $search . '%')->get();
+
+        return view('component/dia-diem/diadiem-show', ['lstDiaDiem' => $lstDiaDiem]);
     }
 
     /**
