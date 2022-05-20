@@ -20,6 +20,7 @@ class LoaiMonAnController extends Controller
     {
         //
         $lstLoaiMonAn = LoaiMonAn::all()->where('trang_thai', 1);
+        
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
     }
 
