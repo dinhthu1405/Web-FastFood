@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-5"></div>
                             <div class="col-md-5 mb-3">
-                                <button type="submit" class="btn btn-success py-2 mb-4">Thêm món ăn</button>
+                                <button type="submit" class="btn btn-success py-2 mb-4">Thêm món</button>
                             </div>
                             <div class="col-md-2"></div>
                         </div>

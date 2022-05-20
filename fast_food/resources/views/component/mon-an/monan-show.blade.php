@@ -13,7 +13,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-2">
                 <a href="{{ route('monAn.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm món
-                        ăn</button></a>
+                    </button></a>
             </div>
         </div>
         <form action="{{ route('monAn.search') }}" method="post">
@@ -36,6 +36,7 @@
                 <table class="table">
                     <thead class="table-light">
                         <tr>
+                            <th>STT</th>
                             <th>Tên món</th>
                             <th>Hình món ăn</th>
                             <th>Đơn giá</th>
@@ -44,12 +45,15 @@
                             <th>Địa điểm</th>
                             <!-- <th>Đánh giá</th> -->
                             <th>Tình trạng</th>
-                            <th>Chức năng</th>
+                            <th>Chỉnh sửa</th>
+                            <th>Xoá</th>
                         </tr>
                     </thead>
+                    <?php $count = 1; ?>
                     @foreach ($lstMonAn as $monAn)
                     <tbody class="table-border-bottom-0">
                         <tr>
+                            <td> {{$count++}} </td>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong>{{ $monAn->ten_mon }}</strong>
                             </td>
@@ -64,18 +68,8 @@
                             @else
                             <td>Hết món</td>
                             @endif
-
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('monAn.edit', $monAn->id) }}"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
-                                        <a class="dropdown-item" href="{{ route('monAn.xoa', $monAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><i class="bx bx-trash me-1"></i> Xoá</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td> <a class="dropdown-item" href="{{ route('monAn.edit', $monAn->id) }}"><i class="bx bx-edit-alt me-1"></i></a></td>
+                            <td> <a class="dropdown-item" href="{{ route('monAn.xoa', $monAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><i class="bx bx-trash me-1"></i></a></td>
                         </tr>
                     </tbody>
                     @endforeach

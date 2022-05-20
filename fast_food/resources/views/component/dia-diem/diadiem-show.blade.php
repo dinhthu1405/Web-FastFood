@@ -36,31 +36,26 @@
                 <table class="table">
                     <thead class="table-light">
                         <tr>
+                            <th>STT</th>
                             <th>Tên địa điểm</th>
                             <th>Thời gian mở</th>
                             <th>Thời gian đóng</th>
-                            <th>Chức năng</th>
+                            <th>Sửa</th>
+                            <th>Xoá</th>
                         </tr>
                     </thead>
+                    <?php $count = 1; ?>
                     @foreach ($lstDiaDiem as $diaDiem)
                     <tbody class="table-border-bottom-0">
                         <tr>
+                            <td> {{$count++}} </td>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong>{{ $diaDiem->ten_dia_diem }}</strong>
                             </td>
                             <td>{{ $diaDiem->thoi_gian_mo }}</td>
                             <td>{{ $diaDiem->thoi_gian_dong }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('diaDiem.edit', $diaDiem->id) }}"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
-                                        <a class="dropdown-item" href="{{ route('diaDiem.xoa', $diaDiem->id) }}" onclick="return confirm('Bạn có chắc muốn xoá địa điểm này, vì nó có thể ảnh hưởng đến món ăn')"><i class="bx bx-trash me-1"></i> Xoá</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td> <a class="dropdown-item" href="{{ route('diaDiem.edit', $diaDiem->id) }}"><i class="bx bx-edit-alt me-1"></i></a></td>
+                            <td> <a class="dropdown-item" href="{{ route('diaDiem.xoa', $diaDiem->id) }}" onclick="return confirm('Bạn có chắc muốn xoá địa điểm này, vì nó có thể ảnh hưởng đến món ăn')"><i class="bx bx-trash me-1"></i></a></td>
                         </tr>
                     </tbody>
                     @endforeach
