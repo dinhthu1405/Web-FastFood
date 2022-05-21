@@ -29,6 +29,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middl
 Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
 Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
+// Route::post('/diaDiem/them', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
+// Route::post('/diaDiem/them', 'DiaDiemController@store')->middleware('auth');
 
 //Xoá dữ liệu
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
