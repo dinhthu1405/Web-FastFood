@@ -50,7 +50,7 @@ class DiaDiemController extends Controller
      * @param  \App\Http\Requests\StoreDiaDiemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDiaDiemRequest $request)
+    public function store(Request $request)
     {
         //
 
@@ -77,18 +77,18 @@ class DiaDiemController extends Controller
         );
         $diaDiem = new DiaDiem();
         $diaDiem->fill([
-            'ten_dia_diem' => $request->input('TenDiaDiem'),
-            'thoi_gian_mo' => $request->input('ThoiGianMo'),
-            'thoi_gian_dong' => $request->input('ThoiGianDong'),
+            'ten_dia_diem' => $request->TenDiaDiem,
+            'thoi_gian_mo' => $request->ThoiGianMo,
+            'thoi_gian_dong' => $request->ThoiGianDong,
         ]);
-        // dd($diaDiem);
+        dd($diaDiem);
         $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
         // return ($ktDiaDanh);
         if ($ktDiaDiem) {
             return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
         } else {
             $diaDiem->save(); //lưu xong mới có mã địa điểm
-            return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+            // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         }
     }
 
