@@ -143,9 +143,12 @@
                                     <span onclick="document.getElementById('id1').style.display='none'"
                                         class="close" title="Close Modal">&times;</span>
                                     <div class="card-body">
-                                        <form action="{{ route('diaDiem.store') }}" id="ajax-contact-form" method="post">
+                                        <div class="alert alert-success" style="display:none"></div>
+                                        {{-- <form action="{{ route('diaDiem.store') }}" id="ajax-contact-form" method="post"
+                                            enctype="multipart/form-data"> --}}
+                                        <form action="" id="ajax-contact-form" method="post" enctype="multipart/form-data">
                                             {!! @csrf_field() !!}
-                                            <input type="hidden" id="token" value="{{ @csrf_token() }}">
+                                            {{-- <input type="hidden" id="token" value="{{ @csrf_token() }}"> --}}
                                             <div class="mb-3">
                                                 <label for="exampleFormControlInput1" class="form-label">Tên địa
                                                     điểm</label>
@@ -247,54 +250,60 @@
                     }
                 }
             </script>
-            {{-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                        crossorigin="anonymous"></script> --}}
-            {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-                        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-                        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-            {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"
-                        integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
-                        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
             <script>
-                jQuery(document).ready(function() {
-                    jQuery('#ajaxSubmit').click(function(e) {
-                        e.preventDefault();
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                            }
-                        });
-                    });
-                });
-                // var url = "{{ URL('/diaDiem') }}";
-                $.ajax({
-                    url: "{{ URL('/diaDiem') }}",
-                    method: 'post',
-                    // data: {
-                    //     ten_dia_diem: jQuery('#TenDiaDiem').val(),
-                    //     thoi_gian_mo: jQuery('#ThoiGianMo').val(),
-                    //     thoi_gian_dong: jQuery('#ThoiGianDong').val()
-                    // },
-                    data: $('#ajax-contact-form').serialize(),
-                    success: function(result) {
-                        console.log(result);
-                        document.getElementById("ajax-contact-form").reset();
-                    }
-                });
-                // $(document).ready(function() {
-                //     $('#ajax-contact-form').submit(function(e) {
+                // jQuery(document).ready(function() {
+                //     jQuery('#ajaxSubmit').click(function(e) {
                 //         e.preventDefault();
-                //         let url = $(this).attr('action');
-                //         $("#ajaxSubmit").attr('disabled', true);
-                //         $post(url, {
-                //             '_token': $("#token").val(),
-                //             ten_dia_diem: ('#TenDiaDiem').val(),
-                //             thoi_gian_mo: ('#ThoiGianMo').val(),
-                //             thoi_gian_dong: ('#ThoiGianDong').val()
-                //         }, function(response) {
-                //             console.log(result);
+                //         $.ajaxSetup({
+                //             headers: {
+                //                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                //             }
+                //         });
+                //         jQuery.ajax({
+                //             url: "{{ route('diaDiem.store') }}",
+                //             method: 'post',
+                //             data: {
+                //                 ten_dia_diem: jQuery('#TenDiaDiem').val(),
+                //                 thoi_gian_mo: jQuery('#ThoiGianMo').val(),
+                //                 thoi_gian_dong: jQuery('#ThoiGianDong').val()
+                //             },
+                //             dataType: 'json',
+                //             success: function(data) {
+                //                 $('#ajax-contact-form').trigger("reset");
+                //                 $("#ajax-contact-form .close").click();
+                //                 window.location.reload();
+                //             },
+                //             // success: function(result) {
+                //             //     jQuery('.alert').show();
+                //             //     jQuery('.alert').html(result.success);
+                //             // }
                 //         });
                 //     });
                 // });
+
+                $("ajax-contact-form").submit(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('diaDiem.store') }}",
+                        type: "POST",
+                        data: {
+                            ten_dia_diem: $('#TenDiaDiem').val(),
+                            thoi_gian_mo: $('#ThoiGianMo').val(),
+                            thoi_gian_dong: $('#ThoiGianDong').val()
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            // $('#ajax-contact-form').trigger("reset");
+                            // $("#ajax-contact-form .close").click();
+                            // window.location.reload();
+                            alert('Thành công');
+                        },
+                    });
+                });
             </script>
         @endsection
