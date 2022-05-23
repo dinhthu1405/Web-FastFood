@@ -65,31 +65,39 @@ class DiaDiemController extends Controller
         // ];
         // $carbon = Carbon::now();
         // dd($weekMap[$carbon->dayOfWeek]);
-        $this->validate(
-            $request,
-            [
-                'TenDiaDiem' => 'required',
-            ],
-            [
-                'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
-                // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
-            ]
-        );
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'TenDiaDiem' => 'required',
+        //     ],
+        //     [
+        //         'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+        //         // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+        //     ]
+        // );
+        // $diaDiem = new DiaDiem();
+        // $diaDiem->fill([
+        //     'ten_dia_diem' => $request->TenDiaDiem,
+        //     'thoi_gian_mo' => $request->ThoiGianMo,
+        //     'thoi_gian_dong' => $request->ThoiGianDong,
+        // ]);
+        // dd($diaDiem);
+        // $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
+        // // return ($ktDiaDanh);
+        // if ($ktDiaDiem) {
+        //     return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
+        // } else {
+        //     $diaDiem->save(); //lưu xong mới có mã địa điểm
+        //     // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        // }
         $diaDiem = new DiaDiem();
-        $diaDiem->fill([
-            'ten_dia_diem' => $request->TenDiaDiem,
-            'thoi_gian_mo' => $request->ThoiGianMo,
-            'thoi_gian_dong' => $request->ThoiGianDong,
-        ]);
-        dd($diaDiem);
-        $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
-        // return ($ktDiaDanh);
-        if ($ktDiaDiem) {
-            return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
-        } else {
-            $diaDiem->save(); //lưu xong mới có mã địa điểm
-            // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
-        }
+        $diaDiem->ten_dia_diem = $request->input('TenDiaDiem');
+        $diaDiem->thoi_gian_mo = $request->input('ThoiGianMo');
+        $diaDiem->thoi_gian_dong = $request->input('ThoiGianDong');
+
+        $diaDiem->save();
+        // return response()->json(['success'=>'Dữ liệu thêm thành công']);
+        return response()->json($diaDiem);
     }
 
     /**

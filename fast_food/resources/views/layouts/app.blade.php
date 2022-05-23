@@ -3,14 +3,14 @@
     data-assets-path="{{ asset('assets/') }}" data-template="vertical-menu-template-free">
 
 <head>
+
     <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="_token" content="{{ csrf_token() }}" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>@yield('title')</title>
-
-    <meta name="description" content="" />
-
     <!-- Favicon -->
     {{-- <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" /> --}}
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/AdminLTELogo.png') }}" />
@@ -40,13 +40,15 @@
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
     <!-- <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" /> -->
-
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+
 </head>
 
 <body>
