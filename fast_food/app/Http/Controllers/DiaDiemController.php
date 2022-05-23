@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiaDiemRequest;
 use App\Http\Requests\UpdateDiaDiemRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
 
 class DiaDiemController extends Controller
 {
@@ -77,9 +78,15 @@ class DiaDiemController extends Controller
         // );
         // $diaDiem = new DiaDiem();
         // $diaDiem->fill([
+<<<<<<< HEAD
+        //     'ten_dia_diem' => $request->ten_dia_diem,
+        //     'thoi_gian_mo' => $request->thoi_gian_mo,
+        //     'thoi_gian_dong' => $request->thoi_gian_dong,
+=======
         //     'ten_dia_diem' => $request->TenDiaDiem,
         //     'thoi_gian_mo' => $request->ThoiGianMo,
         //     'thoi_gian_dong' => $request->ThoiGianDong,
+>>>>>>> 7d136dfd3a3bfb2e469897da60f84bcac98ac10a
         // ]);
         // dd($diaDiem);
         // $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
@@ -90,6 +97,10 @@ class DiaDiemController extends Controller
         //     $diaDiem->save(); //lưu xong mới có mã địa điểm
         //     // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // }
+<<<<<<< HEAD
+        $diaDiem = DiaDiem::create($request->all());
+        return response()->json(['data' => $diaDiem], 200);
+=======
         $diaDiem = new DiaDiem();
         $diaDiem->ten_dia_diem = $request->input('TenDiaDiem');
         $diaDiem->thoi_gian_mo = $request->input('ThoiGianMo');
@@ -98,6 +109,7 @@ class DiaDiemController extends Controller
         $diaDiem->save();
         // return response()->json(['success'=>'Dữ liệu thêm thành công']);
         return response()->json($diaDiem);
+>>>>>>> 7d136dfd3a3bfb2e469897da60f84bcac98ac10a
     }
 
     /**
