@@ -97,8 +97,8 @@ class DiaDiemController extends Controller
         $diaDiem->thoi_gian_dong = $request->input('ThoiGianDong');
 
         $diaDiem->save();
-        // return response()->json(['success'=>'Dữ liệu thêm thành công']);
-        return response()->json($diaDiem);
+        return response()->json(['success' => 'Dữ liệu thêm thành công']);
+        // return response()->json($diaDiem);
     }
 
     /**
