@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiaDiemRequest;
 use App\Http\Requests\UpdateDiaDiemRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
 
 class DiaDiemController extends Controller
 {
@@ -65,31 +66,33 @@ class DiaDiemController extends Controller
         // ];
         // $carbon = Carbon::now();
         // dd($weekMap[$carbon->dayOfWeek]);
-        $this->validate(
-            $request,
-            [
-                'TenDiaDiem' => 'required',
-            ],
-            [
-                'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
-                // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
-            ]
-        );
-        $diaDiem = new DiaDiem();
-        $diaDiem->fill([
-            'ten_dia_diem' => $request->TenDiaDiem,
-            'thoi_gian_mo' => $request->ThoiGianMo,
-            'thoi_gian_dong' => $request->ThoiGianDong,
-        ]);
-        dd($diaDiem);
-        $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
-        // return ($ktDiaDanh);
-        if ($ktDiaDiem) {
-            return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
-        } else {
-            $diaDiem->save(); //lưu xong mới có mã địa điểm
-            // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
-        }
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'TenDiaDiem' => 'required',
+        //     ],
+        //     [
+        //         'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+        //         // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+        //     ]
+        // );
+        // $diaDiem = new DiaDiem();
+        // $diaDiem->fill([
+        //     'ten_dia_diem' => $request->ten_dia_diem,
+        //     'thoi_gian_mo' => $request->thoi_gian_mo,
+        //     'thoi_gian_dong' => $request->thoi_gian_dong,
+        // ]);
+        // dd($diaDiem);
+        // $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
+        // // return ($ktDiaDanh);
+        // if ($ktDiaDiem) {
+        //     return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
+        // } else {
+        //     $diaDiem->save(); //lưu xong mới có mã địa điểm
+        //     // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        // }
+        $diaDiem = DiaDiem::create($request->all());
+        return response()->json(['data' => $diaDiem], 200);
     }
 
     /**
