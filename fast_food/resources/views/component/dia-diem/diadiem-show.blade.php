@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                <button type="button" id="btn-add" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal" data-bs-target="#modalCenter">
                     Thêm địa điểm
                 </button>
                 <!-- Modal -->
@@ -25,8 +25,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form data-target="{{ route('diaDiem.store') }}" id="form-add" method="post" role="form">
+                                <form data-target="" id="form-add" method="post" role="form">
                                     {!! @csrf_field() !!}
+                                    <!-- @csrfs -->
                                     <div class="row">
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
@@ -49,7 +50,8 @@
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                     Đóng
                                 </button>
-                                <button type="submit" class="btn btn-primary">Thêm địa điểm</button>
+                                <button type="submit" id="btn-save" value="add" class="btn btn-primary">Thêm địa điểm</button>
+                                <input type="hidden" id="todo_id" name="todo_id" value="0">
                             </div>
                         </div>
                     </div>
@@ -87,7 +89,7 @@
                     </thead>
                     <?php $count = 1; ?>
                     @foreach ($lstDiaDiem as $diaDiem)
-                    <tbody class="table-border-bottom-0">
+                    <tbody id="todos-list" class="table-border-bottom-0">
                         <tr>
                             <td> {{ $count++ }} </td>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
@@ -104,29 +106,83 @@
             </div>
         </div>
     </div>
-    <script>
-        $("ajax-contact-form").submit(function(e) {
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
+    <!-- <script>
+        jQuery(document).ready(function($) {
+            $("form-add").submit(function(e) {
+                e.preventDefault();
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                //     }
+                // });
+                $.ajax({
+                    url: "{{ route('diaDiem.store') }}",
+                    type: "POST",
+                    data: {
+                        ten_dia_diem: $('#TenDiaDiem').val(),
+                        thoi_gian_mo: $('#ThoiGianMo').val(),
+                        thoi_gian_dong: $('#ThoiGianDong').val(),
+                        _token: $("$input[name=_token]").val(),
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        // $('#ajax-contact-form').trigger("reset");
+                        // $("#ajax-contact-form .close").click();
+                        // window.location.reload();
+                        alert('Thành công');
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
             });
-            $.ajax({
-                url: "{{ route('diaDiem.store') }}",
-                type: "POST",
-                data: {
-                    ten_dia_diem: $('#TenDiaDiem').val(),
-                    thoi_gian_mo: $('#ThoiGianMo').val(),
-                    thoi_gian_dong: $('#ThoiGianDong').val()
-                },
-                dataType: 'json',
-                success: function(data) {
-                    // $('#ajax-contact-form').trigger("reset");
-                    // $("#ajax-contact-form .close").click();
-                    // window.location.reload();
-                    alert('Thành công');
-                },
+        });
+    </script> -->
+    <script>
+        jQuery(document).ready(function($) {
+            //----- Open model CREATE -----//
+            jQuery('#btn-add').click(function() {
+                jQuery('#btn-save').val("add");
+                jQuery('#form-add').trigger("reset");
+                jQuery('#modalCenter').modal('show');
+            });
+            // CREATE
+            $("#btn-save").click(function(e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                e.preventDefault();
+                var formData = {
+                    ten_dia_diem: jQuery('#TenDiaDiem').val(),
+                    thoi_gian_mo: jQuery('#ThoiGianMo').val(),
+                    thoi_gian_dong: jQuery('#ThoiGianDong').val(),
+                };
+                var state = jQuery('#btn-save').val();
+                var type = "POST";
+                var todo_id = jQuery('#todo_id').val();
+                var ajaxurl = '{{ route("diaDiem.store") }}';
+                $.ajax({
+                    type: type,
+                    url: ajaxurl,
+                    data: formData,
+                    dataType: 'json',
+                    success: function(data) {
+                        var todo = '<tr id="todo' + data.id + '"><td>' + data.id + '</td><td>' + data.ten_dia_diem + '</td><td>' + data.thoi_gian_mo + '</td><td>' + data.thoi_gian_dong + '</td>';
+                        // if (state == "add") {
+                        //     jQuery('#todo-list').append(todo);
+                        // } else {
+                        //     jQuery("#todo" + todo_id).replaceWith(todo);
+                        // }
+                        alert(data.success);
+                        jQuery('#form-add').trigger("reset");
+                        jQuery('#modalCenter').modal('hide')
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
             });
         });
     </script>
