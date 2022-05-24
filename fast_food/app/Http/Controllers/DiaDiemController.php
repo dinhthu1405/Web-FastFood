@@ -92,13 +92,14 @@ class DiaDiemController extends Controller
         //     // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // }
         $diaDiem = new DiaDiem();
-        $diaDiem->ten_dia_diem = $request->input('TenDiaDiem');
-        $diaDiem->thoi_gian_mo = $request->input('ThoiGianMo');
-        $diaDiem->thoi_gian_dong = $request->input('ThoiGianDong');
+        $diaDiem->ten_dia_diem = $request->TenDiaDiem;
+        $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
+        $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
 
         $diaDiem->save();
-        return response()->json(['success' => 'Dữ liệu thêm thành công']);
+        return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // return response()->json($diaDiem);
+        // return response()->json(['error' => false, 'success' => $diaDiem], 200);
     }
 
     /**
