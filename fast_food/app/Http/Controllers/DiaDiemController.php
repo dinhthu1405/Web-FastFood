@@ -51,7 +51,7 @@ class DiaDiemController extends Controller
      * @param  \App\Http\Requests\StoreDiaDiemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDiaDiemRequest $request)
     {
         //
 
