@@ -28,7 +28,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middl
 //Resource
 Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
-Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
+// Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
 Route::get('/diaDiem', [DiaDiemController::class, 'index'])->name('diaDiem.index')->middleware('auth');
 Route::post('/diaDiem', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
 Route::get('/diaDiem/sua/{id}', [DiaDiemController::class, 'edit'])->name('diaDiem.edit')->middleware('auth');

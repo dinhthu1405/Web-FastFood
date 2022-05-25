@@ -91,15 +91,39 @@ class DiaDiemController extends Controller
         //     $diaDiem->save(); //lưu xong mới có mã địa điểm
         //     // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // }
+        // $diaDiem = new DiaDiem();
+        // $diaDiem->ten_dia_diem = $request->TenDiaDiem;
+        // $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
+        // $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
+
+        // $diaDiem->save();
+        // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        // return response()->json(['diaDiem'=>$diaDiem]);
+        $validate = $this->validate(
+            $request,
+            [
+                'TenDiaDiem' => 'required',
+            ],
+            [
+                'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+            ]
+        );
+        if($validate->fails()){
+            return response()->json([
+                'status'=>400,
+                'error'=>$validate->messages(),
+            ]);
+        }
+        else{
         $diaDiem = new DiaDiem();
         $diaDiem->ten_dia_diem = $request->TenDiaDiem;
         $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
         $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
-
         $diaDiem->save();
-        return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
-        // return response()->json($diaDiem);
-        // return response()->json(['error' => false, 'success' => $diaDiem], 200);
+        // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem'=>$diaDiem], 200);
+        return response()->json(['status'=>200, 'message'=>'Thêm thành công']);
+        }
+
     }
 
     /**
