@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiaDiemRequest;
 use App\Http\Requests\UpdateDiaDiemRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
 
 class DiaDiemController extends Controller
@@ -51,7 +52,7 @@ class DiaDiemController extends Controller
      * @param  \App\Http\Requests\StoreDiaDiemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDiaDiemRequest $request)
+    public function store(Request $request)
     {
         //
 
@@ -99,31 +100,34 @@ class DiaDiemController extends Controller
         // $diaDiem->save();
         // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // return response()->json(['diaDiem'=>$diaDiem]);
-        $validate = $this->validate(
-            $request,
+
+        $validator = Validator::make(
+            $request->all(),
             [
                 'TenDiaDiem' => 'required',
             ],
             [
                 'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+                // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
             ]
         );
-        if($validate->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'status'=>400,
-                'error'=>$validate->messages(),
+                'status' => 400,
+                'errors' => $validator->errors()->get('*'),
+                // 'error' => $validator->messages()->get('*'),
             ]);
+        } else {
+            $diaDiem = new DiaDiem();
+            $diaDiem->ten_dia_diem = $request->TenDiaDiem;
+            $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
+            $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
+            $diaDiem->save();
+            // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem' => $diaDiem], 200);
+            // return response()->json(['status' => 200, 'message' => 'Thêm thành công']);
+            return response()->json(['success' => 'Data is successfully added']);
         }
-        else{
-        $diaDiem = new DiaDiem();
-        $diaDiem->ten_dia_diem = $request->TenDiaDiem;
-        $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
-        $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
-        $diaDiem->save();
-        // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem'=>$diaDiem], 200);
-        return response()->json(['status'=>200, 'message'=>'Thêm thành công']);
-        }
-
+        // return response()->json($diaDiem);
     }
 
     /**
