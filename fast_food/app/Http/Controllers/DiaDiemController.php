@@ -111,21 +111,54 @@ class DiaDiemController extends Controller
                 // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
             ]
         );
+        // $validator=$request->validate(
+        //     [
+        //         'TenDiaDiem' => 'required',
+        //     ],
+        //     [
+        //         'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+        //         // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+        //     ]
+        // );
+        //         $diaDiem = new DiaDiem();
+        // $diaDiem->fill([
+        //     'ten_dia_diem' => $request->TenDiaDiem,
+        //     'thoi_gian_mo' => $request->ThoiGianMo,
+        //     'thoi_gian_dong' => $request->ThoiGianDong,
+        // ]);
+        // // dd($diaDiem);
+        // $ktDiaDiem = DiaDiem::where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
+        // // return ($ktDiaDanh);
+        // if ($ktDiaDiem) {
+        //     return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
+        // } else {
+        //     $diaDiem->save(); //lưu xong mới có mã địa điểm
+        //     return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        // }
+        // $diaDiem = new DiaDiem();
+        // $diaDiem->ten_dia_diem = $request->TenDiaDiem;
+        // $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
+        // $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
+
+        // $diaDiem->save();
+        // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        // return response()->json(['diaDiem'=>$diaDiem]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
-                'errors' => $validator->errors()->get('*'),
-                // 'error' => $validator->messages()->get('*'),
+                'errors' => $validator->errors(),
+                // 'error' => $validator->messages(),
             ]);
         } else {
             $diaDiem = new DiaDiem();
-            $diaDiem->ten_dia_diem = $request->TenDiaDiem;
-            $diaDiem->thoi_gian_mo = $request->ThoiGianMo;
-            $diaDiem->thoi_gian_dong = $request->ThoiGianDong;
+            $diaDiem->ten_dia_diem = $request->input('ten_dia_diem');
+            $diaDiem->thoi_gian_mo = $request->input('thoi_gian_mo');
+            $diaDiem->thoi_gian_dong = $request->input('thoi_gian_dong');
             $diaDiem->save();
             // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem' => $diaDiem], 200);
-            // return response()->json(['status' => 200, 'message' => 'Thêm thành công']);
-            return response()->json(['success' => 'Data is successfully added']);
+            return response()->json(['status' => 200, 'message' => 'Thêm thành công']);
+            // return response()->json(['success' => 'Data is successfully added']);
+
         }
         // return response()->json($diaDiem);
     }
@@ -150,7 +183,21 @@ class DiaDiemController extends Controller
     public function edit(DiaDiem $diaDiem)
     {
         //
-        return view('component/dia-diem/diadiem-edit', compact('diaDiem'));
+if($diaDiem){
+    return response()->json([
+                'status' => 200,
+                'diaDiem' => $diaDiem,
+                // 'error' => $validator->messages()->get('*'),
+            ]);
+}
+else{
+    return response()->json([
+        'status' => 400,
+        'errors' => 'Không tìm thấy địa điểm này',
+        // 'error' => $validator->messages()->get('*'),
+    ]);
+}
+        // return view('component/dia-diem/diadiem-index', compact('diaDiem'));
     }
 
     /**
