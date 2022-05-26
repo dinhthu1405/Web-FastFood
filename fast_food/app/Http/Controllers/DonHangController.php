@@ -16,6 +16,8 @@ class DonHangController extends Controller
     public function index()
     {
         //
+        $lstDonHang = DonHang::all()->where('trang_thai', 1);
+        return view('component/don-hang/donHang-show', compact('lstDonHang'));
     }
 
     /**

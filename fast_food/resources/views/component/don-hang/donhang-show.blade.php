@@ -1,6 +1,6 @@
 @extends('layouts.app', ['pageId' => ''])
 
-@section('title', 'Trang quản lí món ăn')
+@section('title', 'Trang quản lí đơn hàng')
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
@@ -13,7 +13,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-2">
                 <a href="{{ route('monAn.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                        món ăn</button></a>
+                        đơn hàng</button></a>
             </div>
         </div>
         <form action="{{ route('monAn.search') }}" method="post">
@@ -31,46 +31,43 @@
         <br />
         <!-- Bootstrap Table with Header - Light -->
         <div class="card">
-            <h5 class="card-header">Danh sách món ăn</h5>
+            <h5 class="card-header">Danh sách đơn hàng</h5>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead class="table-light">
                         <tr>
                             <th>STT</th>
-                            <th>Tên món</th>
-                            <th>Hình món ăn</th>
-                            <th>Đơn giá</th>
-                            <th>Số lượng</th>
-                            <th>Loại món ăn</th>
-                            <th>Địa điểm</th>
-                            <!-- <th>Đánh giá</th> -->
+                            <th>Ngày lập đơn hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái đơn hàng</th>
+                            <th>Người giao hàng</th>
+                            <th>Người đặt</th>
                             <th>Tình trạng</th>
                             <th>Chỉnh sửa</th>
                             <th>Xoá</th>
                         </tr>
                     </thead>
                     <?php $count = 1; ?>
-                    @foreach ($lstMonAn as $monAn)
+                    @foreach ($lstDonHang as $donHang)
                     <tbody class="table-border-bottom-0">
                         <tr>
                             <td> {{ $count++ }} </td>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                <strong>{{ $monAn->ten_mon }}</strong>
+                                <strong>{{ $donHang->ngay_lap_dh }}</strong>
                             </td>
-                            <td><a href="{{ route('monAn.images', $monAn->id) }}" class="btn btn-outline-dark">Xem
-                                    hình</a></td>
-                            <td>{{ $monAn->don_gia }}</td>
-                            <td>{{ $monAn->so_luong }}</td>
-                            <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
-                            <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
-                            @if ($monAn->tinh_trang == 1)
+                            <td>{{ $donHang->tong_tien }}</td>
+                            <td>{{ $donHang->trang_thai_don_hang }}</td>
+                            <td>{{ $donHang->so_luong }}</td>
+                            <td>{{ $donHang->nguoi_giao_hang_id }}</td>
+                            <td>{{ $donHang->user_id }}</td>
+                            @if ($donHang->tinh_trang == 1)
                             <td>Còn món</td>
                             @else
                             <td>Hết món</td>
                             @endif
-                            <td><a href="{{ route('monAn.edit', $monAn->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                            <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                            <td> <a href="{{ route('monAn.xoa', $monAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                            <td> <a href="{{ route('donHang.xoa', $donHang->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-trash me-1"></i> </button></a></td>
                         </tr>
                     </tbody>
