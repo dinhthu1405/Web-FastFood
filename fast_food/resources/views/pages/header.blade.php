@@ -51,7 +51,7 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Trang chủ -->
-                    <li class="menu-item active">
+                    <li class="menu-item {{ request()->is('place-add*') || request()->is('place-list*') ? 'active menu-open' : '' }}">
                         <a href="{{ route('home.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Trang chủ</div>
@@ -62,47 +62,48 @@
                         <span class="menu-header-text">Món ăn</span>
                     </li>
                     <!-- Món ăn -->
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->is('monAn*') || request()->is('monAn*') ? 'active' : '' }}">
                         <a href="{{ route('monAn.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dish"></i>
                             <div data-i18n="Analytics">Món ăn</div>
                         </a>
                     </li>
                     <!-- Loại món ăn -->
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->is('loaiMonAn*') || request()->is('loaiMonAn*') ? 'active' : '' }}">
                         <a href="{{ route('loaiMonAn.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-fridge"></i>
                             <div data-i18n="Analytics">Loại món ăn</div>
                         </a>
                     </li>
+                    <!-- Địa điểm -->
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Địa điểm</span>
                     </li>
                     <!-- Địa điểm -->
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->is('diaDiem*') || request()->is('diaDiem*') ? 'active' : '' }}">
                         <a href="{{ route('diaDiem.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-store-alt"></i>
                             <div data-i18n="Analytics">Địa điểm</div>
                         </a>
                     </li>
-
+                    <!-- Tài khoản -->
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Tài khoản</span>
                     </li>
                     <!-- Tài khoản -->
-                    <li class="menu-item">
-                        <a href="index.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('taiKhoan*') || request()->is('taiKhoan*') ? 'active' : '' }}">
+                        <a href="{{ route('taiKhoan.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-circle"></i>
                             <div data-i18n="Analytics">Tài khoản</div>
                         </a>
                     </li>
                     <!-- Đơn hàng -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Đơn hàng</span></li>
-                    <!-- Cards -->
-                    <li class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-collection"></i>
-                            <div data-i18n="Basic">Cards</div>
+                    <!-- Đơn hàng -->
+                    <li class="menu-item {{ request()->is('donHang*') || request()->is('donHang*') ? 'active' : '' }}">
+                        <a href="{{ route('donHang.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <div data-i18n="Analytics">Đơn hàng</div>
                         </a>
                     </li>
                     <!-- User interface -->

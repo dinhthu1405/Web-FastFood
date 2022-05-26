@@ -183,21 +183,21 @@ class DiaDiemController extends Controller
     public function edit(DiaDiem $diaDiem)
     {
         //
-if($diaDiem){
-    return response()->json([
-                'status' => 200,
-                'diaDiem' => $diaDiem,
-                // 'error' => $validator->messages()->get('*'),
-            ]);
-}
-else{
-    return response()->json([
-        'status' => 400,
-        'errors' => 'Không tìm thấy địa điểm này',
-        // 'error' => $validator->messages()->get('*'),
-    ]);
-}
-        // return view('component/dia-diem/diadiem-index', compact('diaDiem'));
+        // if($diaDiem){
+        //     return response()->json([
+        //                 'status' => 200,
+        //                 'diaDiem' => $diaDiem,
+        //                 // 'error' => $validator->messages()->get('*'),
+        //             ]);
+        // }
+        // else{
+        //     return response()->json([
+        //         'status' => 400,
+        //         'errors' => 'Không tìm thấy địa điểm này',
+        //         // 'error' => $validator->messages()->get('*'),
+        //     ]);
+        // }
+        return view('component/dia-diem/diadiem-edit', compact('diaDiem'));
     }
 
     /**

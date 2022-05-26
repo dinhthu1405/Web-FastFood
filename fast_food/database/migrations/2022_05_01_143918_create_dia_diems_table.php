@@ -18,6 +18,8 @@ class CreateDiaDiemsTable extends Migration
             $table->string('ten_dia_diem')->unique();
             $table->string('thoi_gian_mo');
             $table->string('thoi_gian_dong');
+            $table->string('kinh_do');
+            $table->string('vi_do');
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -5,7 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MonAnController;
 use App\Http\Controllers\DiaDiemController;
 use App\Http\Controllers\LoaiMonAnController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DonHangController;
 use App\Http\Controllers\SinglePageController;
 
 /*
@@ -29,6 +31,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middl
 Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
 Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
+Route::resource('taiKhoan', UserController::class)->middleware('auth');
+Route::resource('donHang', DonHangController::class)->middleware('auth');
 // Route::get('/diaDiem', [DiaDiemController::class, 'index'])->name('diaDiem.index')->middleware('auth');
 // Route::post('/diaDiem', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
 // Route::get('/diaDiem/{id}', [DiaDiemController::class, 'edit'])->name('diaDiem.edit')->middleware('auth');
@@ -39,7 +43,7 @@ Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
 Route::get('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');
 Route::get('/monAn/xoa/{id}', [MonAnController::class, 'xoa'])->name('monAn.xoa')->middleware('auth');
-
+Route::get('/taiKhoan/khoa_mo/{id}', [UserController::class, 'khoa_mo'])->name('taiKhoan.khoa_mo')->middleware('auth');
 //Tìm kiếm
 Route::post('/monAn/search/', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
 Route::post('/loaiMonAn/search/', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
