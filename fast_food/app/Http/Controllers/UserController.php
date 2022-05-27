@@ -29,7 +29,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        $lstTaiKhoan = User::all();
         foreach ($lstTaiKhoan as $taiKhoan) {
             $this->fixImage($taiKhoan);
             //gọi fixImage cho từng sản phẩm, do lúc seed chỉ có dữ liệu giả
