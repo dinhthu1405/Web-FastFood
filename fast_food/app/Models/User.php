@@ -59,8 +59,8 @@ class User extends Authenticatable
         // $this->attributes['password'] = Crypt::decrypt($password); //Giải mã
     }
 
-    // public function hinhAnhs()
-    // {
-    //     return $this->hasMany(HinhAnh::class);
-    // }
+    public function hinhAnhs()
+    {
+        return $this->hasMany(HinhAnh::class);
+    }
 }
