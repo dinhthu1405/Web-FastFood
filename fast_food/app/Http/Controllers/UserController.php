@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\HinhAnh;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,10 +15,12 @@ class UserController extends Controller
     protected function fixImage(User $taiKhoan)
     {
         //chạy lệnh sau: php artisan storage:link
-        if (Storage::disk('public')->exists($taiKhoan->hinh_anh)) {
-            $taiKhoan->hinh_anh = Storage::url($taiKhoan->hinh_anh);
+        $hinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->select('duong_dan')->first();
+        if (Storage::disk('public')->exists($hinhAnh)) {
+            $hinhAnh = Storage::url($hinhAnh);
+            // $taiKhoan->hinh_anh_id=$hinhAnh->id;
         } else {
-            $taiKhoan->hinh_anh = 'assets/img/17.jpg';
+            $hinhAnh = 'assets/img/17.jpg';
         }
     }
 
@@ -32,9 +35,11 @@ class UserController extends Controller
         $lstTaiKhoan = User::all();
         foreach ($lstTaiKhoan as $taiKhoan) {
             $this->fixImage($taiKhoan);
-            //gọi fixImage cho từng sản phẩm, do lúc seed chỉ có dữ liệu giả
         }
-        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan'));
+
+        $lstHinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->get();
+        // dd($lstHinhAnh);
+        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
     }
 
     /**
@@ -109,8 +114,19 @@ class UserController extends Controller
                 'NgaySinh.required' => 'Bạn chưa chọn ngày sinh',
             ]
         );
+        $hinhAnh = HinhAnh::where('user_id', $taiKhoan->id)->get();
         if ($request->hasFile('images')) {
-            $taiKhoan->hinh_anh = $request->file('images')->store('images/taiKhoan/' . $taiKhoan->id, 'public');
+            $images = $request->file('images')->store('images/user/' . $taiKhoan->id, 'public');
+            foreach ($hinhAnh as $hinh) {
+                $hinh->update([
+                    'trang_thai' => 0,
+                ]);
+            }
+            HinhAnh::insert([
+                'duong_dan' => $images,
+                'user_id' => $taiKhoan->id,
+                'trang_thai' => 1,
+            ]);
         }
         // $isValid = password_verify($password, $hash);
         $taiKhoan->fill([

@@ -18,7 +18,7 @@ class TrangThaiDonHangController extends Controller
     public function index()
     {
         //
-        $lstTrangThaiDonHang = TrangThaiDonhang::all()->where('trang_thai',1);
+        $lstTrangThaiDonHang = TrangThaiDonhang::all()->where('trang_thai', 1);
         return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang'));
     }
 
@@ -30,7 +30,7 @@ class TrangThaiDonHangController extends Controller
     public function create()
     {
         //
-return view('component.trang-thai-don-hang.trangthaidonhang-create');
+        return view('component.trang-thai-don-hang.trangthaidonhang-create');
     }
 
     /**
@@ -57,7 +57,7 @@ return view('component.trang-thai-don-hang.trangthaidonhang-create');
             'ten_trang_thai' => $request->input('TenTrangThaiDonHang'),
         ]);
         $trangThaiDonHang->save();
-        return Redirect::route('trang_thai_don_hangs.index')->with('success', 'Thêm trạng thái đơn hàng thành công');
+        return Redirect::route('trangThaiDonHang.index')->with('success', 'Thêm trạng thái đơn hàng thành công');
     }
 
     /**

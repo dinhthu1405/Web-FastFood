@@ -25,10 +25,10 @@ class HinhAnh extends Model
         'trang_thai',
     ];
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id');
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function monAn()
     {
         return $this->belongsTo(MonAn::class);
