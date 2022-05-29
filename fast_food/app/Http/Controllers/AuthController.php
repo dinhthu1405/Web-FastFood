@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\HinhAnh;
 
 class AuthController extends Controller
 {
@@ -102,7 +103,6 @@ class AuthController extends Controller
             'remember_token' => Str::random(length: 10),
             // 'remember_token' => '',
         ]);
-        // dd($user);
         $user->save();
 
         auth()->login($user);

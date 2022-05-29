@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DonHang;
+use App\Models\User;
 use App\Http\Requests\StoreDonHangRequest;
 use App\Http\Requests\UpdateDonHangRequest;
 
@@ -17,7 +18,24 @@ class DonHangController extends Controller
     {
         //
         $lstDonHang = DonHang::all()->where('trang_thai', 1);
-        return view('component/don-hang/donHang-show', compact('lstDonHang'));
+        $lstTaiKhoan = User::all();
+        // // dd($taiKhoan);
+        // $i = 0;
+        // $n = 5;
+        // $temp1 = 0;
+        // $temp = 0;
+        // for ($i; $i < $n; $i++) {
+
+        //     if ($donHang == $taiKhoan) {
+        //         $temp1++;
+        //     } else {
+        //         $temp++;
+        //     }
+        //     // $temp++;
+        // }
+        // dd($temp1);
+        // dd($lstTaiKhoan);
+        return view('component/don-hang/donHang-show', compact('lstDonHang', 'lstTaiKhoan'));
     }
 
     /**
