@@ -20,7 +20,16 @@ class MonAnController extends Controller
      */
     public function index()
     {
-        //
+        //resize hình
+        // $this->addMediaConversion('thumb')
+        //     ->width(200)
+        //     ->height(200)
+        //     ->sharpen(10);
+
+        // $this->addMediaConversion('square')
+        //     ->width(412)
+        //     ->height(412)
+        //     ->sharpen(10);
         $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         return view('component/mon-an/monan-show', compact('lstMonAn'));
     }

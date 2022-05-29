@@ -30,13 +30,15 @@
                     <form action="{{ route('taiKhoan.update', ['taiKhoan' => $taiKhoan]) }}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         @method('PATCH')
-                        <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Email</label>
                             <input type="email" disabled name="Email" class="form-control" value="{{ $taiKhoan->email }}" id="exampleFormControlInput1" placeholder="Email" />
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
                             <input type="file" class="form-control" name="images" accept="image/*" onchange="loadFile(event)" id="images" placeholder="Hình ảnh" />
+                        </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Xem trước hình</label>

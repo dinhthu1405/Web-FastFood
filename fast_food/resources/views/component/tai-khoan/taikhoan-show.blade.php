@@ -12,8 +12,14 @@
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-2">
-                <a href="{{ route('monAn.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                        tài khoản</button></a>
+                
+                @if(Auth::user()->phan_loai_tai_khoan == 1)                
+                <a href="{{ route('taiKhoan.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
+                    tài khoản</button></a>
+                    @else
+                   <div></div>
+                @endif
+                
             </div>
         </div>
         <form action="{{ route('monAn.search') }}" method="post">
@@ -50,7 +56,7 @@
                     </thead>
                     <?php $count = 1; ?>
                     @foreach ($lstTaiKhoan as $taiKhoan)
-                    @if ($taiKhoan->trang_thai == 0)
+                    @if ($taiKhoan->trang_thai == 0 && $taiKhoan->phan_loai_tai_khoan != 1)
                     <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
                         <tr>
                             <td> {{ $count++ }} </td>
@@ -58,20 +64,18 @@
                                 <strong>{{ $taiKhoan->email }}</strong>
                             </td>                            
                             @foreach($lstHinhAnh as $hinhAnh)
-                            @if($taiKhoan->id==$hinhAnh->user_id)
-                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>                          
-                            {{-- @else
-                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/17.png") }}" alt=""></td> --}}
-                            @endif
-                      @endforeach
+                                @if($taiKhoan->id==$hinhAnh->user_id)
+                                    <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>                          
+                                @endif
+                            @endforeach
                             <td>{{ $taiKhoan->ho_ten }}</td>
                             <td>{{ $taiKhoan->sdt }}</td>
                             <td>{{ $taiKhoan->ngay_sinh }}</td>
                             <td>{{ $taiKhoan->dia_chi }}</td>
-                            @if ($taiKhoan->phan_loai_tai_khoan == 1)
+                            @if ($taiKhoan->phan_loai_tai_khoan == 2)
                             <td>Quản lí</td>
                             @endif
-                            @if($taiKhoan->phan_loai_tai_khoan == 2)
+                            @if($taiKhoan->phan_loai_tai_khoan == 3)
                             <td>Người giao hàng</td>
                             @endif
                             @if($taiKhoan->phan_loai_tai_khoan == 0)
@@ -87,36 +91,50 @@
                             @endif
                         </tr>
                     </tbody>
-                    @else
+                    @elseif ($taiKhoan->trang_thai == 1 && $taiKhoan->phan_loai_tai_khoan != 1)
                     <tbody class="table-border-bottom-0">
-                        <tr>
+                        
                             <td> {{ $count++ }} </td>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong>{{ $taiKhoan->email }}</strong>
                             </td>
-                            @foreach($lstHinhAnh as $hinhAnh)
-                            @if($taiKhoan->id==$hinhAnh->user_id)
+                            {{-- @if ($taiKhoan->id == $taiKhoan->hinhAnh->user_id)
+                            @foreach ($lstHinhAnh as $hinhAnh)
                             <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>                          
+                            @endforeach
+                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/$taiKhoan->hinhAnh->duong_dan") }}" alt=""></td>                                                   
                             @else
-                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("assets/img/17.jpg") }}" alt=""></td>
+                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/17.jpg") }}" alt=""></td>
+                            @endif --}}
+                            @foreach ($lstHinhAnh as $hinhAnh)
+                            @if($taiKhoan->id==$hinhAnh->user_id && $hinhAnh->trang_thai == 1)
+                            
+                            <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>                          
+                                
                             @endif
-                      @endforeach                         
+                            
+                            @endforeach   
+   
                             <td>{{ $taiKhoan->ho_ten }}</td>
                             <td>{{ $taiKhoan->sdt }}</td>
                             <td>{{ $taiKhoan->ngay_sinh }}</td>
                             <td>{{ $taiKhoan->dia_chi }}</td>
-                            @if ($taiKhoan->phan_loai_tai_khoan == 1)
+                            @if ($taiKhoan->phan_loai_tai_khoan == 2)
                             <td>Quản lí</td>
                             @endif
-                            @if($taiKhoan->phan_loai_tai_khoan == 2)
+                            @if($taiKhoan->phan_loai_tai_khoan == 3)
                             <td>Người giao hàng</td>
                             @endif
                             @if($taiKhoan->phan_loai_tai_khoan == 0)
                             <td>Người dùng</td>
                             @endif
+                            @if ($taiKhoan->phan_loai_tai_khoan == 1 || $taiKhoan->phan_loai_tai_khoan == 2)
+                            <td></td>
+                            @else
                             <td><a href="{{ route('taiKhoan.edit', $taiKhoan->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                            @if ($taiKhoan->phan_loai_tai_khoan == 1)
+                            @endif
+                            @if ($taiKhoan->phan_loai_tai_khoan == 1 || $taiKhoan->phan_loai_tai_khoan == 2)
                             <td></td>
                             @else
                             <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}" onclick="return confirm('Bạn có chắc muốn khóa tài khoản này')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">

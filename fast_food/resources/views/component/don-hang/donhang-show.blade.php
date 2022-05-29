@@ -38,11 +38,10 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Ngày lập đơn hàng</th>
-                                <th>Tổng tiền</th>
-                                <th>Trạng thái đơn hàng</th>
+                                <th>Tổng tiền</th>                                
                                 <th>Người giao hàng</th>
                                 <th>Người đặt</th>
-                                <th>Tình trạng</th>
+                                <th>Trạng thái đơn hàng</th>
                                 <th>Chỉnh sửa</th>
                                 <th>Xoá</th>
                             </tr>
@@ -53,13 +52,24 @@
                                 <tr>
                                     <td> {{ $count++ }} </td>
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        <strong>{{ $donHang->ngay_lap_dh }}</strong>
+                                        {{ date('d-m-Y', strtotime($donHang->ngau_lap_hd)); }}
                                     </td>
-                                    <td>{{ $donHang->tong_tien }}</td>
+                                    <td>{{ $donHang->tong_tien }}</td>                                    
+                                    @foreach ($lstTaiKhoan as $taiKhoan)
+                                    @if($donHang->nguoi_giao_hang_id == $taiKhoan->id )
+                                    
+                                    <td>{{ $taiKhoan->email }}</td>                                                                
+                                @endif
+                                    @endforeach
+                                    @foreach ($lstTaiKhoan as $taiKhoan)
+                                    @if($donHang->user_id == $taiKhoan->id )
+                                    
+                                    <td>{{ $taiKhoan->email }}</td>                                                                
+                                @endif
+                                    @endforeach                                  
+                                    
+
                                     <td>{{ $donHang->trangThaiDonHang->ten_trang_thai }}</td>
-                                    <td>{{ $donHang->so_luong }}</td>
-                                    <td>{{ $donHang->nguoi_giao_hang_id }}</td>
-                                    <td>{{ $donHang->user_id }}</td>
                                     <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">

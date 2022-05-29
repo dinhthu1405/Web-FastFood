@@ -12,10 +12,21 @@ class UserController extends Controller
 {
 
     //Phương thức hỗ trợ load hình và thay thế bằng hình mặc định nếu không tìm thấy file
-    protected function fixImage(User $taiKhoan)
+    // protected function fixImage(User $taiKhoan)
+    // {
+    //     //chạy lệnh sau: php artisan storage:link
+    //     $hinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->select('duong_dan')->first();
+    //     if (Storage::disk('public')->exists($hinhAnh)) {
+    //         $hinhAnh = Storage::url($hinhAnh);
+    //         // $taiKhoan->hinh_anh_id=$hinhAnh->id;
+    //     } else {
+    //         $hinhAnh = 'assets/img/17.jpg';
+    //     }
+    // }
+    protected function fixImage($id)
     {
         //chạy lệnh sau: php artisan storage:link
-        $hinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->select('duong_dan')->first();
+        $hinhAnh = HinhAnh::where([['user_id', $id], ['trang_thai', 1]])->select('duong_dan')->first();
         if (Storage::disk('public')->exists($hinhAnh)) {
             $hinhAnh = Storage::url($hinhAnh);
             // $taiKhoan->hinh_anh_id=$hinhAnh->id;
@@ -33,11 +44,29 @@ class UserController extends Controller
     {
         //
         $lstTaiKhoan = User::all();
-        foreach ($lstTaiKhoan as $taiKhoan) {
-            $this->fixImage($taiKhoan);
-        }
-
-        $lstHinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->get();
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        // foreach ($lstTaiKhoan as $taiKhoan) {
+        //     foreach ($lstHinhAnh as $hinhAnh)
+        //         if ($taiKhoan->id == $hinhAnh->user_id) {
+        //             $id = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->select('duong_dan')->first();
+        //         }
+        // }
+        // // dd($id);
+        // $lstHinhAnh1 = $id;
+        // dd($lstHinhAnh1);
+        // dd($taiKhoan);
+        // $test = User::get('id');
+        // $test = User::where('id', '>', 0)->get('id');
+        // $test = User::where('id', '>', 0)->get('id');
+        // $testHinh = HinhAnh::where([['id', '>', 0], ['trang_thai', 1]])->get('user_id');
+        // // dd($testHinh);
+        // if (HinhAnh::where([['user_id', $test], ['trang_thai', 1]])) {
+        //     $ten_hinh = HinhAnh::where([['user_id', $test], ['trang_thai', 1]])->get('duong_dan');
+        //     dd($ten_hinh);
+        // } else {
+        //     dd('not ok');
+        // }
+        // $lstHinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->get();
         // dd($lstHinhAnh);
         return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
     }
@@ -50,6 +79,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('component/tai-khoan/taiKhoan-create');
     }
 
     /**
@@ -61,6 +91,48 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'Email' => 'required|email|unique:users',
+                'MatKhau' => 'required|alphaNum|min:6',
+                'SDT' => 'max:12',
+                'HoTen' => 'max:255',
+            ],
+            [
+                'Email.required' => 'Bạn chưa nhập Email',
+                'Email.email' => 'Email không đúng định dạng',
+                'Email.unique' => 'Email đã tồn tại',
+                'MatKhau.required' => 'Bạn chưa nhập mật khẩu',
+                'MatKhau.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
+                'SDT.max' => 'Số điện thoại không được vượt quá 12 ký tự',
+                'HoTen.max' => 'Họ tên không được vượt quá 255 ký tự',
+            ]
+        );
+        $taiKhoan = new User();
+        $taiKhoan->fill([
+            'email' => $request->input('Email'),
+            'password' => $request->input('MatKhau'),
+            'ho_ten' => $request->input('HoTen'),
+            'sdt' => $request->input('SDT'),
+            'ngay_sinh' => $request->input('NgaySinh'),
+            'dia_chi' => $request->input('DiaChi'),
+            'phan_loai_tai_khoan' => 2,
+        ]);
+
+        $taiKhoan->save();
+
+        if ($request->hasFile('images')) {
+            $images = $request->file('images')->store('images/taiKhoan/' . $taiKhoan->id, 'public');
+
+            HinhAnh::insert([
+                'duong_dan' => $images,
+                'user_id' => $taiKhoan->id,
+                'trang_thai' => 1,
+            ]);
+        }
+
+        return Redirect::route('taiKhoan.index')->with('success', 'Thêm tài khoản thành công');
     }
 
     /**
