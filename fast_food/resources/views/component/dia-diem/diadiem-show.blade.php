@@ -29,7 +29,6 @@
                                     </div>
                                     <div class="modal-body">
                                         {!! @csrf_field() !!}
-                                        <!-- @csrf -->
                                         <div class="row">
                                             <!-- <input type="hidden" name="_token" id="csrf" value="{{ Session::token() }}"> -->
                                             <div class="mb-3">
@@ -211,7 +210,7 @@
         </script> -->
 
         {{-- Xử lý code --}}
-        <script>
+        {{-- <script>
             $(document).ready(function($) {
                 $(document).on('click', '#btn-save', function(e) {
                     e.preventDefault();
@@ -309,7 +308,7 @@
                     });
                 });
             });
-        </script>
+        </script> --}}
 
         {{-- <script>
             jQuery(document).ready(function() {

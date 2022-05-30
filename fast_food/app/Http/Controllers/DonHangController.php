@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\DonHang;
+use App\Models\ChiTietDonHang;
 use App\Models\User;
+use App\Models\MonAn;
 use App\Http\Requests\StoreDonHangRequest;
 use App\Http\Requests\UpdateDonHangRequest;
 
@@ -35,7 +37,7 @@ class DonHangController extends Controller
         // }
         // dd($temp1);
         // dd($lstTaiKhoan);
-        return view('component/don-hang/donHang-show', compact('lstDonHang', 'lstTaiKhoan'));
+        return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan'));
     }
 
     /**
@@ -65,9 +67,12 @@ class DonHangController extends Controller
      * @param  \App\Models\DonHang  $donHang
      * @return \Illuminate\Http\Response
      */
-    public function show(DonHang $donHang)
+    public function show($id)
     {
         //
+        $lstChiTietDonHang = ChiTietDonHang::all()->where('trang_thai', 1)->where('don_hang_id', $id);
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn'));
     }
 
     /**

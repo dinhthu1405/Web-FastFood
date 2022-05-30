@@ -118,7 +118,7 @@
                     <li
                         class="menu-item {{ request()->is('donHang*') || request()->is('donHang*') ? 'active' : '' }}">
                         <a href="{{ route('donHang.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <i class="menu-icon tf-icons bx bx-memory-card"></i>
                             <div data-i18n="Analytics">Đơn hàng</div>
                         </a>
                     </li>
@@ -126,11 +126,20 @@
                     <li
                         class="menu-item {{ request()->is('trangThaiDonHang*') || request()->is('trangThaiDonHang*') ? 'active' : '' }}">
                         <a href="{{ route('trangThaiDonHang.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <i class="menu-icon tf-icons bx bx-food-menu"></i>
                             <div data-i18n="Analytics">Trạng thái đơn hàng</div>
                         </a>
                     </li>
-
+                    <!-- Đơn hàng -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Đánh giá</span></li>
+                    <!-- Đơn hàng -->
+                    <li
+                        class="menu-item {{ request()->is('danhGia*') || request()->is('danhGia*') ? 'active' : '' }}">
+                        <a href="{{ route('danhGia.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-star"></i>
+                            <div data-i18n="Analytics">Đánh giá</div>
+                        </a>
+                    </li>
                     <!-- Extended components -->
                     <li class="menu-item">
                         <a href="javascript:void(0)" class="menu-link menu-toggle">

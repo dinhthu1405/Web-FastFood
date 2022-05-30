@@ -1,6 +1,6 @@
 @extends('layouts.app', ['pageId' => ''])
 
-@section('title', 'Trang chi tiết đơn hàng')
+@section('title', 'Trang chi tiết đánh giá')
 @section('content')
             <div class="content-wrapper">
                 <!-- Content -->
@@ -12,6 +12,8 @@
                         </div>
                         <div class="col-md-4"></div>
                         <div class="col-md-2">
+                            <a href="{{ route('danhGia.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
+                                    đánh giá</button></a>
                         </div>
                     </div>
                     <form action="{{ route('monAn.search') }}" method="post">
@@ -29,47 +31,60 @@
                     <br />
                     <!-- Bootstrap Table with Header - Light -->
                     <div class="card">
-                        <h5 class="card-header">Danh sách chi tiết đơn hàng</h5>
+                        <h5 class="card-header">Danh sách đánh giá</h5>
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead class="table-light">
-                                    <tr>
+                                      <tr>
                                         <th>STT</th>
-                                        <th>Mã đơn</th>
-                                        <th>Tên món</th>  
-                                        <th>Đơn giá</th>                              
-                                        <th>Số lượng</th>
-                                        <th>Thành tiền</th>
-                                        {{-- <th>Chỉnh sửa</th>
-                                        <th>Xoá</th> --}}
+                                        <th>Đánh giá sao</th>
+                                        <th>Nội dung</th>  
+                                        <th>Người dùng</th>     
+                                        <th>Món ăn</th>                         
+                                        <th>Địa điểm</th>
+                                        <th>Chỉnh sửa</th>
+                                        <th>Xoá</th>
                                     </tr>
                                 </thead>
                                 <?php $count = 1; ?>
-                                @foreach ($lstChiTietDonHang as $chiTietDonHang)
+                                @foreach ($lstDanhGia as $danhGia)
                                     <tbody class="table-border-bottom-0">
                                         <tr>
                                             <td> {{ $count++ }} </td>
                                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                {{ $chiTietDonHang->don_hang_id }}
-                                            </td>         
-                                            @foreach($lstMonAn as $monAn)
-                                            @if($monAn->id == $chiTietDonHang->mon_an_id)
-                                            <td>{{ $monAn->ten_mon }}</td>
+                                                {{ $danhGia->danh_gia_sao }}
+                                            </td>
+                                            @if($danhGia->noi_dung == null)
+                                                <td></td>
+                                            @else
+                                                <td>{{ $danhGia->noi_dung }}</td>
                                             @endif
-                                            @endforeach
-                                            <td>{{ $chiTietDonHang->don_gia }}</td>
-                                            <td>{{ $chiTietDonHang->so_luong }}</td>
-                                            <td>{{ $chiTietDonHang->thanh_tien }}</td>                                    
-                                            {{-- <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
+                                            @if($danhGia->user_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->user->email }}</td>
+                                            @endif
+                                            @if($danhGia->mon_an_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->monAn->ten_mon }}</td>
+                                            @endif
+                                            @if($danhGia->dia_diem_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
+                                            @endif
+                                                                               
+                                            <td><a href="{{ route('danhGia.edit', $danhGia->id) }}"><button type="button"
                                                         id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                         data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                            <td> <a href="{{ route('donHang.xoa', $donHang->id) }}"
-                                                    onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><button
+                                            <td> <a href="{{ route('danhGia.xoa', $danhGia->id) }}"
+                                                    onclick="return confirm('Bạn có chắc muốn xoá đánh giá này')"><button
                                                         type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
-                                                        <i class="bx bx-trash me-1"></i> </button></a></td> --}}
+                                                        <i class="bx bx-trash me-1"></i> </button></a></td>
                                         </tr>
                                     </tbody>
                                 @endforeach
