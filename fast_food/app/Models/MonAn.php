@@ -41,4 +41,14 @@ class MonAn extends Model
     {
         return $this->hasMany(HinhAnh::class);
     }
+
+    public function chiTietDonHang()
+    {
+        return $this->belongsTo(ChiTietDonHang::class);
+    }
+
+    public function danhGias()
+    {
+        return $this->hasMany(DinhGia::class);
+    }
 }

@@ -33,4 +33,9 @@ class DonHang extends Model
     {
         return $this->belongsTo(User::class, 'id');
     }
+
+    public function chiTietDonHangs()
+    {
+        return $this->hasMany(ChiTietDonHangs::class, 'id');
+    }
 }

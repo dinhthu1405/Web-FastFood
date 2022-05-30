@@ -27,4 +27,9 @@ class DiaDiem extends Model
     {
         return $this->hasMany(MonAn::class);
     }
+
+    public function danhGias()
+    {
+        return $this->hasMany(DinhGia::class);
+    }
 }
