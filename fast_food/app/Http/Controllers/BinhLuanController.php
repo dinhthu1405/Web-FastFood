@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BinhLuan;
+use App\Models\User;
+use App\Models\MonAN;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreBinhLuanRequest;
 use App\Http\Requests\UpdateBinhLuanRequest;
 
@@ -16,6 +20,8 @@ class BinhLuanController extends Controller
     public function index()
     {
         //
+        $lstBinhLuan = BinhLuan::all()->where('trang_thai',1);
+        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan'));
     }
 
     /**
@@ -26,6 +32,9 @@ class BinhLuanController extends Controller
     public function create()
     {
         //
+        $lstTaiKhoan=User::all()->where('phan_loai_tai_khoan', '!=', '1');
+        $lstMonAn=MonAn::all()->where('trang_thai',1);
+        return view('component/binh-luan/binhluan-create', compact('lstTaiKhoan', 'lstMonAn'));
     }
 
     /**
@@ -34,9 +43,51 @@ class BinhLuanController extends Controller
      * @param  \App\Http\Requests\StoreBinhLuanRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBinhLuanRequest $request)
+    public function store(Request $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'NoiDung' => 'required',
+            ],
+            [
+                'NoiDung.required' => 'Bạn chưa nhập nội dung bình luận',
+            ]
+        );
+
+        if ($request->input('TaiKhoan') != "-- Chọn tài khoản --") {
+            $taiKhoan =  $request->input('TaiKhoan');
+        } else {
+            $taiKhoan = null;
+        }
+        if ($request->input('MonAn') != "-- Chọn món ăn --") {
+            $monAn =  $request->input('MonAn');
+        } else {
+            $monAn = null;
+        }
+
+        $binhLuan = new BinhLuan();
+        $binhLuan->fill([
+            'noi_dung' => $request->input('NoiDung'),
+            'thoi_gian' => $request->input('ThoiGian'),
+            'user_id' => $taiKhoan,
+            'mon_an_id' => $monAn,
+        ]);
+        if($taiKhoan==null && $monAn == null){
+            return Redirect::back()->with('error', 'Bạn chưa chọn tài khoản và món ăn');
+        }
+        else if ($taiKhoan == null) {
+            return Redirect::back()->with('error', 'Bạn chưa chọn tài khoản');
+        }
+        else if($monAn == null){
+            return Redirect::back()->with('error', 'Bạn chưa chọn món ăn');
+        }
+        else{
+            $binhLuan->save();
+            return Redirect::route('binhLuan.index')->with('success', 'Thêm bình luận thành công');
+        }
+
     }
 
     /**
@@ -56,9 +107,14 @@ class BinhLuanController extends Controller
      * @param  \App\Models\BinhLuan  $binhLuan
      * @return \Illuminate\Http\Response
      */
-    public function edit(BinhLuan $binhLuan)
+    public function edit($id)
     {
         //
+        $binhLuan = BinhLuan::find($id);
+        $lstTaiKhoan=User::all()->where('phan_loai_tai_khoan', '!=', '1');
+        $lstMonAn=MonAn::all()->where('trang_thai',1);
+        // dd(compact('binhLuan', 'lstTaiKhoan', 'lstMonAn'));
+        return view('component/binh-luan/binhluan-edit', compact('binhLuan', 'lstTaiKhoan', 'lstMonAn'));
     }
 
     /**
@@ -82,5 +138,13 @@ class BinhLuanController extends Controller
     public function destroy(BinhLuan $binhLuan)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $binhLuan = BinhLuan::find($id);
+        $binhLuan->trang_thai = 0;
+        $binhLuan->save();
+        return Redirect::route('binhLuan.index');
     }
 }

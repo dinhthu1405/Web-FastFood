@@ -130,14 +130,24 @@
                             <div data-i18n="Analytics">Trạng thái đơn hàng</div>
                         </a>
                     </li>
-                    <!-- Đơn hàng -->
+                    <!-- Đánh giá -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Đánh giá</span></li>
-                    <!-- Đơn hàng -->
+                    <!-- Đánh giá -->
                     <li
                         class="menu-item {{ request()->is('danhGia*') || request()->is('danhGia*') ? 'active' : '' }}">
                         <a href="{{ route('danhGia.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-star"></i>
                             <div data-i18n="Analytics">Đánh giá</div>
+                        </a>
+                    </li>
+                    <!-- Bình luận -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Bình luận</span></li>
+                    <!-- Bình luận -->
+                    <li
+                        class="menu-item {{ request()->is('binhLuan*') || request()->is('binhLuan*') ? 'active' : '' }}">
+                        <a href="{{ route('binhLuan.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-star"></i>
+                            <div data-i18n="Analytics">Bình luận</div>
                         </a>
                     </li>
                     <!-- Extended components -->
@@ -270,8 +280,17 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                        @if (Auth::user()->phan_loai_tai_khoan == 1)
+                                            <img src="../assets/img/avatars/1.png" alt
+                                                class="w-px-40 h-auto rounded-circle" />
+                                        @endif
+
+                                        {{-- <img src="../assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" /> --}}
+                                        {{-- @if (Auth::check() || isset(Auth::user()->hinhAnh->duong_dan))
+                                            <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnh->duong_dan }}"
+                                                class="w-px-40 h-auto rounded-circle" alt="User Image">
+                                        @endif --}}
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -284,6 +303,14 @@
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
+                                                {{-- <div class="info">
+                                                    <a href="{{ route('taiKhoan.maneger', ['id' => Auth::user()->id]) }}"
+                                                        class="d-block">
+                                                        @if (Auth::check())
+                                                            {{ Auth::user()->ho_ten }}
+                                                        @endif
+                                                    </a>
+                                                </div> --}}
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block">John Doe</span>
                                                     <small class="text-muted">Admin</small>

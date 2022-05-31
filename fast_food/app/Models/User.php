@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function hinhAnh()
     {
-        return $this->belongsTo(HinhAnh::class, 'id');
+        return $this->belongsTo(HinhAnh::class, 'id', 'duong_dan');
     }
 
     public function donHang()
@@ -72,5 +72,10 @@ class User extends Authenticatable
     public function danhGias()
     {
         return $this->hasMany(DanhGia::class, 'id');
+    }
+
+    public function binhLuans()
+    {
+        return $this->hasMany(BinhLuan::class);
     }
 }
