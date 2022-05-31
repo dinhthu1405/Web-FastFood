@@ -1,6 +1,6 @@
 @extends('layouts.app', ['pageId' => ''])
 
-@section('title', 'Trang chi tiết đánh giá')
+@section('title', 'Trang quản lí đánh giá')
 @section('content')
             <div class="content-wrapper">
                 <!-- Content -->
@@ -12,8 +12,8 @@
                         </div>
                         <div class="col-md-4"></div>
                         <div class="col-md-2">
-                            <a href="{{ route('danhGia.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                                    đánh giá</button></a>
+                            {{-- <a href="{{ route('danhGia.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
+                                    đánh giá</button></a> --}}
                         </div>
                     </div>
                     <form action="{{ route('monAn.search') }}" method="post">
@@ -42,7 +42,6 @@
                                         <th>Người dùng</th>     
                                         <th>Món ăn</th>                         
                                         <th>Địa điểm</th>
-                                        <th>Chỉnh sửa</th>
                                         <th>Xoá</th>
                                     </tr>
                                 </thead>
@@ -73,12 +72,8 @@
                                             <td></td>
                                             @else
                                             <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
-                                            @endif
-                                                                               
-                                            <td><a href="{{ route('danhGia.edit', $danhGia->id) }}"><button type="button"
-                                                        id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
-                                                        data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                        <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                            @endif                                                                               
+                                            
                                             <td> <a href="{{ route('danhGia.xoa', $danhGia->id) }}"
                                                     onclick="return confirm('Bạn có chắc muốn xoá đánh giá này')"><button
                                                         type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"

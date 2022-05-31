@@ -20,8 +20,10 @@ class BinhLuanController extends Controller
     public function index()
     {
         //
-        $lstBinhLuan = BinhLuan::all()->where('trang_thai',1);
-        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan'));
+        $lstBinhLuan = BinhLuan::all()->where('trang_thai', 1);
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
+        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan'));
     }
 
     /**
@@ -32,8 +34,8 @@ class BinhLuanController extends Controller
     public function create()
     {
         //
-        $lstTaiKhoan=User::all()->where('phan_loai_tai_khoan', '!=', '1');
-        $lstMonAn=MonAn::all()->where('trang_thai',1);
+        $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', '1');
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
         return view('component/binh-luan/binhluan-create', compact('lstTaiKhoan', 'lstMonAn'));
     }
 
@@ -74,20 +76,16 @@ class BinhLuanController extends Controller
             'user_id' => $taiKhoan,
             'mon_an_id' => $monAn,
         ]);
-        if($taiKhoan==null && $monAn == null){
+        if ($taiKhoan == null && $monAn == null) {
             return Redirect::back()->with('error', 'Bạn chưa chọn tài khoản và món ăn');
-        }
-        else if ($taiKhoan == null) {
+        } else if ($taiKhoan == null) {
             return Redirect::back()->with('error', 'Bạn chưa chọn tài khoản');
-        }
-        else if($monAn == null){
+        } else if ($monAn == null) {
             return Redirect::back()->with('error', 'Bạn chưa chọn món ăn');
-        }
-        else{
+        } else {
             $binhLuan->save();
             return Redirect::route('binhLuan.index')->with('success', 'Thêm bình luận thành công');
         }
-
     }
 
     /**
@@ -107,12 +105,11 @@ class BinhLuanController extends Controller
      * @param  \App\Models\BinhLuan  $binhLuan
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BinhLuan $binhLuan)
     {
         //
-        $binhLuan = BinhLuan::find($id);
-        $lstTaiKhoan=User::all()->where('phan_loai_tai_khoan', '!=', '1');
-        $lstMonAn=MonAn::all()->where('trang_thai',1);
+        $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', '1');
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
         // dd(compact('binhLuan', 'lstTaiKhoan', 'lstMonAn'));
         return view('component/binh-luan/binhluan-edit', compact('binhLuan', 'lstTaiKhoan', 'lstMonAn'));
     }
@@ -124,9 +121,17 @@ class BinhLuanController extends Controller
      * @param  \App\Models\BinhLuan  $binhLuan
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBinhLuanRequest $request, BinhLuan $binhLuan)
+    public function update(Request $request, BinhLuan $binhLuan)
     {
         //
+        $binhLuan->fill([
+            'noi_dung' => $request->input('NoiDung'),
+            'thoi_gian' => $request->input('ThoiGian'),
+            'user_id' => $request->input('TaiKhoan'),
+            'mon_an_id' => $request->input('MonAn'),
+        ]);
+        $binhLuan->save();
+        return Redirect::route('binhLuan.index')->with('success', 'Sửa bình luận thành công');
     }
 
     /**
