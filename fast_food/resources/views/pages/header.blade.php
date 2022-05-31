@@ -146,7 +146,7 @@
                     <li
                         class="menu-item {{ request()->is('binhLuan*') || request()->is('binhLuan*') ? 'active' : '' }}">
                         <a href="{{ route('binhLuan.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-star"></i>
+                            <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
                             <div data-i18n="Analytics">Bình luận</div>
                         </a>
                     </li>

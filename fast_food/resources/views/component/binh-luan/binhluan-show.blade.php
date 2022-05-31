@@ -1,6 +1,6 @@
 @extends('layouts.app', ['pageId' => ''])
 
-@section('title', 'Trang chi tiết bình luận')
+@section('title', 'Trang quản lí bình luận')
 @section('content')
     <div class="content-wrapper">
         <!-- Content -->
@@ -12,8 +12,8 @@
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <a href="{{ route('binhLuan.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                            bình luận</button></a>
+                    {{-- <a href="{{ route('binhLuan.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
+                            bình luận</button></a> --}}
                 </div>
             </div>
             <form action="{{ route('monAn.search') }}" method="post">
@@ -41,7 +41,6 @@
                                 <th>Thời gian</th>
                                 <th>Người dùng</th>
                                 <th>Món ăn</th>
-                                <th>Chỉnh sửa</th>
                                 <th>Xoá</th>
                             </tr>
                         </thead>
@@ -58,22 +57,17 @@
                                     @else
                                         <td>{{ date('d-m-Y: H:i:s', strtotime($binhLuan->thoi_gian)) }}</td>
                                     @endif
-                                    @if ($binhLuan->user_id == null)
-                                        <td></td>
-                                    @else
-                                        <td>{{ $binhLuan->user->email }}</td>
+                                    @foreach ($lstTaiKhoan as $taiKhoan)
+                                    @if ($binhLuan->user_id == $taiKhoan->id)
+                                        <td>{{ $taiKhoan->email }}</td>
                                     @endif
-                                    @if ($binhLuan->mon_an_id == null)
-                                        <td></td>
-                                    @else
-                                        <td>{{ $binhLuan->monAn->ten_mon }}</td>
+                                    @endforeach
+                                    @foreach ($lstMonAn as $monAn)
+                                    @if ($binhLuan->mon_an_id == $monAn->id)
+                                        <td>{{ $monAn->ten_mon }}</td>
                                     @endif
+                                    @endforeach                                  
 
-                                    <td><a href="{{ route('binhLuan.edit', ['binhLuan' => $binhLuan]) }}"><button
-                                                type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                     <td> <a href="{{ route('binhLuan.xoa', $binhLuan->id) }}"
                                             onclick="return confirm('Bạn có chắc muốn xoá bình luận này')"><button
                                                 type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"

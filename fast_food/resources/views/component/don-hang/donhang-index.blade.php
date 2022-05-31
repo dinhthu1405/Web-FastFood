@@ -53,7 +53,7 @@
                                 <tr>
                                     <td> {{ $count++ }} </td>
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        {{ date('d-m-Y', strtotime($donHang->ngau_lap_hd)) }}
+                                        {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
                                     <td>{{ $donHang->tong_tien }}</td>                                    
                                     @foreach ($lstTaiKhoan as $taiKhoan)

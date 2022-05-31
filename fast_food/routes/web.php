@@ -42,6 +42,8 @@ Route::resource('chiTietDonHang', ChiTietDonHangController::class)->middleware('
 Route::resource('danhGia', DanhGiaController::class)->middleware('auth');
 Route::resource('binhLuan', BinhLuanController::class)->middleware('auth');
 
+// Route::get('binhLuan/{id}/edit', [BinhLuanController::class, 'edit'])->name('binhLuan.edit')->middleware('auth');
+// Route::post('binhLuan/{id}', [BinhLuanController::class, 'update'])->name('binhLuan.update')->middleware('auth');
 
 // Route::get('/diaDiem', [DiaDiemController::class, 'index'])->name('diaDiem.index')->middleware('auth');
 // Route::post('/diaDiem', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
