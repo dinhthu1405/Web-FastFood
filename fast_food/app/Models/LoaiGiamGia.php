@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MaGiamGia extends Model
+class LoaiGiamGia extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -16,13 +16,12 @@ class MaGiamGia extends Model
      */
     protected $fillable = [
         'id',
-        'ten_ma',
-        'loai_giam_gia_id',
+        'ten_loai_giam_gia',
         'trang_thai',
     ];
 
-    public function loaiGiamGia()
+    public function maGiamGias()
     {
-        return $this->belongsTo(LoaiGiamGia::class, 'loai_giam_gia_id', 'id');
+        return $this->hasMany(MaGiamGia::class, 'id_loai_giam_gia', 'id');
     }
 }
