@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\MaGiamGia;
+use App\Models\LoaiGiamGia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreMaGiamGiaRequest;
 use App\Http\Requests\UpdateMaGiamGiaRequest;
 
@@ -16,6 +19,8 @@ class MaGiamGiaController extends Controller
     public function index()
     {
         //
+        $lstMaGiamGia = MaGiamGia::all()->where('trang_thai', 1);
+        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia'));
     }
 
     /**
@@ -26,6 +31,8 @@ class MaGiamGiaController extends Controller
     public function create()
     {
         //
+        $lstLoaiGiamGia = LoaiGiamGia::all()->where('trang_thai', 1);
+        return view('component/ma-giam-gia/magiamgia-create', compact('lstLoaiGiamGia'));
     }
 
     /**
@@ -34,9 +41,29 @@ class MaGiamGiaController extends Controller
      * @param  \App\Http\Requests\StoreMaGiamGiaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMaGiamGiaRequest $request)
+    public function store(Request $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenMaGiamGia' => 'required|unique:ma_giam_gias,ten_ma',
+                'LoaiGiamGia' => 'required',
+            ],
+            [
+                'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
+                'TenMaGiamGia.unique' => 'Tên mã giảm giá đã tồn tại',
+                'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
+            ]
+        );
+        $maGiamGia = new MaGiamGia();
+        $maGiamGia->fill([
+            'ten_ma' => $request->input('TenMaGiamGia'),
+            'loai_giam_gia_id' => $request->input('LoaiGiamGia'),
+        ]);
+
+        $maGiamGia->save();
+        return redirect()->route('maGiamGia.index')->with('success', 'Thêm mã giảm giá thành công');
     }
 
     /**

@@ -150,6 +150,24 @@
                             <div data-i18n="Analytics">Bình luận</div>
                         </a>
                     </li>
+                    <!-- Mã giảm giá -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span></li>
+                    <!-- Loại mã giảm giá -->
+                    <li
+                    class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
+                    <a href="{{ route('loaiGiamGia.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                        <div data-i18n="Analytics">Loại mã giảm giá</div>
+                    </a>
+                    </li>
+                    <!-- Mã giảm giá -->
+                    <li
+                        class="menu-item {{ request()->is('maGiamGia*') || request()->is('maGiamGia*') ? 'active' : '' }}">
+                        <a href="{{ route('maGiamGia.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                            <div data-i18n="Analytics">Mã giảm giá</div>
+                        </a>
+                    </li>
                     <!-- Extended components -->
                     <li class="menu-item">
                         <a href="javascript:void(0)" class="menu-link menu-toggle">
