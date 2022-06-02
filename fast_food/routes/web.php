@@ -14,6 +14,8 @@ use App\Http\Controllers\BinhLuanController;
 use App\Http\Controllers\TrangThaiDonHangController;
 use App\Http\Controllers\MaGiamGiaController;
 use App\Http\Controllers\LoaiGiamGiaController;
+use App\Http\Controllers\AnhBiaController;
+use App\Http\Controllers\DiemMuaHangController;
 use App\Http\Controllers\SinglePageController;
 
 /*
@@ -45,6 +47,10 @@ Route::resource('danhGia', DanhGiaController::class)->middleware('auth');
 Route::resource('binhLuan', BinhLuanController::class)->middleware('auth');
 Route::resource('maGiamGia', MaGiamGiaController::class)->middleware('auth');
 Route::resource('loaiGiamGia', LoaiGiamGiaController::class)->middleware('auth');
+// Route::resource('anhBia', AnhBiaController::class)->middleware('auth');
+Route::resource('anhBias', AnhBiaController::class)->middleware('auth');
+Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth');
+
 
 // Route::get('binhLuan/{id}/edit', [BinhLuanController::class, 'edit'])->name('binhLuan.edit')->middleware('auth');
 // Route::post('binhLuan/{id}', [BinhLuanController::class, 'update'])->name('binhLuan.update')->middleware('auth');
@@ -66,6 +72,8 @@ Route::get('/danhGia/xoa/{id}', [DanhGiaController::class, 'xoa'])->name('danhGi
 Route::get('/binhLuan/xoa/{id}', [BinhLuanController::class, 'xoa'])->name('binhLuan.xoa')->middleware('auth');
 Route::get('/maGiamGia/xoa/{id}', [MaGiamGiaController::class, 'xoa'])->name('maGiamGia.xoa')->middleware('auth');
 Route::get('/loaiGiamGia/xoa/{id}', [LoaiGiamGiaController::class, 'xoa'])->name('loaiGiamGia.xoa')->middleware('auth');
+Route::get('/anhBias/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBias.xoa')->middleware('auth');
+Route::get('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
 
 //Tìm kiếm
 Route::post('/monAn/search/', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');

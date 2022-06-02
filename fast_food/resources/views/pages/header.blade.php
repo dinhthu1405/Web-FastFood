@@ -154,18 +154,39 @@
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span></li>
                     <!-- Loại mã giảm giá -->
                     <li
-                    class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
-                    <a href="{{ route('loaiGiamGia.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bxs-coupon"></i>
-                        <div data-i18n="Analytics">Loại mã giảm giá</div>
-                    </a>
+                        class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
+                        <a href="{{ route('loaiGiamGia.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                            <div data-i18n="Analytics">Loại mã giảm giá</div>
+                        </a>
                     </li>
                     <!-- Mã giảm giá -->
                     <li
                         class="menu-item {{ request()->is('maGiamGia*') || request()->is('maGiamGia*') ? 'active' : '' }}">
                         <a href="{{ route('maGiamGia.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                            <i class="menu-icon tf-icons bx bxs-discount"></i>
                             <div data-i18n="Analytics">Mã giảm giá</div>
+                        </a>
+                    </li>
+                    <!-- Ảnh bìa -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Ảnh bìa</span></li>
+                    <!-- Ảnh bìa -->
+                    <li
+                        class="menu-item {{ request()->is('anhBias*') || request()->is('anhBias*') ? 'active' : '' }}">
+                        <a href="{{ route('anhBias.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-image-alt"></i>
+                            <div data-i18n="Analytics">Ảnh bìa</div>
+                        </a>
+                    </li>
+                    <!-- Điểm mua hàng -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Điểm mua hàng</span>
+                    </li>
+                    <!-- Điểm mua hàng -->
+                    <li
+                        class="menu-item {{ request()->is('diemMuaHang*') || request()->is('diemMuaHang*') ? 'active' : '' }}">
+                        <a href="{{ route('diemMuaHang.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-image-alt"></i>
+                            <div data-i18n="Analytics">Điểm mua hàng</div>
                         </a>
                     </li>
                     <!-- Extended components -->

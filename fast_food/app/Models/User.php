@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(BinhLuan::class);
     }
+
+    public function diemMuaHang()
+    {
+        return $this->belongsTo(DiemMuaHang::class);
+    }
 }

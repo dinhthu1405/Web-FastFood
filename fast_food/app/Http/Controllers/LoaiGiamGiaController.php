@@ -126,7 +126,7 @@ class LoaiGiamGiaController extends Controller
         $loaiGiamGia = loaiGiamGia::find($id);
         $loaiGiamGia->trang_thai = 0;
         $loaiGiamGia->save();
-        $loaiGiamGia->maGiamGias()->update(['maGiamGias.trang_thai' => 0]);
+        $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.trang_thai' => 0]);
         return Redirect::route('loaiGiamGia.index');
     }
 }
