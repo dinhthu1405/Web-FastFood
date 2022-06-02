@@ -33,4 +33,9 @@ class HinhAnh extends Model
     {
         return $this->belongsTo(MonAn::class);
     }
+
+    public function anhBia()
+    {
+        return $this->belongsTo(AnhBia::class);
+    }
 }

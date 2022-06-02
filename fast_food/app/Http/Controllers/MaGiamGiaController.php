@@ -83,9 +83,11 @@ class MaGiamGiaController extends Controller
      * @param  \App\Models\MaGiamGia  $maGiamGia
      * @return \Illuminate\Http\Response
      */
-    public function edit(MaGiamGia $maGiamGia)
+    public function edit(MaGiamGia $maGiamGium)
     {
         //
+        $lstLoaiGiamGia=LoaiGiamGia::all()->where('trang_thai',1);
+        return view('component.ma-giam-gia.magiamgia-edit', compact('maGiamGium','lstLoaiGiamGia'));
     }
 
     /**
@@ -95,9 +97,28 @@ class MaGiamGiaController extends Controller
      * @param  \App\Models\MaGiamGia  $maGiamGia
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMaGiamGiaRequest $request, MaGiamGia $maGiamGia)
+    public function update(Request $request, MaGiamGia $maGiamGium)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenMaGiamGia' => 'required|unique:ma_giam_gias,ten_ma',
+                'LoaiGiamGia' => 'required',
+            ],
+            [
+                'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
+                'TenMaGiamGia.unique' => 'Tên mã giảm giá đã tồn tại',
+                'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
+            ]
+        );
+        $maGiamGium->fill([
+            'ten_ma' => $request->input('TenMaGiamGia'),
+            'loai_giam_gia_id' => $request->input('LoaiGiamGia'),
+        ]);
+
+        $maGiamGium->save();
+        return redirect()->route('maGiamGia.index')->with('success', 'Sửa mã giảm giá thành công');
     }
 
     /**
@@ -109,5 +130,13 @@ class MaGiamGiaController extends Controller
     public function destroy(MaGiamGia $maGiamGia)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $maGiamGia = MaGiamGia::find($id);
+        $maGiamGia->trang_thai = 0;
+        $maGiamGia->save();
+        return Redirect::route('maGiamGia.index');
     }
 }

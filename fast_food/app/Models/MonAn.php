@@ -56,4 +56,9 @@ class MonAn extends Model
     {
         return $this->hasMany(BinhLuan::class);
     }
+
+    public function anhBias()
+    {
+        return $this->hasMany(AnhBia::class);
+    }
 }

@@ -22,6 +22,6 @@ class LoaiGiamGia extends Model
 
     public function maGiamGias()
     {
-        return $this->hasMany(MaGiamGia::class, 'id_loai_giam_gia', 'id');
+        return $this->hasMany(MaGiamGia::class);
     }
 }
