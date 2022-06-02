@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -61,10 +62,15 @@ class User extends Authenticatable
 
     public function hinhAnh()
     {
-        return $this->belongsTo(HinhAnh::class, 'id', 'duong_dan');
+        return $this->hasOne(HinhAnh::class, 'id');
     }
 
-    public function donHang()
+    public function hinhAnhs()
+    {
+        return HinhAnh::all()->where('user_id', Auth::user()->id);
+    }
+
+    public function donHangs()
     {
         return $this->hasMany(DonHang::class, 'id');
     }

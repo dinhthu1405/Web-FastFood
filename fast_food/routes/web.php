@@ -51,16 +51,6 @@ Route::resource('loaiGiamGia', LoaiGiamGiaController::class)->middleware('auth')
 Route::resource('anhBias', AnhBiaController::class)->middleware('auth');
 Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth');
 
-
-// Route::get('binhLuan/{id}/edit', [BinhLuanController::class, 'edit'])->name('binhLuan.edit')->middleware('auth');
-// Route::post('binhLuan/{id}', [BinhLuanController::class, 'update'])->name('binhLuan.update')->middleware('auth');
-
-// Route::get('/diaDiem', [DiaDiemController::class, 'index'])->name('diaDiem.index')->middleware('auth');
-// Route::post('/diaDiem', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
-// Route::get('/diaDiem/{id}', [DiaDiemController::class, 'edit'])->name('diaDiem.edit')->middleware('auth');
-// Route::post('/diaDiem/{id}', [DiaDiemController::class, 'update'])->name('diaDiem.update')->middleware('auth');
-// Route::post('/diaDiem/them', 'DiaDiemController@store')->middleware('auth');
-
 //Xoá dữ liệu
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
 Route::get('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');

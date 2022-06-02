@@ -8,7 +8,7 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+        <h4 class="fw-bold py-3 mb-4"><a href="{{ route('diaDiem.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Sửa địa điểm</h4>
         @if (Session::has('success'))
         <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
         @endif

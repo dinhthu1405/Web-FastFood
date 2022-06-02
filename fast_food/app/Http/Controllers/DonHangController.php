@@ -6,6 +6,8 @@ use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\User;
 use App\Models\MonAn;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDonHangRequest;
 use App\Http\Requests\UpdateDonHangRequest;
 
