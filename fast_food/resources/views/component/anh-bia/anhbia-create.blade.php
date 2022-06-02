@@ -8,7 +8,7 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('anhBias.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Thêm ảnh bìa</h4>
             @if (Session::has('success'))
                 <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
             @endif
@@ -26,7 +26,7 @@
                 <div class="card mb-4">
                     <h5 class="card-header">Thêm ảnh bìa</h5>
                     <div class="card-body">
-                        <form action="{{ route('anhBia.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('anhBias.store') }}" method="post" enctype="multipart/form-data">
                             {!! @csrf_field() !!}
                             <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Tên món</label>

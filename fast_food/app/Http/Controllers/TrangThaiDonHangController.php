@@ -80,6 +80,7 @@ class TrangThaiDonHangController extends Controller
     public function edit(TrangThaiDonHang $trangThaiDonHang)
     {
         //
+        return view('component/trang-thai-don-hang/trangthaidonhang-edit', compact('trangThaiDonHang'));
     }
 
     /**
@@ -89,9 +90,24 @@ class TrangThaiDonHangController extends Controller
      * @param  \App\Models\TrangThaiDonHang  $trangThaiDonHang
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTrangThaiDonHangRequest $request, TrangThaiDonHang $trangThaiDonHang)
+    public function update(Request $request, TrangThaiDonHang $trangThaiDonHang)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenTrangThaiDonHang' => 'required|unique:trang_thai_don_hangs,ten_trang_thai',
+            ],
+            [
+                'TenTrangThaiDonHang.required' => 'Bạn chưa nhập tên trạng thái đơn hàng',
+                'TenTrangThaiDonHang.unique' => 'Tên trạng thái đơn hàng đã tồn tại',
+            ]
+        );
+        $trangThaiDonHang->fill([
+            'ten_trang_thai' => $request->input('TenTrangThaiDonHang'),
+        ]);
+        $trangThaiDonHang->save();
+        return Redirect::route('trangThaiDonHang.index')->with('success', 'Sửa trạng thái đơn hàng thành công');
     }
 
     /**

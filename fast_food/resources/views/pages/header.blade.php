@@ -185,98 +185,8 @@
                     <li
                         class="menu-item {{ request()->is('diemMuaHang*') || request()->is('diemMuaHang*') ? 'active' : '' }}">
                         <a href="{{ route('diemMuaHang.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-image-alt"></i>
+                            <i class="menu-icon tf-icons bx bx-coin"></i>
                             <div data-i18n="Analytics">Điểm mua hàng</div>
-                        </a>
-                    </li>
-                    <!-- Extended components -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0)" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-copy"></i>
-                            <div data-i18n="Extended UI">Extended UI</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
-                                    <div data-i18n="Perfect Scrollbar">Perfect scrollbar</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="extended-ui-text-divider.html" class="menu-link">
-                                    <div data-i18n="Text Divider">Text Divider</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="icons-boxicons.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-crown"></i>
-                            <div data-i18n="Boxicons">Boxicons</div>
-                        </a>
-                    </li>
-
-                    <!-- Forms & Tables -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp;
-                            Tables</span></li>
-                    <!-- Forms -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-detail"></i>
-                            <div data-i18n="Form Elements">Form Elements</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="forms-basic-inputs.html" class="menu-link">
-                                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="forms-input-groups.html" class="menu-link">
-                                    <div data-i18n="Input groups">Input groups</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-detail"></i>
-                            <div data-i18n="Form Layouts">Form Layouts</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="form-layouts-vertical.html" class="menu-link">
-                                    <div data-i18n="Vertical Form">Vertical Form</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="form-layouts-horizontal.html" class="menu-link">
-                                    <div data-i18n="Horizontal Form">Horizontal Form</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- Tables -->
-                    <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="Tables">Tables</div>
-                        </a>
-                    </li>
-                    <!-- Misc -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
-                    <li class="menu-item">
-                        <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-support"></i>
-                            <div data-i18n="Support">Support</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                            target="_blank" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-file"></i>
-                            <div data-i18n="Documentation">Documentation</div>
                         </a>
                     </li>
                 </ul>
@@ -323,13 +233,10 @@
                                             <img src="../assets/img/avatars/1.png" alt
                                                 class="w-px-40 h-auto rounded-circle" />
                                         @endif
-
-                                        {{-- <img src="../assets/img/avatars/1.png" alt
-                                            class="w-px-40 h-auto rounded-circle" /> --}}
-                                        {{-- @if (Auth::check() || isset(Auth::user()->hinhAnh->duong_dan))
-                                            <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnh->duong_dan }}"
+                                        @if(Auth::user()->phan_loai_tai_khoan != 1)
+                                            <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnhs()->first()->duong_dan }}" alt
                                                 class="w-px-40 h-auto rounded-circle" alt="User Image">
-                                        @endif --}}
+                                        @endif
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -338,8 +245,14 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
+                                                        @if (Auth::user()->phan_loai_tai_khoan == 1)
                                                         <img src="../assets/img/avatars/1.png" alt
                                                             class="w-px-40 h-auto rounded-circle" />
+                                                    @endif
+                                                    @if(Auth::user()->phan_loai_tai_khoan != 1)
+                                                        <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnhs()->first()->duong_dan }}" alt
+                                                            class="w-px-40 h-auto rounded-circle" alt="User Image">
+                                                    @endif
                                                     </div>
                                                 </div>
                                                 {{-- <div class="info">
@@ -351,8 +264,21 @@
                                                     </a>
                                                 </div> --}}
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block">
+                                                        @if (Auth::check())
+                                                        {{ Auth::user()->ho_ten }}
+                                                        @endif
+                                                    </span>
+                                                    <small class="text-muted">
+                                                        @if (Auth::check())
+                                                        @if (Auth::user()->phan_loai_tai_khoan == 1)
+                                                            Supper Admin
+                                                        @endif
+                                                        @if (Auth::user()->phan_loai_tai_khoan == 2)
+                                                            Admin
+                                                        @endif
+                                                        @endif
+                                                    </small>
                                                 </div>
                                             </div>
                                         </a>
@@ -388,7 +314,7 @@
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}">
                                             <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
+                                            <span class="align-middle">Đăng xuất</span>
                                         </a>
                                     </li>
                                 </ul>

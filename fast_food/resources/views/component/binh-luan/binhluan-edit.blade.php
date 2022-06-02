@@ -8,7 +8,7 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('binhLuan.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Sửa bình luận</h4>
             <form action="{{ route('binhLuan.update', ['binhLuan'=>$binhLuan]) }}" method="post" enctype="multipart/form-data">
                 {!! @csrf_field() !!}
                 @method('PATCH')
