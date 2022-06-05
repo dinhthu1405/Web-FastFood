@@ -53,9 +53,22 @@
                                     </td>
                                     @foreach ($lstHinhAnh as $hinhAnh)
                                         @if ($anhBia->id == $hinhAnh->anh_bia_id)
-                                            <td><img style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
-                                            </td>
+                                        {{-- <button type="button" id="btn-image" class="btn btn-success py-2 mb-4" data-target="#modal-add"
+                                        data-bs-toggle="modal" data-bs-target="#modalCenter">
+
+                                        </button> --}}
+                                        <td><img style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}" id="btn-image" data-target="#modal-add"
+                                            data-bs-toggle="modal" data-bs-target="#modalCenter" alt="">
+                                    </td>
+                                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                            <img style="vertical-align: middle; height: 50%; "
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">                                            
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endif
                                     @endforeach
                                     <td><a href="{{ route('anhBias.edit', $anhBia->id) }}"><button type="button"

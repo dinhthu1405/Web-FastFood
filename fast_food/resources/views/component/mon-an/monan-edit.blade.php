@@ -68,7 +68,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleDataList" class="form-label">Đơn giá</label>
-                            <input type="number" name="DonGia" class="form-control" min="1" value="{{ $monAn->don_gia }}" id="exampleFormControlInput1" placeholder="Đơn giá" />
+                            <input type="text" name="DonGia" class="form-control format_number" min="1" value="{{ $monAn->don_gia }}" onkeypress='validate(event)' id="exampleFormControlInput1" placeholder="Đơn giá" />
 
                         </div>
                         <div class="mb-3">
@@ -80,6 +80,7 @@
                             <label for="exampleFormControlSelect1" class="form-label">Tình trạng món ăn</label>
                             <select class="form-select" name="TinhTrang" id="exampleFormControlSelect1" aria-label="Default select example">
                                 <option {{ $monAn->tinh_trang == 'Còn món' ? 'selected' : '' }}>Còn món</option>
+                                <option {{ $monAn->tinh_trang == 'Sắp hết' ? 'selected' : '' }}>Sắp hết</option>
                                 <option {{ $monAn->tinh_trang == 'Hết món' ? 'selected' : '' }}>Hết món</option>
                             </select>
                         </div>
@@ -99,5 +100,24 @@
                 var previewImage = document.getElementById('preview-image');
                 previewImage.src = URL.createObjectURL(event.target.files[0]);
             };
+        </script>
+        <script>
+            function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+            }
         </script>
         @endsection

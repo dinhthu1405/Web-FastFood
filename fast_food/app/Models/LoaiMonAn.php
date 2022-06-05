@@ -25,4 +25,24 @@ class LoaiMonAn extends Model
     {
         return $this->hasMany(MonAn::class);
     }
+
+    public function hinhAnhs()
+    {
+        return $this->hasManyThrough(HinhAnh::class, MonAn::class);
+    }
+
+    public function hinhAnh()
+    {
+        return $this->hasOneThrough(HinhAnh::class, MonAn::class);
+    }
+
+    public function binhLuans()
+    {
+        return $this->hasManyThrough(BinhLuan::class, MonAn::class);
+    }
+
+    public function binhLuan()
+    {
+        return $this->hasOneThrough(BinhLuan::class, MonAn::class);
+    }
 }

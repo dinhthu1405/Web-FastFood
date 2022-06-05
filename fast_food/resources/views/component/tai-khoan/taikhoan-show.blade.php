@@ -142,7 +142,7 @@
                                                     data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                         <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"
-                                                onclick="return confirm('Bạn có chắc muốn khóa tài khoản này')"><button
+                                                onclick="return confirm('Bạn có chắc muốn khóa tài khoản này, vì nó sẽ ảnh hưởng đến đơn hàng; đánh giá; bình luận và điểm mua hàng ')"><button
                                                     type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                     data-target="#modal-edit" data-bs-toggle="modal"
                                                     data-bs-target="#modalCenter-Edit">

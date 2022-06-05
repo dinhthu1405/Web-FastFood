@@ -312,10 +312,18 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}">
+                                        <form id="frm-logout" action="{{ route('logout') }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{-- <a class="dropdown-item" href="{{ route('logout') }}">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Đăng xuất</span>
-                                        </a>
+                                        </a>              --}}
+                                        
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Đăng xuất</span>
+                                        </button>                           
+                                        </form>
                                     </li>
                                 </ul>
                             </li>

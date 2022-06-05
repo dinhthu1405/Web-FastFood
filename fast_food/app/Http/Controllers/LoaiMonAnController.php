@@ -20,7 +20,7 @@ class LoaiMonAnController extends Controller
     {
         //
         $lstLoaiMonAn = LoaiMonAn::all()->where('trang_thai', 1);
-        
+
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
     }
 
@@ -57,19 +57,25 @@ class LoaiMonAnController extends Controller
         $this->validate(
             $request,
             [
-                'TenLoai' => 'required|unique:loai_mon_ans,ten_loai',
+                'TenLoai' => 'required',
             ],
             [
                 'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
-                'TenLoai.unique' => 'Tên loại món ăn đã tồn tại',
             ]
         );
         $loaiMonAn = new LoaiMonAn();
+
         $loaiMonAn->fill([
             'ten_loai' => $request->input('TenLoai'),
         ]);
-        $loaiMonAn->save();
-        return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
+        $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', $request->input('TenLoai'))->where('trang_thai', 1)->first();
+        // dd($ktLoaiMonAn);
+        if ($ktLoaiMonAn) {
+            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
+        } else {
+            $loaiMonAn->save();
+            return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
+        }
     }
 
     /**
@@ -118,8 +124,14 @@ class LoaiMonAnController extends Controller
         $loaiMonAn->fill([
             'ten_loai' => $request->input('TenLoai'),
         ]);
-        $loaiMonAn->save();
-        return Redirect::route('loaiMonAn.index')->with('success', 'Chỉnh sửa loại món ăn thành công');
+        $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', $request->input('TenLoai'))->where('trang_thai', 1)->first();
+        // dd($ktLoaiMonAn);
+        if ($ktLoaiMonAn) {
+            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
+        } else {
+            $loaiMonAn->save();
+            return Redirect::route('loaiMonAn.index')->with('success', 'Chỉnh sửa loại món ăn thành công');
+        }
     }
 
     /**
@@ -139,6 +151,8 @@ class LoaiMonAnController extends Controller
         $loaiMonAn->trang_thai = 0;
         $loaiMonAn->save();
         $loaiMonAn->monAns()->update(['mon_ans.trang_thai' => 0]);
+        $loaiMonAn->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
+        $loaiMonAn->binhLuans()->update(['binh_luans.trang_thai' => 0]);
         return Redirect::route('loaiMonAn.index');
     }
 }

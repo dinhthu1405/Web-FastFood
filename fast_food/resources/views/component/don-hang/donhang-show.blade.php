@@ -57,7 +57,7 @@
                                             <td>{{ $monAn->ten_mon }}</td>
                                             @endif
                                             @endforeach
-                                            <td>{{ $chiTietDonHang->don_gia }}</td>
+                                            <td>{{ number_format($chiTietDonHang->don_gia) }}</td>
                                             <td>{{ $chiTietDonHang->so_luong }}</td>
                                             <td>{{ $chiTietDonHang->thanh_tien }}</td>                                    
                                             {{-- <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"

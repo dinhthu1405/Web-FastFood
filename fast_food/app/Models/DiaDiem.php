@@ -30,6 +30,26 @@ class DiaDiem extends Model
 
     public function danhGias()
     {
-        return $this->hasMany(DinhGia::class);
+        return $this->hasMany(DanhGia::class);
+    }
+
+    public function hinhAnhs()
+    {
+        return $this->hasManyThrough(HinhAnh::class, MonAn::class);
+    }
+
+    public function hinhAnh()
+    {
+        return $this->hasOneThrough(HinhAnh::class, MonAn::class);
+    }
+
+    public function binhLuans()
+    {
+        return $this->hasManyThrough(BinhLuan::class, MonAn::class);
+    }
+
+    public function binhLuan()
+    {
+        return $this->hasOneThrough(BinhLuan::class, MonAn::class);
     }
 }
