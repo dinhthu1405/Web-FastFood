@@ -59,7 +59,7 @@
                             </td>
                             <td><a href="{{ route('monAn.images', $monAn->id) }}" class="btn btn-outline-dark">Xem
                                     hình</a></td>
-                            <td>{{ $monAn->don_gia }}</td>
+                            <td>{{ number_format($monAn->don_gia) }}</td>
                             <td>{{ $monAn->so_luong }}</td>
                             <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
                             <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
@@ -70,7 +70,7 @@
                             @endif
                             <td><a href="{{ route('monAn.edit', $monAn->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                            <td> <a href="{{ route('monAn.xoa', $monAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                            <td> <a href="{{ route('monAn.xoa', $monAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá món ăn này, vì nó sẽ ảnh hưởng đến đánh giá; bình luận và ảnh bìa')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-trash me-1"></i> </button></a></td>
                         </tr>
                     </tbody>

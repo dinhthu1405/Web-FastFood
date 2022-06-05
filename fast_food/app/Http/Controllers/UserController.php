@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\HinhAnh;
+use App\Models\DiemMuaHang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -227,13 +228,38 @@ class UserController extends Controller
     public function khoa_mo($id)
     {
         $taiKhoan = User::find($id);
+        $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1);
         if ($taiKhoan->trang_thai == 0) {
+
             $taiKhoan->trang_thai = 1;
             $taiKhoan->save();
+            $taiKhoan->donHangs()->update(['don_hangs.trang_thai' => 1]);
+            $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 1]);
+            $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 1]);
+            // foreach ($lstDiemMuaHang as $diemMuaHang) {
+            //     dd($diemMuaHang->user_id == $id);
+            //     if ($diemMuaHang->user_id == $id) {
+            //         $diemMuaHang->update([
+            //             'trang_thai' => 1,
+            //         ]);
+            //     }
+            // }
             return Redirect::route('taiKhoan.index');
         } else {
             $taiKhoan->trang_thai = 0;
             $taiKhoan->save();
+            $taiKhoan->donHangs()->update(['don_hangs.trang_thai' => 0]);
+            $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 0]);
+            $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 0]);
+
+            foreach ($lstDiemMuaHang as $diemMuaHang) {
+                if ($diemMuaHang->user_id == $id) {
+                    $diemMuaHang->update([
+                        'trang_thai' => 0,
+                    ]);
+                }
+            }
+            // $taiKhoan->diemMuaHang()->update(['diem_mua_hangs.trang_thai' => 0]);
             return Redirect::route('taiKhoan.index');
         }
     }

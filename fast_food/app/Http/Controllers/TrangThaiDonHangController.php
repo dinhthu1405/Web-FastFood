@@ -126,7 +126,7 @@ class TrangThaiDonHangController extends Controller
         $trangThaiDonHang = TrangThaiDonHang::find($id);
         $trangThaiDonHang->trang_thai = 0;
         $trangThaiDonHang->save();
-        // $trangThaiDonHang->monAns()->update(['mon_ans.trang_thai' => 0]);
+        $trangThaiDonHang->donHangs()->update(['don_hangs.trang_thai' => 0]);
         return Redirect::route('trangThaiDonHang.index');
     }
 }

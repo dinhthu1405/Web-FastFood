@@ -16,7 +16,7 @@ class CreateMonAnsTable extends Migration
         Schema::create('mon_ans', function (Blueprint $table) {
             $table->id();
             $table->string('ten_mon');
-            $table->double('don_gia');
+            $table->decimal('don_gia', 9, 3);
             $table->integer('so_luong');
             $table->string('tinh_trang')->nullable()->default(1);
             $table->unsignedBigInteger('dia_diem_id')->nullable(); //khoá ngoại

@@ -41,7 +41,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" name="images" accept="image/*"
+                                <input type="file" class="form-control" name="images[]" accept="image/*"
                                     onchange="loadFile(event)" id="exampleFormControlInput1" placeholder="Hình ảnh" />
                             </div>
                             <div class="mb-3">

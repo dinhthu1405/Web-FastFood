@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\User;
 use App\Models\HinhAnh;
 
@@ -49,21 +52,9 @@ class AuthController extends Controller
             ]
         );
         $user_data = (['email' => $request->email, 'password' => $request->password, 'trang_thai' => 1]);
-        // $user = User::all()->where('trang_thai', 0);
-        // $user=Auth::check();
-        //  dd($user);
-        //     if($user){
-        //         Auth::logout();
-
-        //         $request->session()->invalidate();
-
-        //         $request->session()->regenerateToken();
-
-        //         return back()->with('error', 'Tài khoản của bạn đã bị khóa, hãy liên hệ với Admin.');
-
-        // }else
         if (Auth::attempt($user_data) && Auth::user()->phan_loai_tai_khoan == 1) {
             $request->session()->regenerate();
+            // $request->session()->put('loginId', Auth::user()->id);
             return redirect('/home')->with('success', 'Đăng nhập thành công');
         } else {
             return back()->with('error', 'Đăng nhập không thành công');
@@ -111,7 +102,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // $cookie = Cookie::forget('XSRF-TOKEN');
         Auth::logout();
+        // $this->guard()->logout();
+        // $this->cookie($this->recaller(), null, -2000);
+        Session::flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');

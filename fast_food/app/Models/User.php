@@ -72,12 +72,12 @@ class User extends Authenticatable
 
     public function donHangs()
     {
-        return $this->hasMany(DonHang::class, 'id');
+        return $this->hasMany(DonHang::class);
     }
 
     public function danhGias()
     {
-        return $this->hasMany(DanhGia::class, 'id');
+        return $this->hasMany(DanhGia::class);
     }
 
     public function binhLuans()
@@ -85,8 +85,13 @@ class User extends Authenticatable
         return $this->hasMany(BinhLuan::class);
     }
 
-    public function diemMuaHang()
+    public function diemMuaHangs()
     {
-        return $this->belongsTo(DiemMuaHang::class);
+        return $this->hasMany(DiemMuaHang::class);
+    }
+
+    public function getId($model, $table, $value)
+    {
+        return $model::where($table, $value)->first()->user_id;
     }
 }

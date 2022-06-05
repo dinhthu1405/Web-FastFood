@@ -29,7 +29,7 @@ class MonAn extends Model
 
     public function loaiMonAn()
     {
-        return $this->belongsTo(LoaiMonAn::class);
+        return $this->belongsTo(LoaiMonAn::class, 'id');
     }
 
     public function diaDiem()

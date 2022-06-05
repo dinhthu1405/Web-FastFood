@@ -38,7 +38,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Tên loại</th>
-                            <th>Chỉnh sửa</th>
+                            {{-- <th>Chỉnh sửa</th> --}}
                             <th>Xoá</th>
                         </tr>
                     </thead>
@@ -51,9 +51,9 @@
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong>{{ $loaiMonAn->ten_loai }}</strong>
                             </td>
-                            <td><a href="{{ route('loaiMonAn.edit', $loaiMonAn->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                        <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                            <td> <a href="{{ route('loaiMonAn.xoa', $loaiMonAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá loại món ăn này, vì nó có thể ảnh hưởng đến món ăn')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                            {{-- <td><a href="{{ route('loaiMonAn.edit', $loaiMonAn->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                        <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
+                            <td> <a href="{{ route('loaiMonAn.xoa', $loaiMonAn->id) }}" onclick="return confirm('Bạn có chắc muốn xoá loại món ăn này, vì nó có thể ảnh hưởng đến món ăn; đánh giá và bình luận')"><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-trash me-1"></i> </button></a></td>
                         </tr>
                     </tbody>

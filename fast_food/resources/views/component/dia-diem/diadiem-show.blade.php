@@ -159,7 +159,7 @@
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                     <td> <a href="{{ route('diaDiem.xoa', $diaDiem->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá địa điểm này, vì nó có thể ảnh hưởng đến món ăn')"><button
+                                            onclick="return confirm('Bạn có chắc muốn xoá địa điểm này, vì nó có thể ảnh hưởng đến món ăn; đánh giá và bình luận')"><button
                                                 type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
                                                 data-bs-target="#modalCenter-Edit">

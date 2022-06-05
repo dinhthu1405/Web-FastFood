@@ -55,7 +55,7 @@
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                         {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
-                                    <td>{{ $donHang->tong_tien }}</td>                                    
+                                    <td>{{ number_format($donHang->tong_tien) }}</td>                                  
                                     @foreach ($lstTaiKhoan as $taiKhoan)
                                     @if($donHang->nguoi_giao_hang_id == $taiKhoan->id )
                                     

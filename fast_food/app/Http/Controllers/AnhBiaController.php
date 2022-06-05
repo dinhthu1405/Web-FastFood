@@ -20,8 +20,8 @@ class AnhBiaController extends Controller
     public function index()
     {
         //
-        $lstAnhBia=AnhBia::all()->where('trang_thai',1);
-        $lstHinhAnh=HinhAnh::all()->where('trang_thai',1);
+        $lstAnhBia = AnhBia::all()->where('trang_thai', 1);
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         return view('component/anh-bia/anhbia-show', compact('lstAnhBia', 'lstHinhAnh'));
     }
 
@@ -33,8 +33,8 @@ class AnhBiaController extends Controller
     public function create()
     {
         //
-        $lstMonAn=MonAn::all()->where('trang_thai',1);
-        return view('component/anh-bia/anhbia-create',compact('lstMonAn'));
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        return view('component/anh-bia/anhbia-create', compact('lstMonAn'));
     }
 
     /**
@@ -80,7 +80,6 @@ class AnhBiaController extends Controller
             }
         }
         return Redirect::route('anhBias.index')->with('success', 'Thêm ảnh bìa thành công');
-
     }
 
     /**
@@ -103,8 +102,8 @@ class AnhBiaController extends Controller
     public function edit(AnhBia $anhBia)
     {
         //
-        $lstMonAn=MonAn::all()->where('trang_thai',1);
-        return view('component/anh-bia/anhbia-edit',compact('anhBia','lstMonAn'));
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        return view('component/anh-bia/anhbia-edit', compact('anhBia', 'lstMonAn'));
     }
 
     /**

@@ -67,7 +67,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleDataList" class="form-label">Đơn giá</label>
-                            <input type="number" name="DonGia" class="form-control" min="1" id="exampleFormControlInput1" placeholder="Đơn giá" />
+                            <input type="text" name="DonGia" class="form-control format_number" min="1" id="" placeholder="Đơn giá" />
 
                         </div>
                         <div class="mb-3">
@@ -91,5 +91,7 @@
         var previewImage = document.getElementById('preview-image');
         previewImage.src = URL.createObjectURL(event.target.files[0]);
     };
+
 </script>
+
 @endsection
