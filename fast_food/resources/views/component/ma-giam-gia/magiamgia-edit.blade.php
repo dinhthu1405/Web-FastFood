@@ -36,11 +36,28 @@
                                     placeholder="Tên mã giảm giá" value="{{ $maGiamGium->ten_ma }}" />
                             </div>
                             <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Số lượng</label>
+                                <input type="number" name="SoLuong" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Số lượng" value="{{ $maGiamGium->so_luong }}" />
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-time-input" class="form-label">Ngày bắt đầu</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="NgayBatDau" type="datetime-local" id="html5-datetime-local-input" value="{{ date('Y-m-d\TH:i', strtotime($maGiamGium->ngay_bat_dau)) }}">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-time-input" class="form-label">Ngày kết thúc</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="NgayKetThuc" type="datetime-local" id="html5-datetime-local-input" value="{{ date('Y-m-d\TH:i', strtotime($maGiamGium->ngay_ket_thuc)) }}">
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Loại giảm giá</label>
                                 <select class="form-select" name="LoaiGiamGia" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
                                     @foreach ($lstLoaiGiamGia as $loaiGiamGia)
-                                        <option value="{{ $loaiGiamGia->id }}" @if ($loaiGiamGia->id == $maGiamGium->loai_giam_gia_id)  @endif>
+                                        <option value="{{ $loaiGiamGia->id }}" @if ($loaiGiamGia->id == $maGiamGium->loai_giam_gia_id) selected @endif>
                                             {{ $loaiGiamGia->ten_loai_giam_gia }}
                                         </option>
                                     @endforeach

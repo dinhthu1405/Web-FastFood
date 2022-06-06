@@ -34,6 +34,23 @@
                                     placeholder="Tên mã giảm giá" />
                             </div>
                             <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Số lượng</label>
+                                <input type="number" name="SoLuong" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Số lượng" />
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-time-input" class="form-label">Ngày bắt đầu</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="NgayBatDau" type="datetime-local" id="html5-datetime-local-input">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-time-input" class="form-label">Ngày kết thúc</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="NgayKetThuc" type="datetime-local" id="html5-datetime-local-input">
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Loại giảm giá</label>
                                 <select class="form-select" name="LoaiGiamGia" id="exampleFormControlSelect1" aria-label="Default select example">
                                     <option selected>-- Chọn loại giảm giá --</option>

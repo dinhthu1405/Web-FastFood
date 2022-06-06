@@ -20,7 +20,7 @@ class BinhLuanController extends Controller
     public function index()
     {
         //
-        $lstBinhLuan = BinhLuan::all()->where('trang_thai', 1);
+        $lstBinhLuan = BinhLuan::all();
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
         return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan'));
@@ -148,8 +148,14 @@ class BinhLuanController extends Controller
     public function xoa($id)
     {
         $binhLuan = BinhLuan::find($id);
-        $binhLuan->trang_thai = 0;
-        $binhLuan->save();
-        return Redirect::route('binhLuan.index');
+        if ($binhLuan->trang_thai == 0) {
+            $binhLuan->trang_thai = 1;
+            $binhLuan->save();
+            return Redirect::route('binhLuan.index');
+        } else {
+            $binhLuan->trang_thai = 0;
+            $binhLuan->save();
+            return Redirect::route('binhLuan.index');
+        }
     }
 }

@@ -38,32 +38,63 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên mã</th>
+                                <th>Số lượng</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
                                 <th>Loại giảm giá</th>
                                 <th>Chỉnh sửa</th>
-                                <th>Xoá</th>
+                                <th>Khoá - Mở</th>
                             </tr>
                         </thead>
                         <?php $count = 1; ?>
                         @foreach ($lstMaGiamGia as $maGiamGia)
-                            <tbody class="table-border-bottom-0">
+                        @if ($maGiamGia->trang_thai == 0)
+                            <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
                                 <tr>
                                     <td> {{ $count++ }} </td>
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                         <strong>{{ $maGiamGia->ten_ma }}</strong>
                                     </td>
+                                    <td>{{ $maGiamGia->so_luong }}</td>
+                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
                                     <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
                                     <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                     <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá mã giảm giá này')"><button
+                                            onclick="return confirm('Bạn có chắc muốn mở khoá mã giảm giá này')"><button
                                                 type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
                                                 data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-trash me-1"></i> </button></a></td>
                                 </tr>
                             </tbody>
+                            @else
+                            <tbody class="table-border-bottom-0">
+                                <tr>
+                                    <td> {{ $count++ }} </td>
+                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                        <strong>{{ $maGiamGia->ten_ma }}</strong>
+                                    </td>
+                                    <td>{{ $maGiamGia->so_luong }}</td>
+                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
+                                    <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
+                                    <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button type="button"
+                                                id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
+                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"
+                                            onclick="return confirm('Bạn có chắc muốn khoá mã giảm giá này')"><button
+                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                data-target="#modal-edit" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter-Edit">
+                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                </tr>
+                            </tbody>
+                            @endif
                         @endforeach
                     </table>
                 </div>
