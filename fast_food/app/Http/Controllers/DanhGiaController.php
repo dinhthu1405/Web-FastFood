@@ -21,7 +21,7 @@ class DanhGiaController extends Controller
     public function index()
     {
         //
-        $lstDanhGia = DanhGia::all()->where('trang_thai', 1);
+        $lstDanhGia = DanhGia::all();
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
         $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
@@ -153,8 +153,14 @@ class DanhGiaController extends Controller
     public function xoa($id)
     {
         $danhGia = DanhGia::find($id);
-        $danhGia->trang_thai = 0;
-        $danhGia->save();
-        return Redirect::route('danhGia.index');
+        if ($danhGia->trang_thai == 0) {
+            $danhGia->trang_thai = 1;
+            $danhGia->save();
+            return Redirect::route('danhGia.index');
+        } else {
+            $danhGia->trang_thai = 0;
+            $danhGia->save();
+            return Redirect::route('danhGia.index');
+        }
     }
 }

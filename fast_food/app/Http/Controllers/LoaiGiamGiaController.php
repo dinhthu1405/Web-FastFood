@@ -43,11 +43,10 @@ class LoaiGiamGiaController extends Controller
         $this->validate(
             $request,
             [
-                'TenLoaiMaGiamGia' => 'required|unique:loai_giam_gias,ten_loai_giam_gia',
+                'TenLoaiMaGiamGia' => 'required',
             ],
             [
                 'TenLoaiMaGiamGia.required' => 'Bạn chưa nhập tên loại mã giảm giá',
-                'TenLoaiMaGiamGia.unique' => 'Tên mã giảm giá đã tồn tại',
             ]
         );
         $loaiGiamGia = new LoaiGiamGia();
@@ -55,9 +54,14 @@ class LoaiGiamGiaController extends Controller
             'ten_loai_giam_gia' => $request->input('TenLoaiMaGiamGia'),
         ]);
         // dd($request->input('TenLoaiMaGiamGia'));
-        $loaiGiamGia->save();
-
-        return Redirect::route('loaiGiamGia.index')->with('success', 'Thêm loại mã giảm giá thành công');
+        $ktLoaiMaGiamGia = LoaiGiamGia::all()->where('ten_loai_giam_gia', $request->input('TenLoaiMaGiamGia'))->where('trang_thai', 1)->first();
+        // dd($ktMonAn);
+        if ($ktLoaiMaGiamGia) {
+            return Redirect::back()->with('error', 'Tên loại giảm giá đã tồn tại');
+        } else {
+            $loaiGiamGia->save();
+            return Redirect::route('loaiGiamGia.index')->with('success', 'Thêm loại mã giảm giá thành công');
+        }
     }
 
     /**

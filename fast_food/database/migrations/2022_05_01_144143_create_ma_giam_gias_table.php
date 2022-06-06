@@ -18,7 +18,7 @@ class CreateMaGiamGiasTable extends Migration
             $table->string('ten_ma');
             $table->integer('so_luong');
             $table->datetime('ngay_bat_dau');
-            $table->datetime('ngay_bat_ket_thuc');
+            $table->datetime('ngay_ket_thuc');
             $table->unsignedBigInteger('loai_giam_gia_id')->nullable(); //khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();

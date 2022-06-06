@@ -19,7 +19,7 @@ class MaGiamGiaController extends Controller
     public function index()
     {
         //
-        $lstMaGiamGia = MaGiamGia::all()->where('trang_thai', 1);
+        $lstMaGiamGia = MaGiamGia::all();
         return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia'));
     }
 
@@ -47,23 +47,39 @@ class MaGiamGiaController extends Controller
         $this->validate(
             $request,
             [
-                'TenMaGiamGia' => 'required|unique:ma_giam_gias,ten_ma',
+                'TenMaGiamGia' => 'required',
                 'LoaiGiamGia' => 'required',
+                'SoLuong' => 'required',
+                'NgayBatDau' => 'required',
+                'NgayKetThuc' => 'required',
             ],
             [
                 'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
-                'TenMaGiamGia.unique' => 'Tên mã giảm giá đã tồn tại',
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
+                'SoLuong.required' => 'Bạn chưa nhập số lượng',
+                'NgayBatDau.required' => 'Bạn chưa nhập ngày bắt đầu',
+                'NgayKetThuc.required' => 'Bạn chưa nhập ngày kết thúc',
             ]
         );
         $maGiamGia = new MaGiamGia();
         $maGiamGia->fill([
             'ten_ma' => $request->input('TenMaGiamGia'),
+            'so_luong' => $request->input('SoLuong'),
+            'ngay_bat_dau' => $request->input('NgayBatDau'),
+            'ngay_ket_thuc' => $request->input('NgayKetThuc'),
             'loai_giam_gia_id' => $request->input('LoaiGiamGia'),
         ]);
 
-        $maGiamGia->save();
-        return redirect()->route('maGiamGia.index')->with('success', 'Thêm mã giảm giá thành công');
+        $ktMaGiamGia = MaGiamGia::all()->where('ten_ma', $request->input('TenMaGiamGia'))->where('trang_thai', 1)->where('loai_giam_gia_id', $request->input('LoaiGiamGia'))->first();
+        // dd($maGiamGia);
+        if ($ktMaGiamGia) {
+            return Redirect::back()->with('error', 'Tên mã giảm giá đã tồn tại');
+        } else if ($request->input('NgayBatDau') > $request->input('NgayKetThuc')) {
+            return Redirect::back()->with('error', 'Ngày kết thúc phải lớn hơn ngày bắt đầu');
+        } else {
+            $maGiamGia->save();
+            return Redirect::route('maGiamGia.index')->with('success', 'Thêm mã giảm giá thành công');
+        }
     }
 
     /**
@@ -86,8 +102,8 @@ class MaGiamGiaController extends Controller
     public function edit(MaGiamGia $maGiamGium)
     {
         //
-        $lstLoaiGiamGia=LoaiGiamGia::all()->where('trang_thai',1);
-        return view('component.ma-giam-gia.magiamgia-edit', compact('maGiamGium','lstLoaiGiamGia'));
+        $lstLoaiGiamGia = LoaiGiamGia::all()->where('trang_thai', 1);
+        return view('component.ma-giam-gia.magiamgia-edit', compact('maGiamGium', 'lstLoaiGiamGia'));
     }
 
     /**
@@ -103,22 +119,37 @@ class MaGiamGiaController extends Controller
         $this->validate(
             $request,
             [
-                'TenMaGiamGia' => 'required|unique:ma_giam_gias,ten_ma',
+                'TenMaGiamGia' => 'required',
                 'LoaiGiamGia' => 'required',
+                'SoLuong' => 'required',
+                'NgayBatDau' => 'required',
+                'NgayKetThuc' => 'required',
             ],
             [
                 'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
-                'TenMaGiamGia.unique' => 'Tên mã giảm giá đã tồn tại',
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
+                'SoLuong.required' => 'Bạn chưa nhập số lượng',
+                'NgayBatDau.required' => 'Bạn chưa nhập ngày bắt đầu',
+                'NgayKetThuc.required' => 'Bạn chưa nhập ngày kết thúc',
             ]
         );
         $maGiamGium->fill([
             'ten_ma' => $request->input('TenMaGiamGia'),
+            'so_luong' => $request->input('SoLuong'),
+            'ngay_bat_dau' => $request->input('NgayBatDau'),
+            'ngay_ket_thuc' => $request->input('NgayKetThuc'),
             'loai_giam_gia_id' => $request->input('LoaiGiamGia'),
         ]);
 
-        $maGiamGium->save();
-        return redirect()->route('maGiamGia.index')->with('success', 'Sửa mã giảm giá thành công');
+        $ktMaGiamGia = MaGiamGia::all()->where('ten_ma', $request->input('TenMaGiamGia'))->where('trang_thai', 1)->where('loai_giam_gia_id', $request->input('LoaiGiamGia'))->first();
+        if ($ktMaGiamGia) {
+            return Redirect::back()->with('error', 'Tên mã giảm giá đã tồn tại');
+        } else if ($request->input('NgayBatDau') > $request->input('NgayKetThuc')) {
+            return Redirect::back()->with('error', 'Ngày kết thúc phải lớn hơn ngày bắt đầu');
+        } else {
+            $maGiamGium->save();
+            return Redirect::route('maGiamGia.index')->with('success', 'Sửa mã giảm giá thành công');
+        }
     }
 
     /**
@@ -135,8 +166,14 @@ class MaGiamGiaController extends Controller
     public function xoa($id)
     {
         $maGiamGia = MaGiamGia::find($id);
-        $maGiamGia->trang_thai = 0;
-        $maGiamGia->save();
-        return Redirect::route('maGiamGia.index');
+        if ($maGiamGia->trang_thai == 0) {
+            $maGiamGia->trang_thai = 1;
+            $maGiamGia->save();
+            return Redirect::route('maGiamGia.index');
+        } else {
+            $maGiamGia->trang_thai = 0;
+            $maGiamGia->save();
+            return Redirect::route('maGiamGia.index');
+        }
     }
 }

@@ -42,11 +42,48 @@
                                         <th>Người dùng</th>     
                                         <th>Món ăn</th>                         
                                         <th>Địa điểm</th>
-                                        <th>Xoá</th>
+                                        <th>Khoá - Mở</th>
                                     </tr>
                                 </thead>
                                 <?php $count = 1; ?>
                                 @foreach ($lstDanhGia as $danhGia)
+                                @if ($danhGia->trang_thai == 0)
+                                    <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
+                                        <tr>
+                                            <td> {{ $count++ }} </td>
+                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                {{ $danhGia->danh_gia_sao }}
+                                            </td>
+                                            @if($danhGia->noi_dung == null)
+                                                <td></td>
+                                            @else
+                                                <td>{{ $danhGia->noi_dung }}</td>
+                                            @endif
+                                            @if($danhGia->user_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->user->email }}</td>
+                                            @endif
+                                            @if($danhGia->mon_an_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->monAn->ten_mon }}</td>
+                                            @endif
+                                            @if($danhGia->dia_diem_id == null)
+                                            <td></td>
+                                            @else
+                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
+                                            @endif                                                                               
+                                            
+                                            <td> <a href="{{ route('danhGia.xoa', $danhGia->id) }}"
+                                                    onclick="return confirm('Bạn có chắc muốn mở khoá đánh giá này')"><button
+                                                        type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                        data-target="#modal-edit" data-bs-toggle="modal"
+                                                        data-bs-target="#modalCenter-Edit">
+                                                        <i class="bx bx-trash me-1"></i> </button></a></td>
+                                        </tr>
+                                    </tbody>
+                                    @else
                                     <tbody class="table-border-bottom-0">
                                         <tr>
                                             <td> {{ $count++ }} </td>
@@ -75,13 +112,14 @@
                                             @endif                                                                               
                                             
                                             <td> <a href="{{ route('danhGia.xoa', $danhGia->id) }}"
-                                                    onclick="return confirm('Bạn có chắc muốn xoá đánh giá này')"><button
+                                                    onclick="return confirm('Bạn có chắc muốn khoá đánh giá này')"><button
                                                         type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
                                                         <i class="bx bx-trash me-1"></i> </button></a></td>
                                         </tr>
                                     </tbody>
+                                    @endif
                                 @endforeach
                             </table>
                         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app', ['pageId' => ''])
 
-@section('title', 'Trang chi tiết điểm mua hàng')
+@section('title', 'Trang quản lí điểm mua hàng')
 @section('content')
     <div class="content-wrapper">
         <!-- Content -->
