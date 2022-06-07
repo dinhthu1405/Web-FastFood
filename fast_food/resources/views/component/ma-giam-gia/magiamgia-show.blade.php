@@ -63,12 +63,11 @@
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn mở khoá mã giảm giá này')"><button
+                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
                                                 type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
                                                 data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                                <i class="bx bx-lock-open me-1"></i> </button></a></td>
                                 </tr>
                             </tbody>
                             @else
@@ -86,12 +85,11 @@
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn khoá mã giảm giá này')"><button
+                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
                                                 type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
                                                 data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                                <i class="bx bx-lock me-1"></i> </button></a></td>
                                 </tr>
                             </tbody>
                             @endif

@@ -27,8 +27,8 @@ class DiemMuaHang extends Model
         return $this->belongsTo(DiemMuaHang::class, 'user_id', 'id');
     }
 
-    public function donHang()
+    public function donHangs()
     {
-        return $this->hasMany(DonHang::class, 'don_hang_id', 'id');
+        return $this->hasMany(DonHang::class, 'id');
     }
 }
