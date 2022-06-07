@@ -91,12 +91,11 @@
                                         @if ($taiKhoan->phan_loai_tai_khoan == 1)
                                             <td></td>
                                         @else
-                                            <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"
-                                                    onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản này')"><button
+                                            <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"><button
                                                         type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
-                                                        <i class="bx bx-trash me-1"></i> </button></a></td>
+                                                        <i class="bx bx-lock-open me-1"></i> </button></a></td>
                                         @endif
                                     </tr>
                                 </tbody>
@@ -141,12 +140,11 @@
                                                     data-target="#modal-edit" data-bs-toggle="modal"
                                                     data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                        <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"
-                                                onclick="return confirm('Bạn có chắc muốn khóa tài khoản này, vì nó sẽ ảnh hưởng đến đơn hàng; đánh giá; bình luận và điểm mua hàng ')"><button
+                                        <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"><button
                                                     type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                     data-target="#modal-edit" data-bs-toggle="modal"
                                                     data-bs-target="#modalCenter-Edit">
-                                                    <i class="bx bx-trash me-1"></i> </button></a></td>
+                                                    <i class="bx bx-lock me-1"></i> </button></a></td>
                                     @endif
 
                                     @if (Auth::user()->phan_loai_tai_khoan == 2)
@@ -159,12 +157,11 @@
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
                                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                            <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"
-                                                    onclick="return confirm('Bạn có chắc muốn khóa tài khoản này')"><button
+                                            <td> <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"><button
                                                         type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
-                                                        <i class="bx bx-trash me-1"></i> </button></a></td>
+                                                        <i class="bx bx-lock me-1"></i> </button></a></td>
                                         @endif
                                     @endif
                                 </tbody>

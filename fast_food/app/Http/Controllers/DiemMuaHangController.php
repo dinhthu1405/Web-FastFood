@@ -22,8 +22,10 @@ class DiemMuaHangController extends Controller
         //
         $lstTaiKhoan = User::all()->where('trang_thai', 1);
         $lstDonHang = DonHang::all()->where('trang_thai', 1);
-        $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1);
-        return view('component/diem-mua-hang/diemmuahang-index', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan'));
+        $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1)->unique('user_id');
+        $lstCongDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->select('so_diem')->get()->diff('lstDiemMuaHang');
+        // dd($lstCongDiemMuaHang);
+        return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan', 'lstCongDiemMuaHang'));
     }
 
     /**

@@ -26,7 +26,7 @@ class DonHang extends Model
     ];
     public function trangThaiDonHang()
     {
-        return $this->belongsTo(TrangThaiDonhang::class, 'id');
+        return $this->belongsTo(TrangThaiDonhang::class);
     }
 
     public function user()
