@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -59,8 +60,38 @@ class User extends Authenticatable
         // $this->attributes['password'] = Crypt::decrypt($password); //Giải mã
     }
 
-    // public function hinhAnhs()
-    // {
-    //     return $this->hasMany(HinhAnh::class);
-    // }
+    public function hinhAnh()
+    {
+        return $this->hasOne(HinhAnh::class, 'id');
+    }
+
+    public function hinhAnhs()
+    {
+        return HinhAnh::all()->where('user_id', Auth::user()->id);
+    }
+
+    public function donHangs()
+    {
+        return $this->hasMany(DonHang::class);
+    }
+
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class);
+    }
+
+    public function binhLuans()
+    {
+        return $this->hasMany(BinhLuan::class);
+    }
+
+    public function diemMuaHangs()
+    {
+        return $this->hasMany(DiemMuaHang::class);
+    }
+
+    public function getId($model, $table, $value)
+    {
+        return $model::where($table, $value)->first()->user_id;
+    }
 }

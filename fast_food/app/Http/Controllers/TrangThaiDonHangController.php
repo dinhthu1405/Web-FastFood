@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TrangThaiDonHang;
 use App\Http\Requests\StoreTrangThaiDonHangRequest;
 use App\Http\Requests\UpdateTrangThaiDonHangRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TrangThaiDonHangController extends Controller
 {
@@ -16,6 +18,8 @@ class TrangThaiDonHangController extends Controller
     public function index()
     {
         //
+        $lstTrangThaiDonHang = TrangThaiDonhang::all()->where('trang_thai', 1);
+        return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang'));
     }
 
     /**
@@ -26,6 +30,7 @@ class TrangThaiDonHangController extends Controller
     public function create()
     {
         //
+        return view('component.trang-thai-don-hang.trangthaidonhang-create');
     }
 
     /**
@@ -34,9 +39,25 @@ class TrangThaiDonHangController extends Controller
      * @param  \App\Http\Requests\StoreTrangThaiDonHangRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTrangThaiDonHangRequest $request)
+    public function store(Request $request)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenTrangThaiDonHang' => 'required|unique:trang_thai_don_hangs,ten_trang_thai',
+            ],
+            [
+                'TenTrangThaiDonHang.required' => 'Bạn chưa nhập tên trạng thái đơn hàng',
+                'TenTrangThaiDonHang.unique' => 'Tên trạng thái đơn hàng đã tồn tại',
+            ]
+        );
+        $trangThaiDonHang = new TrangThaiDonHang();
+        $trangThaiDonHang->fill([
+            'ten_trang_thai' => $request->input('TenTrangThaiDonHang'),
+        ]);
+        $trangThaiDonHang->save();
+        return Redirect::route('trangThaiDonHang.index')->with('success', 'Thêm trạng thái đơn hàng thành công');
     }
 
     /**
@@ -59,6 +80,7 @@ class TrangThaiDonHangController extends Controller
     public function edit(TrangThaiDonHang $trangThaiDonHang)
     {
         //
+        return view('component/trang-thai-don-hang/trangthaidonhang-edit', compact('trangThaiDonHang'));
     }
 
     /**
@@ -68,9 +90,24 @@ class TrangThaiDonHangController extends Controller
      * @param  \App\Models\TrangThaiDonHang  $trangThaiDonHang
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTrangThaiDonHangRequest $request, TrangThaiDonHang $trangThaiDonHang)
+    public function update(Request $request, TrangThaiDonHang $trangThaiDonHang)
     {
         //
+        $this->validate(
+            $request,
+            [
+                'TenTrangThaiDonHang' => 'required|unique:trang_thai_don_hangs,ten_trang_thai',
+            ],
+            [
+                'TenTrangThaiDonHang.required' => 'Bạn chưa nhập tên trạng thái đơn hàng',
+                'TenTrangThaiDonHang.unique' => 'Tên trạng thái đơn hàng đã tồn tại',
+            ]
+        );
+        $trangThaiDonHang->fill([
+            'ten_trang_thai' => $request->input('TenTrangThaiDonHang'),
+        ]);
+        $trangThaiDonHang->save();
+        return Redirect::route('trangThaiDonHang.index')->with('success', 'Sửa trạng thái đơn hàng thành công');
     }
 
     /**
@@ -82,5 +119,14 @@ class TrangThaiDonHangController extends Controller
     public function destroy(TrangThaiDonHang $trangThaiDonHang)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $trangThaiDonHang = TrangThaiDonHang::find($id);
+        $trangThaiDonHang->trang_thai = 0;
+        $trangThaiDonHang->save();
+        $trangThaiDonHang->donHangs()->update(['don_hangs.trang_thai' => 0]);
+        return Redirect::route('trangThaiDonHang.index');
     }
 }

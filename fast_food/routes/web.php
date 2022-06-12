@@ -1,11 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MonAnController;
 use App\Http\Controllers\DiaDiemController;
 use App\Http\Controllers\LoaiMonAnController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChiTietDonHangController;
+use App\Http\Controllers\DonHangController;
+use App\Http\Controllers\DanhGiaController;
+use App\Http\Controllers\BinhLuanController;
+use App\Http\Controllers\TrangThaiDonHangController;
+use App\Http\Controllers\MaGiamGiaController;
+use App\Http\Controllers\LoaiGiamGiaController;
+use App\Http\Controllers\AnhBiaController;
+use App\Http\Controllers\DiemMuaHangController;
 use App\Http\Controllers\SinglePageController;
 
 /*
@@ -29,16 +40,31 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middl
 Route::resource('monAn', MonAnController::class)->middleware('auth');
 Route::resource('loaiMonAn', LoaiMonAnController::class)->middleware('auth');
 Route::resource('diaDiem', DiaDiemController::class)->middleware('auth');
-Route::get('/diaDiem', [DiaDiemController::class, 'index'])->name('diaDiem.index')->middleware('auth');
-Route::post('/diaDiem', [DiaDiemController::class, 'store'])->name('diaDiem.store')->middleware('auth');
-Route::get('/diaDiem/sua/{id}', [DiaDiemController::class, 'edit'])->name('diaDiem.edit')->middleware('auth');
-Route::post('/diaDiem/sua/{id}', [DiaDiemController::class, 'update'])->name('diaDiem.update')->middleware('auth');
-// Route::post('/diaDiem/them', 'DiaDiemController@store')->middleware('auth');
+Route::resource('taiKhoan', UserController::class)->middleware('auth');
+Route::resource('donHang', DonHangController::class)->middleware('auth');
+Route::resource('trangThaiDonHang', TrangThaiDonHangController::class)->middleware('auth');
+Route::resource('chiTietDonHang', ChiTietDonHangController::class)->middleware('auth');
+Route::resource('danhGia', DanhGiaController::class)->middleware('auth');
+Route::resource('binhLuan', BinhLuanController::class)->middleware('auth');
+Route::resource('maGiamGia', MaGiamGiaController::class)->middleware('auth');
+Route::resource('loaiGiamGia', LoaiGiamGiaController::class)->middleware('auth');
+// Route::resource('anhBia', AnhBiaController::class)->middleware('auth');
+Route::resource('anhBias', AnhBiaController::class)->middleware('auth');
+Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth');
 
 //Xoá dữ liệu
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
 Route::get('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');
 Route::get('/monAn/xoa/{id}', [MonAnController::class, 'xoa'])->name('monAn.xoa')->middleware('auth');
+Route::get('/taiKhoan/khoa_mo/{id}', [UserController::class, 'khoa_mo'])->name('taiKhoan.khoa_mo')->middleware('auth');
+Route::get('/trangThaiDonHang/xoa/{id}', [TrangThaiDonHangController::class, 'xoa'])->name('trangThaiDonHang.xoa')->middleware('auth');
+Route::get('/donHang/xoa/{id}', [DonHangController::class, 'xoa'])->name('donHang.xoa')->middleware('auth');
+Route::get('/danhGia/xoa/{id}', [DanhGiaController::class, 'xoa'])->name('danhGia.xoa')->middleware('auth');
+Route::get('/binhLuan/xoa/{id}', [BinhLuanController::class, 'xoa'])->name('binhLuan.xoa')->middleware('auth');
+Route::get('/maGiamGia/xoa/{id}', [MaGiamGiaController::class, 'xoa'])->name('maGiamGia.xoa')->middleware('auth');
+Route::get('/loaiGiamGia/xoa/{id}', [LoaiGiamGiaController::class, 'xoa'])->name('loaiGiamGia.xoa')->middleware('auth');
+Route::get('/anhBias/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBias.xoa')->middleware('auth');
+Route::get('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
 
 //Tìm kiếm
 Route::post('/monAn/search/', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
@@ -53,4 +79,8 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'checkRegister'])->name('checkRegister');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'checkLogin'])->name('checkLogin');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

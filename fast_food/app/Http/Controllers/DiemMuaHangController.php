@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiemMuaHang;
+use App\Models\User;
+use App\Models\DonHang;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDiemMuaHangRequest;
 use App\Http\Requests\UpdateDiemMuaHangRequest;
 
@@ -16,6 +20,12 @@ class DiemMuaHangController extends Controller
     public function index()
     {
         //
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        $lstDonHang = DonHang::all()->where('trang_thai', 1);
+        $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1)->unique('user_id');
+        $lstCongDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->select('so_diem')->get()->diff('lstDiemMuaHang');
+        // dd($lstCongDiemMuaHang);
+        return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan', 'lstCongDiemMuaHang'));
     }
 
     /**
@@ -82,5 +92,13 @@ class DiemMuaHangController extends Controller
     public function destroy(DiemMuaHang $diemMuaHang)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $diemMuaHang = DiemMuaHang::find($id);
+        $diemMuaHang->trang_thai = 0;
+        $diemMuaHang->save();
+        return Redirect::route('diemMuaHang.index');
     }
 }

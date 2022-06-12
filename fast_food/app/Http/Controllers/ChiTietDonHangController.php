@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChiTietDonHang;
+use App\Models\DonHang;
 use App\Http\Requests\StoreChiTietDonHangRequest;
 use App\Http\Requests\UpdateChiTietDonHangRequest;
 
@@ -45,9 +46,15 @@ class ChiTietDonHangController extends Controller
      * @param  \App\Models\ChiTietDonHang  $chiTietDonHang
      * @return \Illuminate\Http\Response
      */
-    public function show(ChiTietDonHang $chiTietDonHang)
+    public function show($id)
     {
         //
+        $donHang = DonHang::select('id')->where('trang_thai', 1)->get();
+
+        // if ($donHang == $chiTietDonHang) {
+        //     return view('component/chi-tiet-don-hang/chitietdonhang-show', compact('chiTietDonHang'));
+        // }
+        return view('component/chi-tiet-don-hang/chitietdonhang-show', compact('donHang'));
     }
 
     /**

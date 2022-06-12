@@ -29,7 +29,7 @@ class MonAn extends Model
 
     public function loaiMonAn()
     {
-        return $this->belongsTo(LoaiMonAn::class);
+        return $this->belongsTo(LoaiMonAn::class, 'id');
     }
 
     public function diaDiem()
@@ -40,5 +40,25 @@ class MonAn extends Model
     public function hinhAnhs()
     {
         return $this->hasMany(HinhAnh::class);
+    }
+
+    public function chiTietDonHang()
+    {
+        return $this->belongsTo(ChiTietDonHang::class);
+    }
+
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class);
+    }
+
+    public function binhLuans()
+    {
+        return $this->hasMany(BinhLuan::class);
+    }
+
+    public function anhBias()
+    {
+        return $this->hasMany(AnhBia::class);
     }
 }

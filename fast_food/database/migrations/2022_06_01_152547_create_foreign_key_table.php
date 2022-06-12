@@ -32,6 +32,7 @@ class CreateForeignKeyTable extends Migration
         Schema::table('don_hangs', function (Blueprint $table) {
             $table->foreign('trang_thai_don_hang_id')->references('id')->on('trang_thai_don_hangs');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('nguoi_giao_hang_id')->references('id')->on('users');
         });
         Schema::table('chi_tiet_don_hangs', function (Blueprint $table) {
             $table->foreign('don_hang_id')->references('id')->on('don_hangs');
@@ -40,6 +41,7 @@ class CreateForeignKeyTable extends Migration
         Schema::table('lich_su_mua_hangs', function (Blueprint $table) {
             $table->foreign('don_hang_id')->references('id')->on('don_hangs');
             $table->foreign('trang_thai_don_hang_id')->references('id')->on('trang_thai_don_hangs');
+            $table->foreign('mon_an_id')->references('id')->on('mon_ans');
         });
         Schema::table('danh_gias', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
@@ -52,6 +54,9 @@ class CreateForeignKeyTable extends Migration
         // Schema::table('nguoi_giao_hangs', function (Blueprint $table) {
         //     $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
         // });
+        Schema::table('ma_giam_gias', function (Blueprint $table) {
+            $table->foreign('loai_giam_gia_id')->references('id')->on('loai_giam_gias');
+        });
         Schema::table('anh_bias', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
         });

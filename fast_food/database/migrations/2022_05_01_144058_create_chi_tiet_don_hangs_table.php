@@ -15,7 +15,7 @@ class CreateChiTietDonHangsTable extends Migration
     {
         Schema::create('chi_tiet_don_hangs', function (Blueprint $table) {
             $table->id();
-            $table->double('don_gia');
+            $table->decimal('don_gia', 9, 3);
             $table->integer('so_luong');
             $table->double('thanh_tien');
             $table->unsignedBigInteger('don_hang_id')->nullable();//khoá ngoại
