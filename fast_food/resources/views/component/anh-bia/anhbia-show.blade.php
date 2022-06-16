@@ -43,7 +43,7 @@
                                 <th>Xoá</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstAnhBia->perPage() * ($lstAnhBia->currentPage() - 1) + 1; ?>
                         @foreach ($lstAnhBia as $anhBia)
                             <tbody class="table-border-bottom-0">
                                 <tr>
@@ -53,22 +53,23 @@
                                     </td>
                                     @foreach ($lstHinhAnh as $hinhAnh)
                                         @if ($anhBia->id == $hinhAnh->anh_bia_id)
-                                        {{-- <button type="button" id="btn-image" class="btn btn-success py-2 mb-4" data-target="#modal-add"
+                                            {{-- <button type="button" id="btn-image" class="btn btn-success py-2 mb-4" data-target="#modal-add"
                                         data-bs-toggle="modal" data-bs-target="#modalCenter">
 
                                         </button> --}}
-                                        <td><img style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}" id="btn-image" data-target="#modal-add"
-                                            data-bs-toggle="modal" data-bs-target="#modalCenter" alt="">
-                                    </td>
-                                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                            <img style="vertical-align: middle; height: 50%; "
-                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">                                            
+                                            <td><img style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" id="btn-image"
+                                                    data-target="#modal-add" data-bs-toggle="modal"
+                                                    data-bs-target='#modalCenter{{ $count }}' alt="">
+                                            </td>
+                                            <div class="modal fade" id="modalCenter{{ $count }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <img style="vertical-align: middle; height: 50%; "
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         @endif
                                     @endforeach
                                     <td><a href="{{ route('anhBias.edit', $anhBia->id) }}"><button type="button"
@@ -84,6 +85,22 @@
                             </tbody>
                         @endforeach
                     </table>
+                    @if ($lstAnhBia->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstAnhBia->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

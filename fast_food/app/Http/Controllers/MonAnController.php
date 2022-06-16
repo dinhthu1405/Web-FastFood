@@ -30,7 +30,8 @@ class MonAnController extends Controller
         //     ->width(412)
         //     ->height(412)
         //     ->sharpen(10);
-        $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
+        // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
+        $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
         return view('component/mon-an/monan-show', compact('lstMonAn'));
     }
 

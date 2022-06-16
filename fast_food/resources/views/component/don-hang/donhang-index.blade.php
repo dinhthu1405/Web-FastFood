@@ -38,7 +38,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Ngày lập đơn hàng</th>
-                                <th>Tổng tiền</th>                                
+                                <th>Tổng tiền</th>
                                 <th>Người giao hàng</th>
                                 <th>Người đặt</th>
                                 <th>Trạng thái đơn hàng</th>
@@ -47,7 +47,7 @@
                                 <th>Xoá</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstDonHang->perPage() * ($lstDonHang->currentPage() - 1) + 1; ?>
                         @foreach ($lstDonHang as $donHang)
                             <tbody class="table-border-bottom-0">
                                 <tr>
@@ -55,24 +55,22 @@
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                         {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
-                                    <td>{{ number_format($donHang->tong_tien) }}</td>                                  
+                                    <td>{{ number_format($donHang->tong_tien) }}</td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)
-                                    @if($donHang->nguoi_giao_hang_id == $taiKhoan->id )
-                                    
-                                    <td>{{ $taiKhoan->email }}</td>                                                                
-                                @endif
+                                        @if ($donHang->nguoi_giao_hang_id == $taiKhoan->id)
+                                            <td>{{ $taiKhoan->email }}</td>
+                                        @endif
                                     @endforeach
                                     @foreach ($lstTaiKhoan as $taiKhoan)
-                                    @if($donHang->user_id == $taiKhoan->id )
-                                    
-                                    <td>{{ $taiKhoan->email }}</td>                                                                
-                                @endif
-                                    @endforeach                                 
+                                        @if ($donHang->user_id == $taiKhoan->id)
+                                            <td>{{ $taiKhoan->email }}</td>
+                                        @endif
+                                    @endforeach
                                     <td>{{ $donHang->trangThaiDonHang->ten_trang_thai }}</td>
                                     <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
-                                        id="btn-edit" class="btn btn-info py-2 mb-4" data-target="#modal-edit"
-                                        data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                        <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                                id="btn-edit" class="btn btn-info py-2 mb-4" data-target="#modal-edit"
+                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                     <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
@@ -87,6 +85,22 @@
                             </tbody>
                         @endforeach
                     </table>
+                    @if ($lstDonHang->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstDonHang->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

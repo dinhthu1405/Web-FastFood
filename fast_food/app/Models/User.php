@@ -90,8 +90,4 @@ class User extends Authenticatable
         return $this->hasMany(DiemMuaHang::class);
     }
 
-    public function getId($model, $table, $value)
-    {
-        return $model::where($table, $value)->first()->user_id;
-    }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\MaGiamGiaController;
 use App\Http\Controllers\LoaiGiamGiaController;
 use App\Http\Controllers\AnhBiaController;
 use App\Http\Controllers\DiemMuaHangController;
+use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\SinglePageController;
 
 /*
@@ -51,6 +52,12 @@ Route::resource('loaiGiamGia', LoaiGiamGiaController::class)->middleware('auth')
 // Route::resource('anhBia', AnhBiaController::class)->middleware('auth');
 Route::resource('anhBias', AnhBiaController::class)->middleware('auth');
 Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth');
+Route::resource('thongKe', ThongKeController::class)->middleware('auth');
+
+//Thống kê
+// Route::get('/thongKe/thongKeDonHang/{thongKe}', [ThongKeController::class, 'thongKeDonHang'])->name('thongKe.thongKeDonHang')->middleware('auth');
+Route::get('/thongKe/thongKeDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
+Route::get('/thongKe/thongKeTrangThaiDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
 
 //Xoá dữ liệu
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');

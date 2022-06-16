@@ -21,7 +21,7 @@ class DanhGiaController extends Controller
     public function index()
     {
         //
-        $lstDanhGia = DanhGia::all();
+        $lstDanhGia = DanhGia::paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
         $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);

@@ -67,49 +67,49 @@
                     </div>
                     <!-- Modal Sửa -->
                     <!-- <div class="modal fade" id="modalCenter-Edit" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <form action="" id="form-edit" method="post" enctype="multipart/form-data">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalCenterTitle">Sửa địa điểm</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            {!! @csrf_field() !!}
-                                            <ul id="saveform-errList"></ul>
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput1" class="form-label">Tên địa
-                                                        điểm</label>
-                                                    <input type="text" name="TenDiaDiemEdit" class="form-control" id="TenDiaDiem" placeholder="Tên địa điểm"/>
-                                                </div>
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="col mb-0">
-                                                    <label for="thoiGianMo" class="form-label">Thời gian mở</label>
-                                                    <input type="time" id="ThoiGianMoEdit" name="ThoiGianMo" class="form-control" value="12:30" />
-                                                </div>
-                                                <div class="col mb-0">
-                                                    <label for="thoiGianDong" class="form-label">Thời gian đóng</label>
-                                                    <input type="time" id="ThoiGianDongEdit" name="ThoiGianDong" class="form-control" value="13:30" />
-                                                </div>
-                                            </div>
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <form action="" id="form-edit" method="post" enctype="multipart/form-data">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalCenterTitle">Sửa địa điểm</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {!! @csrf_field() !!}
+                                                            <ul id="saveform-errList"></ul>
+                                                            <div class="row">
+                                                                <div class="mb-3">
+                                                                    <label for="exampleFormControlInput1" class="form-label">Tên địa
+                                                                        điểm</label>
+                                                                    <input type="text" name="TenDiaDiemEdit" class="form-control" id="TenDiaDiem" placeholder="Tên địa điểm"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row g-2">
+                                                                <div class="col mb-0">
+                                                                    <label for="thoiGianMo" class="form-label">Thời gian mở</label>
+                                                                    <input type="time" id="ThoiGianMoEdit" name="ThoiGianMo" class="form-control" value="12:30" />
+                                                                </div>
+                                                                <div class="col mb-0">
+                                                                    <label for="thoiGianDong" class="form-label">Thời gian đóng</label>
+                                                                    <input type="time" id="ThoiGianDongEdit" name="ThoiGianDong" class="form-control" value="13:30" />
+                                                                </div>
+                                                            </div>
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                                Đóng
-                                            </button>
-                                            <button type="submit" id="btn-save-edit" value="edit" class="btn btn-primary">Sửa
-                                                địa
-                                                điểm</button>
-                                            <input type="hidden" id="todo_id" name="todo_id" value="0">
-                                        </div>
-                                    </form>
-                                </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                                Đóng
+                                                            </button>
+                                                            <button type="submit" id="btn-save-edit" value="edit" class="btn btn-primary">Sửa
+                                                                địa
+                                                                điểm</button>
+                                                            <input type="hidden" id="todo_id" name="todo_id" value="0">
+                                                        </div>
+                                                    </form>
+                                                </div>
 
-                            </div>
-                        </div> -->
+                                            </div>
+                                        </div> -->
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                                 <th>Xoá</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstDiaDiem->perPage() * ($lstDiaDiem->currentPage() - 1) + 1; ?>
                         @foreach ($lstDiaDiem as $diaDiem)
                             <tbody id="todos-list" class="table-border-bottom-0">
                                 <tr>
@@ -153,7 +153,7 @@
                                     <td>{{ $diaDiem->thoi_gian_mo }}</td>
                                     <td>{{ $diaDiem->thoi_gian_dong }}</td>
                                     <!-- <td><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                            <i class="bx bx-edit-alt me-1"></i> </button></td> -->
+                                                            <i class="bx bx-edit-alt me-1"></i> </button></td> -->
                                     <td><a href="{{ route('diaDiem.edit', $diaDiem->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
@@ -168,6 +168,22 @@
                             </tbody>
                         @endforeach
                     </table>
+                    @if ($lstDiaDiem->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstDiaDiem->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
         </div>

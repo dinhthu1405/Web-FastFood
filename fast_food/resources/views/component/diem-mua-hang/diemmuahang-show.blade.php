@@ -51,12 +51,13 @@
                                 <tr>
                                     <td> {{ $count++ }} </td>
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        @if ($diemMuaHang->count('user_id') > 0)
-                                            <strong>{{ $diemMuaHang->sum('so_diem') }}</strong>
-                                        @else
-                                            <strong>{{ $diemMuaHang->so_diem }}</strong>
-                                        @endif
-
+                                        @foreach ($lstDonHang as $donHang)
+                                            @if ($diemMuaHang->user_id == $donHang->user_id)
+                                                <strong>{{ $diemMuaHang->sum('so_diem') }}</strong>
+                                            @else
+                                                <strong>{{ $diemMuaHang->so_diem }}</strong>
+                                            @endif
+                                        @endforeach
                                     </td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)
                                         @if ($diemMuaHang->user_id == $taiKhoan->id)

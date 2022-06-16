@@ -16,12 +16,12 @@ class LoaiMonAnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $lstLoaiMonAn = LoaiMonAn::all()->where('trang_thai', 1);
+        $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->paginate(5);
 
-        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn'));
+        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
     }
 
     public function search(Request $request)
@@ -29,9 +29,9 @@ class LoaiMonAnController extends Controller
         // Get the search value from the request
         $search = $request->input('search');
         // Search in the title and body columns from the posts table
-        $lstLoaiMonAn = LoaiMonAn::where('ten_loai', 'LIKE', '%' . $search . '%')->get();
+        $lstLoaiMonAn = LoaiMonAn::where('ten_loai', 'LIKE', '%' . $search . '%')->paginate(5);
         // return $lstDiaDanh;
-        return view('component/loai-mon-an/loaimonan-show', ['lstLoaiMonAn' => $lstLoaiMonAn]);
+        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
     }
 
     /**

@@ -20,7 +20,7 @@ class BinhLuanController extends Controller
     public function index()
     {
         //
-        $lstBinhLuan = BinhLuan::all();
+        $lstBinhLuan = BinhLuan::paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
         return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan'));
