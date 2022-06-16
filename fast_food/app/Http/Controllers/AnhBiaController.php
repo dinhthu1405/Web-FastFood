@@ -20,7 +20,7 @@ class AnhBiaController extends Controller
     public function index()
     {
         //
-        $lstAnhBia = AnhBia::all()->where('trang_thai', 1);
+        $lstAnhBia = AnhBia::where('trang_thai', 1)->paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         return view('component/anh-bia/anhbia-show', compact('lstAnhBia', 'lstHinhAnh'));
     }
@@ -145,7 +145,7 @@ class AnhBiaController extends Controller
                 ]);
             }
             foreach ($request->file('images') as $file) {
-                $images = $file->store('images/mon_an/' . $anhBia->id, 'public');
+                $images = $file->store('images/anh_bia/' . $anhBia->id, 'public');
 
                 HinhAnh::insert([
                     'duong_dan' => $images,

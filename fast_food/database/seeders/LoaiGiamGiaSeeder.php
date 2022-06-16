@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class BinhLuanSeeder extends Seeder
+class LoaiGiamGiaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,11 +16,8 @@ class BinhLuanSeeder extends Seeder
     {
         //
         for ($i = 1; $i <= 25; $i++) {
-            DB::table('binh_luans')->insert([
-                'noi_dung' => Str::random(10),
-                'thoi_gian' => '2022-12-12',
-                'mon_an_id' => '1',
-                'user_id' => '2',
+            DB::table('loai_giam_gias')->insert([
+                'ten_loai_giam_gia' => 'Khuyến mãi ' . $i,
             ]);
         }
     }

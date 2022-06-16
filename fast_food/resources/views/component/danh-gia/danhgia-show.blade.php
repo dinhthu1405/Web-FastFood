@@ -38,14 +38,13 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Đánh giá sao</th>
-                                <th>Nội dung</th>
                                 <th>Người dùng</th>
                                 <th>Món ăn</th>
                                 <th>Địa điểm</th>
                                 <th>Khoá - Mở</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstDanhGia->perPage() * ($lstDanhGia->currentPage() - 1) + 1; ?>
                         @foreach ($lstDanhGia as $danhGia)
                             @if ($danhGia->trang_thai == 0)
                                 <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
@@ -54,11 +53,6 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             {{ $danhGia->danh_gia_sao }}
                                         </td>
-                                        @if ($danhGia->noi_dung == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->noi_dung }}</td>
-                                        @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
                                         @else
@@ -88,11 +82,6 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             {{ $danhGia->danh_gia_sao }}
                                         </td>
-                                        @if ($danhGia->noi_dung == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->noi_dung }}</td>
-                                        @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
                                         @else
@@ -118,6 +107,22 @@
                             @endif
                         @endforeach
                     </table>
+                    @if ($lstDanhGia->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstDanhGia->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

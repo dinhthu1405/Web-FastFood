@@ -8,7 +8,8 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('anhBias.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Sửa ảnh bìa</h4>
+            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('anhBias.index') }}"><span class="text-muted fw-light">Danh sách
+                        /</span></a> Sửa ảnh bìa</h4>
             @if (Session::has('success'))
                 <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
             @endif
@@ -35,7 +36,8 @@
                                 <select class="form-select" name="TenMon" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
                                     @foreach ($lstMonAn as $monAn)
-                                        <option value="{{ $monAn->id }}" @if ($monAn->id == $anhBia->mon_an_id)  @endif>
+                                        <option value="{{ $monAn->id }}"
+                                            @if ($monAn->id == $anhBia->mon_an_id) selected @endif>
                                             {{ $monAn->ten_mon }}
                                         </option>
                                     @endforeach

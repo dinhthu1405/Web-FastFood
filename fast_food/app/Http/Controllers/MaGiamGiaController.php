@@ -19,7 +19,7 @@ class MaGiamGiaController extends Controller
     public function index()
     {
         //
-        $lstMaGiamGia = MaGiamGia::all();
+        $lstMaGiamGia = MaGiamGia::paginate(5);
         return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia'));
     }
 

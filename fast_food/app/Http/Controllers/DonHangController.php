@@ -21,7 +21,7 @@ class DonHangController extends Controller
     public function index()
     {
         //
-        $lstDonHang = DonHang::all()->where('trang_thai', 1);
+        $lstDonHang = DonHang::where('trang_thai', 1)->paginate(5);
         $lstTaiKhoan = User::all();
         // // dd($taiKhoan);
         // $i = 0;
@@ -72,7 +72,7 @@ class DonHangController extends Controller
     public function show($id)
     {
         //
-        $lstChiTietDonHang = ChiTietDonHang::all()->where('trang_thai', 1)->where('don_hang_id', $id);
+        $lstChiTietDonHang = ChiTietDonHang::where('trang_thai', 1)->where('don_hang_id', $id)->paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn'));
     }

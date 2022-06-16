@@ -41,6 +41,6 @@ class DonHang extends Model
 
     public function diemMuaHang()
     {
-        return $this->belongsTo(DiemMuaHang::class);
+        return $this->belongsTo(DiemMuaHang::class, 'id');
     }
 }

@@ -21,7 +21,7 @@ class DiaDiemController extends Controller
     public function index()
     {
         //
-        $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
+        $lstDiaDiem = DiaDiem::where('trang_thai', 1)->paginate(5);
         return view('component/dia-diem/diadiem-show', compact('lstDiaDiem'));
     }
 
