@@ -17,12 +17,11 @@
                             Trạng Thái Đơn Hàng</button></a>
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('trangThaiDonHang.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <input class="form-control" type="search" name="search" required value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>

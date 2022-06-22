@@ -18,6 +18,7 @@ class CreateDonHangsTable extends Migration
             $table->dateTime('ngay_lap_dh');
             $table->double('tong_tien');
             $table->string('loai_thanh_toan');
+            $table->string('dia_chi')->nullable();
             $table->unsignedBigInteger('trang_thai_don_hang_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('nguoi_giao_hang_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('user_id')->nullable(); //khoá ngoại

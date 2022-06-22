@@ -18,14 +18,26 @@ class DanhGiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstDanhGia = DanhGia::paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
         $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
-        return view('component/danh-gia/danhgia-show', compact('lstDanhGia', 'lstMonAn', 'lstTaiKhoan', 'lstDiaDiem'));
+        return view('component/danh-gia/danhgia-show', compact('lstDanhGia', 'lstMonAn', 'lstTaiKhoan', 'lstDiaDiem', 'request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstDanhGia = DanhGia::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('danh_gia_sao', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
+        $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
+        return view('component/danh-gia/danhgia-show', compact('lstDanhGia', 'lstMonAn', 'lstTaiKhoan', 'lstDiaDiem', 'request'));
     }
 
     /**

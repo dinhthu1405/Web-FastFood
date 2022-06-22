@@ -151,7 +151,8 @@
                         </a>
                     </li>
                     <!-- Mã giảm giá -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span></li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span>
+                    </li>
                     <!-- Loại mã giảm giá -->
                     <li
                         class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
@@ -192,7 +193,13 @@
                     <!-- Thống kê -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Thống kê</span>
                     </li>
-                    <li class="menu-item">
+                    <li
+                        class="menu-item {{ request()->is('thongKe*') || request()->is('thongKe*') ? 'active' : '' }}">
+                        <a href="{{ route('thongKe.index') }}" class="menu-link">
+                            <div data-i18n="Vertical Form">Thống kê đơn hàng</div>
+                        </a>
+                    </li>
+                    {{-- <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-detail"></i>
                             <div data-i18n="Form Layouts">Thống kê</div>
@@ -209,6 +216,15 @@
                                 </a>
                             </li>
                         </ul>
+                    </li> --}}
+                    <!-- Đăng xuất -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Đăng xuất</span>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="{{ route('logout') }}">
+                            <i class="menu-icon tf-icons bx bx-power-off"></i>
+                            <div>Đăng xuất</div>
+                        </a>
                     </li>
                 </ul>
             </aside>
@@ -230,8 +246,8 @@
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                                    aria-label="Search..." />
+                                <input type="text" class="form-control border-0 shadow-none"
+                                    placeholder="Search..." aria-label="Search..." />
                             </div>
                         </div>
                         <!-- /Search -->

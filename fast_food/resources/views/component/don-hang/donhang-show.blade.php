@@ -8,20 +8,23 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('chiTietDonHang.index') }}"><span
-                                class="text-muted fw-light">Danh sách /</span></a> Chi tiết đơn hàng/</span> Basic Tables
+                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('donHang.index') }}"><span
+                                class="text-muted fw-light">Danh sách đơn hàng / </span></a><a
+                            href="{{ route('donHang.show', $id) }}"><span class="text-muted fw-dark">Chi tiết
+                                đơn hàng</a></span>
                     </h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('donHang.searchChiTietDonHang') }}" method="GET">
                 <label>Tìm kiếm</label>
+                <input type="hidden" name="id" value="{{ $id }}" />
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <input class="form-control" type="search" name="search" required
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
@@ -83,7 +86,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstChiTietDonHang->links() }}
+                                            {{ $lstChiTietDonHang->appends($request->except('page'))->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->

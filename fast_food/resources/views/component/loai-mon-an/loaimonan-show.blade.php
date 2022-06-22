@@ -8,7 +8,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh sách</span></h4>
+                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('loaiMonAn.index') }}"><span
+                                class="text-muted fw-light">Danh sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
@@ -16,8 +17,7 @@
                             loại món ăn</button></a>
                 </div>
             </div>
-            <form action="{{ route('loaiMonAn.search') }}" method="POST">
-                {{ csrf_field() }}
+            <form action="{{ route('loaiMonAn.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
