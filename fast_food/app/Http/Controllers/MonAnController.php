@@ -18,7 +18,7 @@ class MonAnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //resize hình
         // $this->addMediaConversion('thumb')
@@ -32,7 +32,7 @@ class MonAnController extends Controller
         //     ->sharpen(10);
         // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
-        return view('component/mon-an/monan-show', compact('lstMonAn'));
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request'));
     }
 
     public function images($id)
@@ -48,9 +48,14 @@ class MonAnController extends Controller
         // Get the search value from the request
         $search = $request->input('search');
         // Search in the title and body columns from the posts table
-        $lstMonAn = MonAn::where('ten_mon', 'LIKE', '%' . $search . '%')->get();
-        // return $lstDiaDanh;
-        return view('component/mon-an/monan-show', ['lstMonAn' => $lstMonAn]);
+        $lstMonAn = MonAn::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_mon', 'LIKE', '%' . $search . '%')
+                ->orWhere('don_gia', 'LIKE', '%' . $search . '%')
+                ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+                ->orWhere('tinh_trang', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        // dd($lstMonAn);
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request'));
     }
 
     /**

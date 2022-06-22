@@ -11,13 +11,14 @@
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a
                                 href="{{ route('thongKe.index') }}">Danh sách</a></span></h4>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                </div>
                 <div class="col-md-2">
                 </div>
             </div>
-            <form action="{{ route('loaiMonAn.search') }}" method="POST">
+            {{-- <form action="{{ route('loaiMonAn.search') }}" method="POST">
                 {{ csrf_field() }}
-                {{-- <label>Tìm kiếm</label> --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -33,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> --}}
             <br />
             {{-- <form action="{{ route('thongKe.show', ['thongKe' => 5]) }}" id="form-thongKe" method="GET"
                 class="form-inline"> --}}
@@ -69,11 +70,13 @@
                             <select class="form-select" name="ThongKe" id="thongKe" aria-label="Default select example"
                                 onchange="getThongKe(this)">
                                 <option value="0">-- Hãy chọn một loại thống kê --</option>
-                                {{-- <option value="1" {{ $value == 1 ? 'selected' : '' }}>Thống kê theo ngày/tháng/năm
+                                <option value="1" {{ $value == 1 ? 'selected' : '' }}>Thống kê theo ngày/tháng/năm
                                 </option>
-                                <option value="2" {{ $value == 2 ? 'selected' : '' }}>Thống kê ngày hiện tại</option>
+                                <option value="2" {{ $value == 2 ? 'selected' : '' }}>Thống kê ngày hiện tại
+                                </option>
                                 <option value="3" {{ $value == 3 ? 'selected' : '' }}>Thống kê ngày hôm qua</option>
-                                <option value="4" {{ $value == 4 ? 'selected' : '' }}>Thống kê tuần hiện tại</option>
+                                <option value="4" {{ $value == 4 ? 'selected' : '' }}>Thống kê tuần hiện tại
+                                </option>
                                 <option value="5" {{ $value == 5 ? 'selected' : '' }}>Thống kê tuần trước</option>
                                 <option value="6" {{ $value == 6 ? 'selected' : '' }}>Thống kê tháng hiện tại
                                 </option>
@@ -82,7 +85,7 @@
                                 <option value="9" {{ $value == 9 ? 'selected' : '' }}>Thống kê đơn hàng có tổng tiền
                                     lớn
                                     nhất</option>
-                                <option value="10" {{ $value == 10 ? 'selected' : '' }}>Thống kê đơn hàng chưa nhận
+                                {{-- <option value="10" {{ $value == 10 ? 'selected' : '' }}>Thống kê đơn hàng chưa nhận
                                 </option>
                                 <option value="11" {{ $value == 11 ? 'selected' : '' }}>Thống kê đơn hàng đã nhận
                                 </option>
@@ -94,8 +97,12 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for=""></label>
+                            <button type="submit" class="form-control btn btn-primary">Thống kê</button>
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for=""></label>
                             <select class="form-select" name="LoaiThongKe" id="loaiThongKe"
-                                aria-label="Default select example" onchange="loaiThongKeChange(this);">
+                                aria-label="Default select example">
                                 <option value="0">-- Chọn loại để thống kê --</option>
                                 <option value="1" {{ $value_loai == 1 ? 'selected' : '' }}>Thống kê đơn hàng
                                 </option>
@@ -103,12 +110,22 @@
                                     hàng
                                 </option>
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <button type="submit" class="form-control btn btn-primary">Thống kê</button>
+                            <a href="{{ route('thongKe.exportExcel', [$tu_ngay, $den_ngay, $thongKe, $topDH]) }}"
+                                type="button" class="form-control btn btn-primary"><img style="width: 50%"
+                                    src="../assets/img/icons/unicons/excel.png" alt="Credit Card" class="rounded" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <a href="{{ route('thongKe.exportPDF', [$tu_ngay, $den_ngay, $thongKe, $topDH]) }}" type="button"
+                                class="form-control btn btn-primary"><img style="width: 50%"
+                                    src="../assets/img/icons/unicons/pdf.png" alt="Credit Card" class="rounded" /></a>
                         </div>
                     </div>
                 </div>
@@ -122,12 +139,14 @@
                         <thead class="table-light">
                             <tr>
                                 <th>STT</th>
-                                <th>Ngày lập đơn hàng</th>
+                                <th>Ngày lập</th>
                                 <th>Tổng tiền</th>
                                 <th>Người giao hàng</th>
                                 <th>Người đặt</th>
-                                <th>Trạng thái đơn hàng</th>
-                                <th>Chi tiết đơn hàng</th>
+                                <th>Địa chỉ</th>
+                                <th>Phương thức</th>
+                                <th>Trạng thái</th>
+                                <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <?php $count = $lstDonHang->perPage() * ($lstDonHang->currentPage() - 1) + 1; ?>
@@ -135,7 +154,7 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                    <td>
                                         {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
                                     <td>{{ number_format($donHang->tong_tien) }}</td>
@@ -149,10 +168,59 @@
                                             <td>{{ $taiKhoan->email }}</td>
                                         @endif
                                     @endforeach
-                                    {{-- <td>{{ $donHang->trangThaiDonHang->ten_trang_thai }}</td> --}}
+                                    @foreach ($lstTaiKhoan as $taiKhoan)
+                                        @if ($donHang->user_id == $taiKhoan->id)
+                                            <td>{{ $taiKhoan->dia_chi }}</td>
+                                        @endif
+                                    @endforeach
+                                    <td>{{ $donHang->loai_thanh_toan }}</td>
                                     @foreach ($lstTrangThaiDonHang as $trangThaiDonHang)
                                         @if ($donHang->trang_thai_don_hang_id == $trangThaiDonHang->id)
-                                            <td>{{ $trangThaiDonHang->ten_trang_thai }}</td>
+                                            <td> @switch($donHang->trang_thai_don_hang_id)
+                                                    @case(1)
+                                                        <span
+                                                            class="badge bg-label-warning me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(2)
+                                                        <span
+                                                            class="badge bg-label-secondary me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(3)
+                                                        <span
+                                                            class="badge bg-label-dark me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(4)
+                                                        <span
+                                                            class="badge bg-label-warning me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(5)
+                                                        <span
+                                                            class="badge bg-label-info me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(6)
+                                                        <span
+                                                            class="badge bg-label-primary me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(7)
+                                                        <span
+                                                            class="badge bg-label-danger me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @case(8)
+                                                        <span
+                                                            class="badge bg-label-success me-1">{{ $trangThaiDonHang->ten_trang_thai }}</span>
+                                                    @break
+
+                                                    @default
+                                                        {{ $trangThaiDonHang->ten_trang_thai }}
+                                                @endswitch
+                                            </td>
                                         @endif
                                     @endforeach
                                     <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
@@ -197,7 +265,8 @@
             loaiThongKe["1"] = ["Thống kê theo ngày / tháng / năm", "Thống kê ngày hiện tại",
                 "Thống kê theo ngày hôm qua", "Thống kê theo tuần hiện tại", "Thống kê theo tuần trước",
                 "Thống kê theo tháng hiện tại", "Thống kê theo tháng trước", "Thống kê theo năm hiện tại",
-                "Thống kê theo top các đơn hàng lớn nhất"];
+                "Thống kê theo top các đơn hàng lớn nhất"
+            ];
             loaiThongKe["2"] = ["Thống kê đơn hàng chưa nhận", "Thống kê đơn hàng đã nhận"];
             /* CountryChange() is called from the onchange event of a select element. 
              * param selectObj - the select object which fired the on change event. 

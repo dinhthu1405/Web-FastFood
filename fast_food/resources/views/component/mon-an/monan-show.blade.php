@@ -16,8 +16,7 @@
                             món ăn</button></a>
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('monAn.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
@@ -90,7 +89,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstMonAn->links() }}
+                                            {{ $lstMonAn->appends($request->except('page'))->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->

@@ -15,11 +15,18 @@ class TrangThaiDonHangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstTrangThaiDonHang = TrangThaiDonhang::where('trang_thai', 1)->paginate(5);
-        return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang'));
+        return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang', 'request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstTrangThaiDonHang = TrangThaiDonHang::where('trang_thai', 1)->where('ten_trang_thai', 'LIKE', "%{$search}%")->paginate(5);
+        return view('component/trang-thai-don-hang/trangthaidonhang-show', compact('lstTrangThaiDonHang', 'request'));
     }
 
     /**

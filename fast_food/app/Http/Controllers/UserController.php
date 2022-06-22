@@ -44,7 +44,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $lstTaiKhoan = User::all();
+        $lstTaiKhoan = User::paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         // foreach ($lstTaiKhoan as $taiKhoan) {
         //     foreach ($lstHinhAnh as $hinhAnh)
@@ -69,6 +69,20 @@ class UserController extends Controller
         // }
         // $lstHinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->get();
         // dd($lstHinhAnh);
+        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
+    }
+
+    public function search(Request $request)
+    {
+        // Get the search value from the request
+        $search = $request->input('search');
+        $lstTaiKhoan = User::where('email', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('ho_ten', 'like', '%' . $search . '%')
+            ->orWhere('sdt', 'like', '%' . $search . '%')
+            ->orWhere('ngay_sinh', 'like', '%' . $search . '%')
+            ->orWhere('dia_chi', 'like', '%' . $search . '%')->paginate(5);
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
     }
 

@@ -27,10 +27,12 @@ class LoaiMonAnController extends Controller
     public function search(Request $request)
     {
         // Get the search value from the request
-        $search = $request->input('search');
+        $search = $request->search;
         // Search in the title and body columns from the posts table
-        $lstLoaiMonAn = LoaiMonAn::where('ten_loai', 'LIKE', '%' . $search . '%')->paginate(5);
-        // return $lstDiaDanh;
+        $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_loai', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        // dd($lstLoaiMonAn);
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
     }
 

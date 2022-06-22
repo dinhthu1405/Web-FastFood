@@ -18,12 +18,13 @@ class DiemMuaHangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstTaiKhoan = User::all()->where('trang_thai', 1);
         $lstDonHang = DonHang::all()->where('trang_thai', 1);
-        $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1)->unique('user_id');
+        // $lstDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->unique('user_id');
+        $lstDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->paginate(5);
         // $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1);
         // $diemMuaHang = DiemMuaHang::where('trang_thai', 1)->unique('user_id');
         // $results = DiemMuaHang::whereIn('so_diem', function ($query) {
@@ -46,7 +47,19 @@ class DiemMuaHangController extends Controller
         // dd($testArray);
         // dd($a);
 
-        return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan'));
+        return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan', 'request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        $lstDonHang = DonHang::all()->where('trang_thai', 1);
+        $lstDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('so_diem', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+
+        return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan', 'request'));
     }
 
     /**

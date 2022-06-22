@@ -19,6 +19,7 @@ class DonHang extends Model
         'id',
         'ngay_lap_dh',
         'tong_tien',
+        'loai_thanh_toan',
         'trang_thai_don_hang_id',
         'nguoi_giao_hang_id',
         'user_id',

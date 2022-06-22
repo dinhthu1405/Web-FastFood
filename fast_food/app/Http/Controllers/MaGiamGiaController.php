@@ -16,11 +16,24 @@ class MaGiamGiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstMaGiamGia = MaGiamGia::paginate(5);
-        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia'));
+        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstMaGiamGia = MaGiamGia::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_ma', 'LIKE', '%' . $search . '%')
+            ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+            ->orWhere('ngay_bat_dau', 'LIKE', '%' . $search . '%')
+            ->orWhere('ngay_ket_thuc', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+
+        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
     }
 
     /**

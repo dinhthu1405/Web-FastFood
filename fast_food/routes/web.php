@@ -55,9 +55,13 @@ Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth')
 Route::resource('thongKe', ThongKeController::class)->middleware('auth');
 
 //Thống kê
+Route::get('/thongKe/xuatFilePDF/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportPDF'])->name('thongKe.exportPDF')->middleware('auth');
+Route::get('/thongKe/xuatFileExcel/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportExcel'])->name('thongKe.exportExcel')->middleware('auth');
+
 // Route::get('/thongKe/thongKeDonHang/{thongKe}', [ThongKeController::class, 'thongKeDonHang'])->name('thongKe.thongKeDonHang')->middleware('auth');
-Route::get('/thongKe/thongKeDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
-Route::get('/thongKe/thongKeTrangThaiDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
+// Route::get('/thongKe/thongKeDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
+// Route::get('/thongKe/thongKeTrangThaiDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
+// Route::get('/home', [HomeController::class, 'getTrangThaiDonHang'])->name('home.getTrangThaiDonHang')->middleware('auth');
 
 //Xoá dữ liệu
 Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
@@ -74,9 +78,18 @@ Route::get('/anhBias/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBias
 Route::get('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
 
 //Tìm kiếm
-Route::post('/monAn/search/', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
-Route::post('/loaiMonAn/search/', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
-Route::post('/diaDiem/search/', [DiaDiemController::class, 'search'])->name('diaDiem.search')->middleware('auth');
+Route::get('/timKiemMonAn', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
+Route::get('/timKiemLoaiMonAn', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
+Route::get('/timKiemDiaDiem', [DiaDiemController::class, 'search'])->name('diaDiem.search')->middleware('auth');
+Route::get('/timKiemTaiKhoan', [UserController::class, 'search'])->name('taiKhoan.search')->middleware('auth');
+Route::get('/timKiemDonHang', [DonHangController::class, 'searchDonHang'])->name('donHang.searchDonHang')->middleware('auth');
+Route::get('/timKiemChiTietDonHang', [DonHangController::class, 'searchChiTietDonHang'])->name('donHang.searchChiTietDonHang')->middleware('auth');
+Route::get('/timKiemTrangThaiDonHang', [TrangThaiDonHangController::class, 'search'])->name('trangThaiDonHang.search')->middleware('auth');
+Route::get('/timKiemDanhGia', [DanhGiaController::class, 'search'])->name('danhGia.search')->middleware('auth');
+Route::get('/timKiemBinhLuan', [BinhLuanController::class, 'search'])->name('binhLuan.search')->middleware('auth');
+Route::get('/timKiemLoaiGiamGia', [LoaiGiamGiaController::class, 'search'])->name('loaiGiamGia.search')->middleware('auth');
+Route::get('/timKiemMaGiamGia', [MaGiamGiaController::class, 'search'])->name('maGiamGia.search')->middleware('auth');
+Route::get('/timKiemDiemMuaHang', [DiemMuaHangController::class, 'search'])->name('diemMuaHang.search')->middleware('auth');
 
 //Hình ảnh
 Route::get('/monAn/images/{id}', [MonAnController::class, 'images'])->name('monAn.images')->middleware('auth');
@@ -86,7 +99,7 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'checkRegister'])->name('checkRegister');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'checkLogin'])->name('checkLogin');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Auth::routes();
 

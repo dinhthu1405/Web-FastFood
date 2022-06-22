@@ -18,11 +18,11 @@ class DonHangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstDonHang = DonHang::where('trang_thai', 1)->paginate(5);
-        $lstTaiKhoan = User::all();
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
         // // dd($taiKhoan);
         // $i = 0;
         // $n = 5;
@@ -39,7 +39,34 @@ class DonHangController extends Controller
         // }
         // dd($temp1);
         // dd($lstTaiKhoan);
-        return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan'));
+        return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan', 'request'));
+    }
+
+    public function searchDonHang(Request $request)
+    {
+        $search = $request->search;
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        $lstDonHang = DonHang::where('trang_thai', 1)
+            ->where(function ($query) use ($search) {
+                $query->where('ngay_lap_dh', 'LIKE', '%' . $search . '%')
+                    ->orWhere('tong_tien', 'LIKE', '%' . $search . '%')
+                    ->orWhere('loai_thanh_toan', 'LIKE', '%' . $search . '%');
+            })
+            ->paginate(5);
+        return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan', 'request'));
+    }
+
+    public function searchChiTietDonHang(Request $request)
+    {
+        $search = $request->search;
+        $id = $request->id;
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        $lstChiTietDonHang = ChiTietDonHang::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('don_gia', 'LIKE', '%' . $search . '%')
+                ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+                ->orWhere('thanh_tien', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        return view('component/don-hang/donHang-show', compact('lstChiTietDonHang', 'lstMonAn', 'request', 'id'));
     }
 
     /**
@@ -74,7 +101,7 @@ class DonHangController extends Controller
         //
         $lstChiTietDonHang = ChiTietDonHang::where('trang_thai', 1)->where('don_hang_id', $id)->paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
-        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn'));
+        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn', 'id'));
     }
 
     /**
@@ -110,4 +137,6 @@ class DonHangController extends Controller
     {
         //
     }
+
+
 }
