@@ -8,7 +8,7 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+        <h4 class="fw-bold py-3 mb-4"><a href="{{ route('monAn.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Thêm món ăn</h4>
         <form action="{{ route('monAn.store') }}" method="post" enctype="multipart/form-data">
             {!! @csrf_field() !!}
             @if (Session::has('success'))
@@ -67,7 +67,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleDataList" class="form-label">Đơn giá</label>
-                            <input type="number" name="DonGia" class="form-control" min="1" id="exampleFormControlInput1" placeholder="Đơn giá" />
+                            <input type="text" name="DonGia" class="form-control format_number" min="1" id="" placeholder="Đơn giá" />
 
                         </div>
                         <div class="mb-3">
@@ -91,5 +91,7 @@
         var previewImage = document.getElementById('preview-image');
         previewImage.src = URL.createObjectURL(event.target.files[0]);
     };
+
 </script>
+
 @endsection

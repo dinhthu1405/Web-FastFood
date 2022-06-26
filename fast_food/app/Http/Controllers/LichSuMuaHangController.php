@@ -16,6 +16,8 @@ class LichSuMuaHangController extends Controller
     public function index()
     {
         //
+        $lstLichSuMuaHang = LichSuMuaHang::all()->where('trang_thai', 1);
+        return view('component/lich-su-mua-hang/lichsumuahang-show', compact('lstLichSuMuaHang'));
     }
 
     /**

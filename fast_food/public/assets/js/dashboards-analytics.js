@@ -427,7 +427,7 @@
         width: 130,
         type: 'donut'
       },
-      labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
+      labels: ['Chờ xác nhận', 'Xác nhận giao', 'Chờ giao', 'Đang giao', 'Đã nhận', 'Xác nhận đã giao', 'Đơn hàng boom', 'Hoàn thành'],
       series: [85, 15, 50, 50],
       colors: [config.colors.primary, config.colors.secondary, config.colors.info, config.colors.success],
       stroke: {
