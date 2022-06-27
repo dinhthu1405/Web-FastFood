@@ -32,7 +32,7 @@
             <div class="card">
                 <h5 class="card-header">Danh sách đơn hàng</h5>
                 <div class="table-responsive text-nowrap">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th>STT</th>
@@ -45,7 +45,7 @@
                                 <th>Trạng thái</th>
                                 <th>Chi tiết</th>
                                 <th>Chỉnh sửa</th>
-                                <th>Xoá</th>                                
+                                <th>Xoá</th>
                             </tr>
                         </thead>
                         <?php $count = $lstDonHang->perPage() * ($lstDonHang->currentPage() - 1) + 1; ?>
@@ -54,7 +54,7 @@
                                 <tr>
                                     <td> {{ $count++ }} </td>
                                     <td>
-                                        {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
+                                        {{ date('d-m-Y H:i:s', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
                                     <td>{{ number_format($donHang->tong_tien) }}</td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)

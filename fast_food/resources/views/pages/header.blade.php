@@ -196,6 +196,7 @@
                     <li
                         class="menu-item {{ request()->is('thongKe*') || request()->is('thongKe*') ? 'active' : '' }}">
                         <a href="{{ route('thongKe.index') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-bar-chart-alt-2'></i>
                             <div data-i18n="Vertical Form">Thống kê đơn hàng</div>
                         </a>
                     </li>

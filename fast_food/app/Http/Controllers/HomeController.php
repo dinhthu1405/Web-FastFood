@@ -58,7 +58,6 @@ class HomeController extends Controller
         $lstDonHang = DonHang::all()->where('trang_thai', 1)->sortByDesc('ngay_lap_dh')->take(5);
         $trangThaiDonHang = DonHang::select()->where('trang_thai', 1)->get();
         $lstTaiKhoan = User::all();
-
         return view('home', compact('choXacNhan', 'xacNhanGiao', 'choGiao', 'dangGiao', 'daNhan', 'xacNhanDaGiao', 'donHangBoom', 'hoanThanh', 'tongDonHang', 'getTrangThaiDonHang', 'chartLabel', 'chartSeries', 'lstDonHang', 'lstTaiKhoan', 'hinhThucThanhToanThe', 'hinhThucThanhToanTienMat', 'tongTien', 'trangThaiDonHang'));
     }
 }

@@ -54,17 +54,19 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        {{ $chiTietDonHang->don_hang_id }}
-                                    </td>
+                                        <td>
+                                            {{ $chiTietDonHang->don_hang_id }}
+                                        </td>
                                     @foreach ($lstMonAn as $monAn)
                                         @if ($monAn->id == $chiTietDonHang->mon_an_id)
                                             <td>{{ $monAn->ten_mon }}</td>
+                                        @else
+                                            <td></td>
                                         @endif
                                     @endforeach
                                     <td>{{ number_format($chiTietDonHang->don_gia) }}</td>
                                     <td>{{ $chiTietDonHang->so_luong }}</td>
-                                    <td>{{ $chiTietDonHang->thanh_tien }}</td>
+                                    <td>{{ number_format($chiTietDonHang->thanh_tien) }}</td>
                                     {{-- <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
                                                         id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                         data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
