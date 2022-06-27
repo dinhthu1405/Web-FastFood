@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package dompdf
  * @link    http://dompdf.github.com/
@@ -37,7 +38,7 @@ class Style
      *
      * @var float
      */
-    static $default_font_size = 12;
+    static $default_font_size = 13;
 
     /**
      * Default line height, as a fraction of the font size.
@@ -73,8 +74,10 @@ class Style
      *
      * @var array
      */
-    static $vertical_align_keywords = ["baseline", "bottom", "middle", "sub",
-        "super", "text-bottom", "text-top", "top"];
+    static $vertical_align_keywords = [
+        "baseline", "bottom", "middle", "sub",
+        "super", "text-bottom", "text-top", "top"
+    ];
 
     /**
      * List of all block-level (outer) display types.
@@ -159,8 +162,10 @@ class Style
      *
      * @var array
      */
-    static $BORDER_STYLES = ["none", "hidden", "dotted", "dashed", "solid",
-        "double", "groove", "ridge", "inset", "outset"];
+    static $BORDER_STYLES = [
+        "none", "hidden", "dotted", "dashed", "solid",
+        "double", "groove", "ridge", "inset", "outset"
+    ];
 
     /**
      * Map of CSS shorthand properties and their corresponding sub-properties.
@@ -455,7 +460,7 @@ class Style
         if (!isset(self::$_defaults)) {
 
             // Shorthand
-            $d =& self::$_defaults;
+            $d = &self::$_defaults;
 
             // All CSS 2.1 properties, and their default values
             $d["azimuth"] = "center";
@@ -824,55 +829,33 @@ class Style
             // Legacy support for unitless values, not covered by spec. Might
             // want to restrict this to unitless `0` in the future
             $value = (float) $l;
-        }
-
-        elseif (($i = mb_stripos($l, "%")) !== false) {
+        } elseif (($i = mb_stripos($l, "%")) !== false) {
             $value = (float)mb_substr($l, 0, $i) / 100 * $ref_size;
-        }
-
-        elseif (($i = mb_stripos($l, "px")) !== false) {
+        } elseif (($i = mb_stripos($l, "px")) !== false) {
             $dpi = $this->_stylesheet->get_dompdf()->getOptions()->getDpi();
             $value = ((float)mb_substr($l, 0, $i) * 72) / $dpi;
-        }
-
-        elseif (($i = mb_stripos($l, "pt")) !== false) {
+        } elseif (($i = mb_stripos($l, "pt")) !== false) {
             $value = (float)mb_substr($l, 0, $i);
-        }
-
-        elseif (($i = mb_stripos($l, "rem")) !== false) {
+        } elseif (($i = mb_stripos($l, "rem")) !== false) {
             $root_style = $this->_stylesheet->get_dompdf()->getTree()->get_root()->get_style();
             $root_font_size = $root_style === null || $root_style === $this
                 ? $font_size
                 : $root_style->font_size;
             $value = (float)mb_substr($l, 0, $i) * $root_font_size;
-        }
-
-        elseif (($i = mb_stripos($l, "em")) !== false) {
+        } elseif (($i = mb_stripos($l, "em")) !== false) {
             $value = (float)mb_substr($l, 0, $i) * $font_size;
-        }
-
-        elseif (($i = mb_stripos($l, "cm")) !== false) {
+        } elseif (($i = mb_stripos($l, "cm")) !== false) {
             $value = (float)mb_substr($l, 0, $i) * 72 / 2.54;
-        }
-
-        elseif (($i = mb_stripos($l, "mm")) !== false) {
+        } elseif (($i = mb_stripos($l, "mm")) !== false) {
             $value = (float)mb_substr($l, 0, $i) * 72 / 25.4;
-        }
-
-        elseif (($i = mb_stripos($l, "ex")) !== false) {
+        } elseif (($i = mb_stripos($l, "ex")) !== false) {
             // FIXME: em:ex ratio?
             $value = (float)mb_substr($l, 0, $i) * $font_size / 2;
-        }
-
-        elseif (($i = mb_stripos($l, "in")) !== false) {
+        } elseif (($i = mb_stripos($l, "in")) !== false) {
             $value = (float)mb_substr($l, 0, $i) * 72;
-        }
-
-        elseif (($i = mb_stripos($l, "pc")) !== false) {
+        } elseif (($i = mb_stripos($l, "pc")) !== false) {
             $value = (float)mb_substr($l, 0, $i) * 12;
-        }
-
-        else {
+        } else {
             // Invalid or unsupported declaration
             $value = null;
         }
@@ -908,12 +891,12 @@ class Style
                 if (isset($this->_props[$prop]) || isset(self::$_props_shorthand[$prop])) {
                     continue;
                 }
-    
+
                 if (isset($parent->_props[$prop])) {
                     $parent_val = \array_key_exists($prop, $parent->_props_computed)
                         ? $parent->_props_computed[$prop]
                         : $parent->compute_prop($prop, $parent->_props[$prop]);
-    
+
                     $this->_props[$prop] = $parent_val;
                     $this->_props_computed[$prop] = $parent_val;
                     $this->_prop_cache[$prop] = null;
@@ -1069,11 +1052,11 @@ class Style
                 }
             } else {
                 $method = "set_$prop";
-    
+
                 if (!isset(self::$_methods_cache[$method])) {
                     self::$_methods_cache[$method] = method_exists($this, $method);
                 }
-    
+
                 if (self::$_methods_cache[$method]) {
                     $this->$method($val, $important);
                 }
@@ -1116,7 +1099,8 @@ class Style
 
                 // Clear border-radius cache on setting any border-radius
                 // property
-                if ($prop === "border_top_left_radius"
+                if (
+                    $prop === "border_top_left_radius"
                     || $prop === "border_top_right_radius"
                     || $prop === "border_bottom_left_radius"
                     || $prop === "border_bottom_right_radius"
@@ -1229,7 +1213,7 @@ class Style
         }
 
         $method = "get_$prop";
-    
+
         if (!isset(self::$_methods_cache[$method])) {
             self::$_methods_cache[$method] = method_exists($this, $method);
         }
@@ -2171,14 +2155,14 @@ class Style
             switch ($val) {
                 case "inline":
                 case "inline-block":
-                // case "table-row-group":
-                // case "table-header-group":
-                // case "table-footer-group":
-                // case "table-row":
-                // case "table-cell":
-                // case "table-column-group":
-                // case "table-column":
-                // case "table-caption":
+                    // case "table-row-group":
+                    // case "table-header-group":
+                    // case "table-footer-group":
+                    // case "table-row":
+                    // case "table-cell":
+                    // case "table-column-group":
+                    // case "table-column":
+                    // case "table-caption":
                     $computed = "block";
                     break;
                 case "inline-table":
@@ -2369,7 +2353,7 @@ class Style
         if (!isset($y)) {
             $y = "0%";
         }
-        
+
         $this->_props_computed["background_position"] = "$x $y";
     }
 
@@ -2572,7 +2556,8 @@ class Style
         }
 
         //matching numeric value followed by unit -> this is indeed a subsequent font size. Skip!
-        if (preg_match("/^(bold|bolder|lighter|100|200|300|400|500|600|700|800|900|normal)\s*(.*)$/i", $val, $match) &&
+        if (
+            preg_match("/^(bold|bolder|lighter|100|200|300|400|500|600|700|800|900|normal)\s*(.*)$/i", $val, $match) &&
             !preg_match("/^(?:pt|px|pc|rem|em|ex|in|cm|mm|%)/", $match[2])
         ) {
             $this->set_prop("font_weight", $match[1], $important);
@@ -3349,7 +3334,7 @@ class Style
                     $values = array_slice($matches, 1);
 
                     switch ($name) {
-                        // <angle> units
+                            // <angle> units
                         case "rotate":
                         case "skew":
                         case "skewX":
@@ -3380,7 +3365,7 @@ class Style
                             }
                             break;
 
-                        // <translation-value> units
+                            // <translation-value> units
                         case "translate":
                             $values[0] = $this->length_in_pt($values[0], (float)$this->length_in_pt($this->width));
 
@@ -3401,7 +3386,7 @@ class Style
                             $values = [0, $this->length_in_pt($values[0], (float)$this->length_in_pt($this->height))];
                             break;
 
-                        // <number> units
+                            // <number> units
                         case "scale":
                             if (!isset($values[1])) {
                                 $values[1] = $values[0];
@@ -3441,7 +3426,7 @@ class Style
             $this->_props_computed["transform"] = null;
             return;
         }
-        
+
         $this->_props_computed["transform"] = $val;
     }
 
@@ -3472,7 +3457,7 @@ class Style
     function get_transform_origin()
     {
         //TODO: should be handled in setter
-        
+
         $values = preg_split("/\s+/", $this->_props_computed["transform_origin"]);
 
         $values = array_map(function ($value) {
@@ -3601,8 +3586,10 @@ class Style
             ? $this->parent_style->font_size
             : self::$default_font_size;
 
-        return print_r(array_merge(["parent_font_size" => $parent_font_size ],
-            $this->_props), true);
+        return print_r(array_merge(
+            ["parent_font_size" => $parent_font_size],
+            $this->_props
+        ), true);
     }
 
     /*DEBUGCSS*/

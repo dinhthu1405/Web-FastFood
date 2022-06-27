@@ -16,14 +16,15 @@ class Font extends Supervisor
      *
      * @var null|string
      */
-    protected $name = 'Calibri';
+    // protected $name = 'Calibri';
+    protected $name = 'Times New Roman';
 
     /**
      * Font Size.
      *
      * @var null|float
      */
-    protected $size = 11;
+    protected $size = 13;
 
     /**
      * Bold.
@@ -538,15 +539,15 @@ class Font extends Supervisor
 
         return md5(
             $this->name .
-            $this->size .
-            ($this->bold ? 't' : 'f') .
-            ($this->italic ? 't' : 'f') .
-            ($this->superscript ? 't' : 'f') .
-            ($this->subscript ? 't' : 'f') .
-            $this->underline .
-            ($this->strikethrough ? 't' : 'f') .
-            $this->color->getHashCode() .
-            __CLASS__
+                $this->size .
+                ($this->bold ? 't' : 'f') .
+                ($this->italic ? 't' : 'f') .
+                ($this->superscript ? 't' : 'f') .
+                ($this->subscript ? 't' : 'f') .
+                $this->underline .
+                ($this->strikethrough ? 't' : 'f') .
+                $this->color->getHashCode() .
+                __CLASS__
         );
     }
 

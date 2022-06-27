@@ -55,6 +55,7 @@
                         </div>
                     </div>
                     <div class="col-md-1">
+                        {{-- <input type="text" name="top_dh" class="form-control" value="{{ $topDH }}" /> --}}
                         <div class="form-group" id="TopDH" style="display: {{ $value != 9 ? 'none' : 'block' }}">
                             <label for="">Top</label>
                             <select class="form-select" name="TOPDH" id="" aria-label="Default select example">
@@ -115,7 +116,7 @@
                     <div class="col-md-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <a href="{{ route('thongKe.exportExcel', [$tu_ngay, $den_ngay, $thongKe, $topDH]) }}"
+                            <a href="{{ route('thongKe.exportExcel', [$tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
                                 type="button" class="form-control btn btn-primary"><img style="width: 50%"
                                     src="../assets/img/icons/unicons/excel.png" alt="Credit Card" class="rounded" /></a>
                         </div>
@@ -123,8 +124,8 @@
                     <div class="col-md-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <a href="{{ route('thongKe.exportPDF', [$tu_ngay, $den_ngay, $thongKe, $topDH]) }}" type="button"
-                                class="form-control btn btn-primary"><img style="width: 50%"
+                            <a href="{{ route('thongKe.exportPDF', [$tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
+                                type="button" class="form-control btn btn-primary"><img style="width: 50%"
                                     src="../assets/img/icons/unicons/pdf.png" alt="Credit Card" class="rounded" /></a>
                         </div>
                     </div>
@@ -135,10 +136,11 @@
             <div class="card">
                 <h5 class="card-header">Danh sách đơn hàng</h5>
                 <div class="table-responsive text-nowrap">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
                                 <th>STT</th>
+                                <th>Mã</th>
                                 <th>Ngày lập</th>
                                 <th>Tổng tiền</th>
                                 <th>Người giao hàng</th>
@@ -146,7 +148,6 @@
                                 <th>Địa chỉ</th>
                                 <th>Phương thức</th>
                                 <th>Trạng thái</th>
-                                <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <?php $count = $lstDonHang->perPage() * ($lstDonHang->currentPage() - 1) + 1; ?>
@@ -154,8 +155,11 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
+                                    <td><a
+                                            href="{{ route('donHang.index') . '?page=' . $lstDonHang->currentPage() }}">{{ $donHang->id }}</a>
+                                    </td>
                                     <td>
-                                        {{ date('d-m-Y', strtotime($donHang->ngay_lap_dh)) }}
+                                        {{ date('d-m-Y H:i:s', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
                                     <td>{{ number_format($donHang->tong_tien) }}</td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)
@@ -168,11 +172,7 @@
                                             <td>{{ $taiKhoan->email }}</td>
                                         @endif
                                     @endforeach
-                                    @foreach ($lstTaiKhoan as $taiKhoan)
-                                        @if ($donHang->user_id == $taiKhoan->id)
-                                            <td>{{ $taiKhoan->dia_chi }}</td>
-                                        @endif
-                                    @endforeach
+                                    <td>{{ $donHang->dia_chi }}</td>
                                     <td>{{ $donHang->loai_thanh_toan }}</td>
                                     @foreach ($lstTrangThaiDonHang as $trangThaiDonHang)
                                         @if ($donHang->trang_thai_don_hang_id == $trangThaiDonHang->id)
@@ -223,10 +223,10 @@
                                             </td>
                                         @endif
                                     @endforeach
-                                    <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
+                                    {{-- <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-info py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
                                 </tr>
                             </tbody>
                         @endforeach
@@ -258,33 +258,6 @@
         </div>
         <!-- Bootstrap Table with Header - Light -->
         <script>
-            //<![CDATA[ 
-            // array of possible countries in the same order as they appear in the country selection list 
-            var loaiThongKe = new Array(2)
-            loaiThongKe["0"] = ["--Hãy chọn một loại để thống kê--"];
-            loaiThongKe["1"] = ["Thống kê theo ngày / tháng / năm", "Thống kê ngày hiện tại",
-                "Thống kê theo ngày hôm qua", "Thống kê theo tuần hiện tại", "Thống kê theo tuần trước",
-                "Thống kê theo tháng hiện tại", "Thống kê theo tháng trước", "Thống kê theo năm hiện tại",
-                "Thống kê theo top các đơn hàng lớn nhất"
-            ];
-            loaiThongKe["2"] = ["Thống kê đơn hàng chưa nhận", "Thống kê đơn hàng đã nhận"];
-            /* CountryChange() is called from the onchange event of a select element. 
-             * param selectObj - the select object which fired the on change event. 
-             */
-            // $('#loaiThongKe').on('change', function() {
-            //     var select_loai = $('#loaiThongKe').val();
-            //     var value = {{ $value }};
-            //     var value_loai = {{ $value_loai }};
-            //     if (select_loai == 1) {
-            //         $("#thongKe").html(
-            //             "<option value = '1' {{ $value == 1 ? 'selected' : '' }}> Thống kê theo ngày / tháng / năm </option> <option value = '2' {{ $value == 2 ? 'selected' : '' }} > Thống kê ngày hiện tại </option> <option value = '3' {{ $value == 3 ? 'selected' : '' }}> Thống kê ngày hôm qua </option> <option value = '4' {{ $value == 4 ? 'selected' : '' }} > Thống kê tuần hiện tại </option> <option value = '5' {{ $value == 5 ? 'selected' : '' }} > Thống kê tuần trước </option> <option value = '6' {{ $value == 6 ? 'selected' : '' }} > Thống kê tháng hiện tại </option> <option value = '7' {{ $value == 7 ? 'selected' : '' }} > Thống kê tháng trước </option> <option value = '8' {{ $value == 8 ? 'selected' : '' }} > Thống kê năm hiện tại </option> <option value = '9' {{ $value == 9 ? 'selected' : '' }} > Thống kê đơn hàng có tổng tiền lớn nhất </option>"
-            //         );
-            //     } else if (select_loai == 2) {
-            //         $("#thongKe").html(
-            //             "<option value = '10' {{ $value == 10 && $value_loai == 2 ? 'selected' : '' }}> Thống kê đơn hàng chưa nhận </option> <option value = '11' {{ $value == 11 && $value_loai == 2 ? 'selected' : '' }} > Thống kê đơn hàng đã nhận </option> <option value = '12' {{ $value == 12 ? 'selected' : '' }}> Thống kê đơn hàng đang giao </option> "
-            //         );
-            //     }
-            // });
             function loaiThongKeChange(selectObj) {
                 // get the index of the selected option 
                 var idx = selectObj.selectedIndex;
