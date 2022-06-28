@@ -94,6 +94,10 @@ Route::get('/timKiemDiemMuaHang', [DiemMuaHangController::class, 'search'])->nam
 //Hình ảnh
 Route::get('/monAn/images/{id}', [MonAnController::class, 'images'])->name('monAn.images')->middleware('auth');
 
+//Route
+Route::get('/donHang/{id}/{user_id}/{nguoi_giao_hang_id}/{trang_thai_don_hang_id}', [DonHangController::class, 'index1'])->name('donHang.index1')->middleware('auth');
+Route::get('/taiKhoan/{user_id}/{nguoi_giao_hang_id}', [UserController::class, 'index1'])->name('taiKhoan.index1')->middleware('auth');
+
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'checkRegister'])->name('checkRegister');

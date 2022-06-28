@@ -72,6 +72,22 @@ class UserController extends Controller
         return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
     }
 
+    public function index1(Request $request, $user_id, $nguoi_giao_hang_id)
+    {
+        if ($user_id != 0) {
+            $lstTaiKhoan = User::where(function ($query) use ($user_id) {
+                $query->where('id', 'LIKE', '%' . $user_id . '%');
+            })->paginate(5);
+        } else if ($nguoi_giao_hang_id != 0) {
+            $lstTaiKhoan = User::where(function ($query) use ($nguoi_giao_hang_id) {
+                $query->where('id', 'LIKE', '%' . $nguoi_giao_hang_id . '%');
+            })->paginate(5);
+        }
+
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
+    }
+
     public function search(Request $request)
     {
         // Get the search value from the request
@@ -170,7 +186,8 @@ class UserController extends Controller
     public function edit(User $taiKhoan)
     {
         //
-        return view('component/tai-khoan/taikhoan-edit', compact('taiKhoan'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('user_id', $taiKhoan->id);
+        return view('component/tai-khoan/taikhoan-edit', compact('taiKhoan', 'lstHinhAnh'));
     }
 
     /**

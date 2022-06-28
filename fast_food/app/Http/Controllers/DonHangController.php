@@ -42,6 +42,34 @@ class DonHangController extends Controller
         return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan', 'request'));
     }
 
+    public function index1(Request $request, $id, $user_id, $nguoi_giao_hang_id, $trang_thai_don_hang_id)
+    {
+        if ($id != 0) {
+            $lstDonHang = DonHang::where('trang_thai', 1)
+                ->where(function ($query) use ($id) {
+                    $query->where('id', 'LIKE', '%' . $id . '%');
+                })->paginate(5);
+        } else if ($user_id != 0) {
+            $lstDonHang = DonHang::where('trang_thai', 1)
+                ->where(function ($query) use ($user_id) {
+                    $query->where('user_id', 'LIKE', '%' . $user_id . '%');
+                })->paginate(5);
+        } else if ($nguoi_giao_hang_id != 0) {
+            $lstDonHang = DonHang::where('trang_thai', 1)
+                ->where(function ($query) use ($nguoi_giao_hang_id) {
+                    $query->where('nguoi_giao_hang_id', 'LIKE', '%' . $nguoi_giao_hang_id . '%');
+                })->paginate(5);
+        } else if ($trang_thai_don_hang_id != 0) {
+            $lstDonHang = DonHang::where('trang_thai', 1)
+                ->where(function ($query) use ($trang_thai_don_hang_id) {
+                    $query->where('trang_thai_don_hang_id', 'LIKE', '%' . $trang_thai_don_hang_id . '%');
+                })->paginate(5);
+        }
+
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        return view('component/don-hang/donHang-index', compact('lstDonHang', 'lstTaiKhoan', 'request'));
+    }
+
     public function searchDonHang(Request $request)
     {
         $search = $request->search;

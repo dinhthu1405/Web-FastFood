@@ -43,7 +43,6 @@
                                 <th>Số lượng</th>
                                 <th>Loại món ăn</th>
                                 <th>Địa điểm</th>
-                                <!-- <th>Đánh giá</th> -->
                                 <th>Tình trạng</th>
                                 <th>Chỉnh sửa</th>
                                 <th>Xoá</th>
@@ -57,14 +56,43 @@
                                     <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                         <strong>{{ $monAn->ten_mon }}</strong>
                                     </td>
-                                    <td><a href="{{ route('monAn.images', $monAn->id) }}" class="btn btn-outline-dark">Xem
-                                            hình</a></td>
+                                    {{-- <td><a href="{{ route('monAn.images', $monAn->id) }}" class="btn btn-outline-dark">Xem
+                                            hình</a></td> --}}
+                                    @foreach ($lstHinhAnh as $hinhAnh)
+                                        @if ($monAn->id == $hinhAnh->mon_an_id)
+                                            @if ($loop->index == 0)
+                                                <td>
+                                                    <img class="d-block w-100" id="preview-image"
+                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                        alt="preview image" style="max-height: 80px; border-radius: 50%;"
+                                                        data-target="#modal-add" data-bs-toggle="modal"
+                                                        data-bs-target='#modalCenter' />
+                                                </td>
+                                            @endif
+                                        @else
+                                            <td></td>
+                                        @endif
+                                    @endforeach
+                                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                @foreach ($lstHinhAnh as $hinhAnh)
+                                                    <img class="d-block w-100" id="preview-image"
+                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                        alt="preview image" style="max-height: 200px;" />
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <td>{{ number_format($monAn->don_gia) }}</td>
                                     <td>{{ $monAn->so_luong }}</td>
                                     <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
                                     <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
-                                    @if ($monAn->tinh_trang == 1)
+                                    @if ($monAn->tinh_trang == 'Còn món')
                                         <td>Còn món</td>
+                                    @elseif($monAn->tinh_trang == 'Sắp hết')
+                                        <td>Sắp hết</td>
                                     @else
                                         <td>Hết món</td>
                                     @endif
