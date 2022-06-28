@@ -268,7 +268,7 @@
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
                                         @if (Auth::user()->phan_loai_tai_khoan == 1)
-                                            <img src="../assets/img/avatars/1.png" alt
+                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
                                                 class="w-px-40 h-auto rounded-circle" />
                                         @endif
                                         @if (Auth::user()->phan_loai_tai_khoan != 1)
@@ -284,7 +284,7 @@
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         @if (Auth::user()->phan_loai_tai_khoan == 1)
-                                                            <img src="../assets/img/avatars/1.png" alt
+                                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
                                                                 class="w-px-40 h-auto rounded-circle" />
                                                         @endif
                                                         @if (Auth::user()->phan_loai_tai_khoan != 1)

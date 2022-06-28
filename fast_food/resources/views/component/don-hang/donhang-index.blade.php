@@ -36,6 +36,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>STT</th>
+                                <th>Mã</th>
                                 <th>Ngày lập</th>
                                 <th>Tổng tiền</th>
                                 <th>Người giao hàng</th>
@@ -43,7 +44,6 @@
                                 <th>Địa chỉ</th>
                                 <th>Phương thức</th>
                                 <th>Trạng thái</th>
-                                <th>Chi tiết</th>
                                 <th>Chỉnh sửa</th>
                                 <th>Xoá</th>
                             </tr>
@@ -53,18 +53,27 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
+                                    <td><a style="color: #697a8d"
+                                            href="{{ route('donHang.show', $donHang->id) }}">{{ $donHang->id }}</a>
+                                    </td>
                                     <td>
                                         {{ date('d-m-Y H:i:s', strtotime($donHang->ngay_lap_dh)) }}
                                     </td>
                                     <td>{{ number_format($donHang->tong_tien) }}</td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)
                                         @if ($donHang->nguoi_giao_hang_id == $taiKhoan->id)
-                                            <td>{{ $taiKhoan->email }}</td>
+                                            <td>
+                                                <a style="color: #697a8d"
+                                                    href="{{ route('taiKhoan.index1', [0, $donHang->nguoi_giao_hang_id]) }}">{{ $taiKhoan->email }}</a>
+                                            </td>
                                         @endif
                                     @endforeach
                                     @foreach ($lstTaiKhoan as $taiKhoan)
                                         @if ($donHang->user_id == $taiKhoan->id)
-                                            <td>{{ $taiKhoan->email }}</td>
+                                            <td>
+                                                <a style="color: #697a8d"
+                                                    href="{{ route('taiKhoan.index1', [$donHang->user_id, 0]) }}">{{ $taiKhoan->email }}</a>
+                                            </td>
                                         @endif
                                     @endforeach
                                     @foreach ($lstTaiKhoan as $taiKhoan)
@@ -118,10 +127,10 @@
                                                 {{ $donHang->trangThaiDonHang->ten_trang_thai }}
                                         @endswitch
                                     </td>
-                                    <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
+                                    {{-- <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-info py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
                                     <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">

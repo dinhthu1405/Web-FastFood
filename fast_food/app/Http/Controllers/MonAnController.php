@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use App\Models\MonAn;
 use App\Models\LoaiMonAn;
 use App\Models\DiaDiem;
@@ -32,7 +33,17 @@ class MonAnController extends Controller
         //     ->sharpen(10);
         // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
-        return view('component/mon-an/monan-show', compact('lstMonAn', 'request'));
+        foreach ($lstMonAn as $monAn) {
+            $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('mon_an_id', $monAn->id);
+        }
+        // foreach ($lstMonAn as $monAn) {
+        //     if ($monAn->so_luong > 10) {
+        //         $monAn->update(['tinh_trang' => 'Còn món']);
+        //     } else if ($monAn->so_luong > 0 && $monAn->so_luong <= 10) {
+        //         $monAn->update(['tinh_trang' => 'Sắp hết']);
+        //     } else if ($monAn->so_luong == 0) $monAn->update(['tinh_trang' => 'Hết món']);
+        // }
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
     }
 
     public function images($id)
@@ -112,25 +123,33 @@ class MonAnController extends Controller
         // dd($monAn);
         // $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
 
-
-        $images = array();
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $images = $file->store('images/mon_an/' . $monAn->id, 'public');
-
-                HinhAnh::insert([
-                    'duong_dan' => $images,
-                    'mon_an_id' => $monAn->id,
-                    'trang_thai' => 1,
-                ]);
-            }
-        }
         $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
         // dd($ktMonAn);
         if ($ktMonAn) {
             return Redirect::back()->with('error', 'Tên món ăn đã tồn tại');
         } else {
-            $monAn->save();
+
+            // $monAn->save();
+            $images = array();
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $images = $file->store('images/mon_an/' . $monAn->id, 'public');
+                    $fileName = $monAn->ten_mon;
+                    $filePath = public_path('storage/' . $images);
+                    $fileData = Storage::get($filePath);
+                    dd(Storage::cloud()->put($fileName, $fileData));
+                    
+                    Storage::cloud()->put($fileName, $filePath);
+                    HinhAnh::insert([
+                        'duong_dan' => $images,
+                        'mon_an_id' => $monAn->id,
+                        'trang_thai' => 1,
+                    ]);
+
+
+                    return 'Thành công';
+                }
+            }
             return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
         }
     }
@@ -157,7 +176,8 @@ class MonAnController extends Controller
         //
         $lstLoaiMonAn = LoaiMonAn::all();
         $lstDiaDiem = DiaDiem::all();
-        return view('component/mon-an/monan-edit', compact('monAn', 'lstLoaiMonAn', 'lstDiaDiem'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('mon_an_id', $monAn->id);
+        return view('component/mon-an/monan-edit', compact('monAn', 'lstLoaiMonAn', 'lstDiaDiem', 'lstHinhAnh'));
     }
 
     /**
