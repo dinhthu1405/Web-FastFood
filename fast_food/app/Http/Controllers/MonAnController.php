@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Models\MonAn;
 use App\Models\LoaiMonAn;
 use App\Models\DiaDiem;
@@ -33,9 +34,7 @@ class MonAnController extends Controller
         //     ->sharpen(10);
         // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
-        foreach ($lstMonAn as $monAn) {
-            $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('mon_an_id', $monAn->id);
-        }
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         // foreach ($lstMonAn as $monAn) {
         //     if ($monAn->so_luong > 10) {
         //         $monAn->update(['tinh_trang' => 'Còn món']);
@@ -129,25 +128,17 @@ class MonAnController extends Controller
             return Redirect::back()->with('error', 'Tên món ăn đã tồn tại');
         } else {
 
-            // $monAn->save();
+            $monAn->save();
             $images = array();
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $file) {
                     $images = $file->store('images/mon_an/' . $monAn->id, 'public');
-                    $fileName = $monAn->ten_mon;
-                    $filePath = public_path('storage/' . $images);
-                    $fileData = Storage::get($filePath);
-                    dd(Storage::cloud()->put($fileName, $fileData));
-                    
-                    Storage::cloud()->put($fileName, $filePath);
+
                     HinhAnh::insert([
                         'duong_dan' => $images,
                         'mon_an_id' => $monAn->id,
                         'trang_thai' => 1,
                     ]);
-
-
-                    return 'Thành công';
                 }
             }
             return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
