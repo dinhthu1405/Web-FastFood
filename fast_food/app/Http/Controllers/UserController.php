@@ -92,12 +92,22 @@ class UserController extends Controller
     {
         // Get the search value from the request
         $search = $request->input('search');
-        $lstTaiKhoan = User::where('email', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%')
-            ->orWhere('ho_ten', 'like', '%' . $search . '%')
-            ->orWhere('sdt', 'like', '%' . $search . '%')
-            ->orWhere('ngay_sinh', 'like', '%' . $search . '%')
-            ->orWhere('dia_chi', 'like', '%' . $search . '%')->paginate(5);
+        // dd($search);
+        // dd(date('Y-m-d', strtotime($search)));
+        // dd(date('Y-m-d %H:%i:%s', strtotime($search)));
+        $lstTaiKhoan = User::where(function ($query) use ($search) {
+            $query->where('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('ho_ten', 'LIKE', '%' . $search . '%')
+                ->orWhere('sdt', 'LIKE', '%' . $search . '%')
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereMonth('ngay_sinh', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereYear('ngay_sinh', $search);
+                })
+                ->orWhere('ngay_sinh', 'LIKE', '%' . date('Y-m-d', strtotime($search)) . '%')
+                ->orWhere('dia_chi', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
     }
