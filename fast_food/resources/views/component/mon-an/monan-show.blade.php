@@ -60,26 +60,25 @@
                                             hình</a></td> --}}
                                     @foreach ($lstHinhAnh as $hinhAnh)
                                         @if ($monAn->id == $hinhAnh->mon_an_id)
-                                            @if ($loop->index == 0)
-                                                <td>
-                                                    <img class="d-block w-100" id="preview-image"
-                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
-                                                        alt="preview image" style="max-height: 80px; border-radius: 50%;"
-                                                        data-target="#modal-add" data-bs-toggle="modal"
-                                                        data-bs-target='#modalCenter' />
-                                                </td>
-                                            @endif
-                                        @else
-                                            <td></td>
+                                            {{-- @if ($loop->index == 0) --}}
+                                            <td>
+                                                <img class="d-block w-100" id="preview-image"
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="preview image"
+                                                    style="max-height: 80px; border-radius: 50%;" data-target="#modal-add"
+                                                    data-bs-toggle="modal" data-bs-target='#modalCenter' />
+                                            </td>
+                                            {{-- @endif --}}
                                         @endif
                                     @endforeach
                                     <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 @foreach ($lstHinhAnh as $hinhAnh)
-                                                    <img class="d-block w-100" id="preview-image"
-                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
-                                                        alt="preview image" style="max-height: 200px;" />
+                                                    @if ($monAn->id == $hinhAnh->mon_an_id)
+                                                        <img class="d-block w-100" id="preview-image"
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                            alt="preview image" style="max-height: 200px;" />
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
