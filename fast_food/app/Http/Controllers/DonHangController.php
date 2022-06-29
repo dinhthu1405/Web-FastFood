@@ -76,7 +76,16 @@ class DonHangController extends Controller
         $lstTaiKhoan = User::all()->where('trang_thai', 1);
         $lstDonHang = DonHang::where('trang_thai', 1)
             ->where(function ($query) use ($search) {
-                $query->where('ngay_lap_dh', 'LIKE', '%' . $search . '%')
+                $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($search)) . '%')
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereTime('ngay_lap_dh', $search);
+                    })
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereMonth('ngay_lap_dh', $search);
+                    })
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereYear('ngay_lap_dh', $search);
+                    })
                     ->orWhere('tong_tien', 'LIKE', '%' . $search . '%')
                     ->orWhere('loai_thanh_toan', 'LIKE', '%' . $search . '%');
             })

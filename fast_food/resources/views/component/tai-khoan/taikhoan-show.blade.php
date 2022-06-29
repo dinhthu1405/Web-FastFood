@@ -63,14 +63,19 @@
                                 <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
                                     <tr>
                                         <td> {{ $count++ }} </td>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                        <td>
                                             <strong>{{ $taiKhoan->email }}</strong>
                                         </td>
                                         @foreach ($lstHinhAnh as $hinhAnh)
-                                            @if ($taiKhoan->id == $hinhAnh->user_id)
-                                                <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
-                                                </td>
+                                            @if (!empty($hinhAnh))
+                                                <td></td>
+                                            @else
+                                                @if ($taiKhoan->id == $hinhAnh->user_id)
+                                                    <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                            alt="">
+                                                    </td>
+                                                @endif
                                             @endif
                                         @endforeach
                                         <td>{{ $taiKhoan->ho_ten }}</td>
@@ -106,7 +111,7 @@
                                 <tbody class="table-border-bottom-0">
 
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                    <td>
                                         <strong>{{ $taiKhoan->email }}</strong>
                                     </td>
                                     {{-- @if ($taiKhoan->id == $taiKhoan->hinhAnh->user_id)
@@ -118,15 +123,15 @@
                             <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/17.jpg") }}" alt=""></td>
                             @endif --}}
                                     @foreach ($lstHinhAnh as $hinhAnh)
-                                        @if ($taiKhoan->id == $hinhAnh->user_id && $hinhAnh->trang_thai == 1)
+                                        @if ($taiKhoan->id == $hinhAnh->user_id)
                                             <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
+                                            </td>
                                         @endif
                                     @endforeach
-
                                     <td>{{ $taiKhoan->ho_ten }}</td>
                                     <td>{{ $taiKhoan->sdt }}</td>
-                                    <td>{{ $taiKhoan->ngay_sinh }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($taiKhoan->ngay_sinh)) }}</td>
                                     <td>{{ $taiKhoan->dia_chi }}</td>
                                     @if ($taiKhoan->phan_loai_tai_khoan == 2)
                                         <td>Quản lí</td>
