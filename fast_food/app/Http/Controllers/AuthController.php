@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\User;
 use App\Models\HinhAnh;
@@ -19,7 +20,7 @@ class AuthController extends Controller
         // return view('auth/login');
         $countId = User::all();
         if (Auth::check()) {
-            return view('/home');
+            return Redirect::route('home.index');
         } else
 
         if ($countId->count() == 0) {
@@ -55,7 +56,7 @@ class AuthController extends Controller
         if (Auth::attempt($user_data) && Auth::user()->phan_loai_tai_khoan == 1) {
             $request->session()->regenerate();
             // $request->session()->put('loginId', Auth::user()->id);
-            return redirect('/home')->with('success', 'Đăng nhập thành công');
+            return redirect('home')->with('success', 'Đăng nhập thành công');
         } else {
             return back()->with('error', 'Đăng nhập không thành công');
         }
@@ -97,7 +98,7 @@ class AuthController extends Controller
         $user->save();
 
         auth()->login($user);
-        return redirect()->to('/home')->with('success', 'Đăng ký thành công');
+        return redirect()->to('home')->with('success', 'Đăng ký thành công');
     }
 
     public function logout(Request $request)

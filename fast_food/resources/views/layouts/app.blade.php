@@ -48,7 +48,9 @@
         integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Helpers -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js" integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js"
+        integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -59,7 +61,7 @@
 </head>
 
 <body>
-    @if ($pageId == 'login' || $pageId == 'register')
+    @if ($pageId == 'login' || $pageId == 'register' || $pageId == 'xuatfile')
         @yield('content')
     @else
         @include('pages/header')
@@ -81,6 +83,7 @@
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
+
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -92,7 +95,8 @@
     <script src="{{ asset('assets/vendor/js/simple.money.format.js') }}"></script>
     <script type="text/javascript">
         $('.format_number').simpleMoneyFormat();
-        </script>
+    </script>
+    {{-- @include('Partial/home/JSPartial-home') --}}
     @yield('script')
 </body>
 

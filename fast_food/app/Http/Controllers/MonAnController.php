@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Models\MonAn;
 use App\Models\LoaiMonAn;
 use App\Models\DiaDiem;
@@ -18,7 +20,7 @@ class MonAnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //resize hình
         // $this->addMediaConversion('thumb')
@@ -30,8 +32,17 @@ class MonAnController extends Controller
         //     ->width(412)
         //     ->height(412)
         //     ->sharpen(10);
-        $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
-        return view('component/mon-an/monan-show', compact('lstMonAn'));
+        // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
+        $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        // foreach ($lstMonAn as $monAn) {
+        //     if ($monAn->so_luong > 10) {
+        //         $monAn->update(['tinh_trang' => 'Còn món']);
+        //     } else if ($monAn->so_luong > 0 && $monAn->so_luong <= 10) {
+        //         $monAn->update(['tinh_trang' => 'Sắp hết']);
+        //     } else if ($monAn->so_luong == 0) $monAn->update(['tinh_trang' => 'Hết món']);
+        // }
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
     }
 
     public function images($id)
@@ -47,9 +58,14 @@ class MonAnController extends Controller
         // Get the search value from the request
         $search = $request->input('search');
         // Search in the title and body columns from the posts table
-        $lstMonAn = MonAn::where('ten_mon', 'LIKE', '%' . $search . '%')->get();
-        // return $lstDiaDanh;
-        return view('component/mon-an/monan-show', ['lstMonAn' => $lstMonAn]);
+        $lstMonAn = MonAn::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_mon', 'LIKE', '%' . $search . '%')
+                ->orWhere('don_gia', 'LIKE', '%' . $search . '%')
+                ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+                ->orWhere('tinh_trang', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        // dd($lstMonAn);
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request'));
     }
 
     /**
@@ -106,25 +122,25 @@ class MonAnController extends Controller
         // dd($monAn);
         // $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
 
-
-        $images = array();
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $images = $file->store('images/mon_an/' . $monAn->id, 'public');
-
-                HinhAnh::insert([
-                    'duong_dan' => $images,
-                    'mon_an_id' => $monAn->id,
-                    'trang_thai' => 1,
-                ]);
-            }
-        }
         $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
         // dd($ktMonAn);
         if ($ktMonAn) {
             return Redirect::back()->with('error', 'Tên món ăn đã tồn tại');
         } else {
+
             $monAn->save();
+            $images = array();
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $images = $file->store('images/mon_an/' . $monAn->id, 'public');
+
+                    HinhAnh::insert([
+                        'duong_dan' => $images,
+                        'mon_an_id' => $monAn->id,
+                        'trang_thai' => 1,
+                    ]);
+                }
+            }
             return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
         }
     }
@@ -151,7 +167,8 @@ class MonAnController extends Controller
         //
         $lstLoaiMonAn = LoaiMonAn::all();
         $lstDiaDiem = DiaDiem::all();
-        return view('component/mon-an/monan-edit', compact('monAn', 'lstLoaiMonAn', 'lstDiaDiem'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('mon_an_id', $monAn->id);
+        return view('component/mon-an/monan-edit', compact('monAn', 'lstLoaiMonAn', 'lstDiaDiem', 'lstHinhAnh'));
     }
 
     /**

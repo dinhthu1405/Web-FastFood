@@ -13,11 +13,20 @@ class LoaiGiamGiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $lstLoaiGiamGia = LoaiGiamGia::all()->where('trang_thai', 1);
-        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia'));
+        $lstLoaiGiamGia = LoaiGiamGia::where('trang_thai', 1)->paginate(5);
+        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia','request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstLoaiGiamGia = LoaiGiamGia::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_loai_giam_gia', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia','request'));
     }
 
     /**

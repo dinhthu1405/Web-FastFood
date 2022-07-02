@@ -17,12 +17,11 @@
                             Trạng Thái Đơn Hàng</button></a>
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('trangThaiDonHang.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <input class="form-control" type="search" name="search" required value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
@@ -43,7 +42,7 @@
                                 <th>Xoá</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstTrangThaiDonHang->perPage() * ($lstTrangThaiDonHang->currentPage() - 1) + 1; ?>
                         @foreach ($lstTrangThaiDonHang as $trangThaiDonHang)
                             <tbody class="table-border-bottom-0">
                                 <tr>
@@ -66,6 +65,22 @@
                             </tbody>
                         @endforeach
                     </table>
+                    @if ($lstTrangThaiDonHang->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstTrangThaiDonHang->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

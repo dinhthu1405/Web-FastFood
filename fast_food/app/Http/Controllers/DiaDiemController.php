@@ -18,11 +18,11 @@ class DiaDiemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $lstDiaDiem = DiaDiem::all()->where('trang_thai', 1);
-        return view('component/dia-diem/diadiem-show', compact('lstDiaDiem'));
+        $lstDiaDiem = DiaDiem::where('trang_thai', 1)->paginate(5);
+        return view('component/dia-diem/diadiem-show', compact('lstDiaDiem', 'request'));
     }
 
     public function search(Request $request)
@@ -30,9 +30,13 @@ class DiaDiemController extends Controller
         // Get the search value from the request
         $search = $request->input('search');
         // Search in the title and body columns from the posts table
-        $lstDiaDiem = DiaDiem::where('ten_dia_diem', 'LIKE', '%' . $search . '%')->get();
+        $lstDiaDiem = DiaDiem::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('ten_dia_diem', 'LIKE', '%' . $search . '%')
+                ->orWhere('thoi_gian_mo', 'LIKE', '%' . $search . '%')
+                ->orWhere('thoi_gian_dong', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
 
-        return view('component/dia-diem/diadiem-show', ['lstDiaDiem' => $lstDiaDiem]);
+        return view('component/dia-diem/diadiem-show', compact('lstDiaDiem', 'request'));
     }
 
     /**

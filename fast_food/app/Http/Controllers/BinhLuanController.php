@@ -17,13 +17,25 @@ class BinhLuanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $lstBinhLuan = BinhLuan::all();
+        $lstBinhLuan = BinhLuan::paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
-        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan'));
+        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan', 'request'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $lstBinhLuan = BinhLuan::where('trang_thai', 1)->where(function ($query) use ($search) {
+            $query->where('noi_dung', 'LIKE', '%' . $search . '%')
+            ->orWhere('thoi_gian', 'LIKE', '%' . $search . '%');
+        })->paginate(5);
+        $lstMonAn = MonAn::all()->where('trang_thai', 1);
+        $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);
+        return view('component.binh-luan.binhluan-show', compact('lstBinhLuan', 'lstMonAn', 'lstTaiKhoan', 'request'));
     }
 
     /**

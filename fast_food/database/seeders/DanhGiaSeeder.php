@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DanhGiaSeeder extends Seeder
 {
@@ -14,5 +15,13 @@ class DanhGiaSeeder extends Seeder
     public function run()
     {
         //
+        for ($i = 1; $i <= 25; $i++) {
+            DB::table('danh_gias')->insert([
+                'danh_gia_sao' => $i,
+                'user_id' => '1',
+                'mon_an_id' => '1',
+                'dia_diem_id' => '1',
+            ]);
+        }
     }
 }

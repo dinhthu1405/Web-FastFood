@@ -151,7 +151,8 @@
                         </a>
                     </li>
                     <!-- Mã giảm giá -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span></li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span>
+                    </li>
                     <!-- Loại mã giảm giá -->
                     <li
                         class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
@@ -189,6 +190,43 @@
                             <div data-i18n="Analytics">Điểm mua hàng</div>
                         </a>
                     </li>
+                    <!-- Thống kê -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Thống kê</span>
+                    </li>
+                    <li
+                        class="menu-item {{ request()->is('thongKe*') || request()->is('thongKe*') ? 'active' : '' }}">
+                        <a href="{{ route('thongKe.index') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-bar-chart-alt-2'></i>
+                            <div data-i18n="Vertical Form">Thống kê đơn hàng</div>
+                        </a>
+                    </li>
+                    {{-- <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-detail"></i>
+                            <div data-i18n="Form Layouts">Thống kê</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('thongKe.index') }}" class="menu-link">
+                                    <div data-i18n="Vertical Form">Thống kê đơn hàng</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="form-layouts-horizontal.html" class="menu-link">
+                                    <div data-i18n="Horizontal Form">Horizontal Form</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> --}}
+                    <!-- Đăng xuất -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Đăng xuất</span>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="{{ route('logout') }}">
+                            <i class="menu-icon tf-icons bx bx-power-off"></i>
+                            <div>Đăng xuất</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -209,8 +247,8 @@
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                                    aria-label="Search..." />
+                                <input type="text" class="form-control border-0 shadow-none"
+                                    placeholder="Search..." aria-label="Search..." />
                             </div>
                         </div>
                         <!-- /Search -->
@@ -230,12 +268,12 @@
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
                                         @if (Auth::user()->phan_loai_tai_khoan == 1)
-                                            <img src="../assets/img/avatars/1.png" alt
+                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
                                                 class="w-px-40 h-auto rounded-circle" />
                                         @endif
-                                        @if(Auth::user()->phan_loai_tai_khoan != 1)
-                                            <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnhs()->first()->duong_dan }}" alt
-                                                class="w-px-40 h-auto rounded-circle" alt="User Image">
+                                        @if (Auth::user()->phan_loai_tai_khoan != 1)
+                                            <img src="{{ asset('storage') .'/' .Auth::user()->hinhAnhs()->first()->duong_dan }}"
+                                                alt class="w-px-40 h-auto rounded-circle" alt="User Image">
                                         @endif
                                     </div>
                                 </a>
@@ -246,13 +284,14 @@
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         @if (Auth::user()->phan_loai_tai_khoan == 1)
-                                                        <img src="../assets/img/avatars/1.png" alt
-                                                            class="w-px-40 h-auto rounded-circle" />
-                                                    @endif
-                                                    @if(Auth::user()->phan_loai_tai_khoan != 1)
-                                                        <img src="{{ asset('storage') . '/' . Auth::user()->hinhAnhs()->first()->duong_dan }}" alt
-                                                            class="w-px-40 h-auto rounded-circle" alt="User Image">
-                                                    @endif
+                                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                                                class="w-px-40 h-auto rounded-circle" />
+                                                        @endif
+                                                        @if (Auth::user()->phan_loai_tai_khoan != 1)
+                                                            <img src="{{ asset('storage') .'/' .Auth::user()->hinhAnhs()->first()->duong_dan }}"
+                                                                alt class="w-px-40 h-auto rounded-circle"
+                                                                alt="User Image">
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 {{-- <div class="info">
@@ -266,17 +305,17 @@
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block">
                                                         @if (Auth::check())
-                                                        {{ Auth::user()->ho_ten }}
+                                                            {{ Auth::user()->ho_ten }}
                                                         @endif
                                                     </span>
                                                     <small class="text-muted">
                                                         @if (Auth::check())
-                                                        @if (Auth::user()->phan_loai_tai_khoan == 1)
-                                                            Supper Admin
-                                                        @endif
-                                                        @if (Auth::user()->phan_loai_tai_khoan == 2)
-                                                            Admin
-                                                        @endif
+                                                            @if (Auth::user()->phan_loai_tai_khoan == 1)
+                                                                Supper Admin
+                                                            @endif
+                                                            @if (Auth::user()->phan_loai_tai_khoan == 2)
+                                                                Admin
+                                                            @endif
                                                         @endif
                                                     </small>
                                                 </div>
@@ -317,12 +356,12 @@
                                             {{-- <a class="dropdown-item" href="{{ route('logout') }}">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Đăng xuất</span>
-                                        </a>              --}}
-                                        
-                                        <button type="submit" class="dropdown-item">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Đăng xuất</span>
-                                        </button>                           
+                                        </a> --}}
+
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="bx bx-power-off me-2"></i>
+                                                <span class="align-middle">Đăng xuất</span>
+                                            </button>
                                         </form>
                                     </li>
                                 </ul>

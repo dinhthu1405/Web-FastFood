@@ -10,6 +10,7 @@ class DonHang extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+    protected $table = 'don_hangs';
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +20,8 @@ class DonHang extends Model
         'id',
         'ngay_lap_dh',
         'tong_tien',
+        'loai_thanh_toan',
+        'dia_chi',
         'trang_thai_don_hang_id',
         'nguoi_giao_hang_id',
         'user_id',
@@ -31,7 +34,7 @@ class DonHang extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class);
     }
 
     public function chiTietDonHangs()
@@ -41,6 +44,6 @@ class DonHang extends Model
 
     public function diemMuaHang()
     {
-        return $this->belongsTo(DiemMuaHang::class);
+        return $this->belongsTo(DiemMuaHang::class, 'id');
     }
 }

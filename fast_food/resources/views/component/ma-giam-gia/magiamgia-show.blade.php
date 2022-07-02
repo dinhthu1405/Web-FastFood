@@ -8,7 +8,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh sách</span></h4>
+                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('maGiamGia.index') }}"><span
+                                class="text-muted fw-light">Danh sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
@@ -16,12 +17,11 @@
                             mã giảm giá</button></a>
                 </div>
             </div>
-            <form action="{{ route('loaiMonAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('maGiamGia.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <input class="form-control" type="search" name="search" required value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
@@ -46,55 +46,73 @@
                                 <th>Khoá - Mở</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstMaGiamGia->perPage() * ($lstMaGiamGia->currentPage() - 1) + 1; ?>
                         @foreach ($lstMaGiamGia as $maGiamGia)
-                        @if ($maGiamGia->trang_thai == 0)
-                            <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
-                                <tr>
-                                    <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        <strong>{{ $maGiamGia->ten_ma }}</strong>
-                                    </td>
-                                    <td>{{ $maGiamGia->so_luong }}</td>
-                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
-                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
-                                    <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
-                                    <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button type="button"
-                                                id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
-                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-lock-open me-1"></i> </button></a></td>
-                                </tr>
-                            </tbody>
+                            @if ($maGiamGia->trang_thai == 0)
+                                <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
+                                    <tr>
+                                        <td> {{ $count++ }} </td>
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                            <strong>{{ $maGiamGia->ten_ma }}</strong>
+                                        </td>
+                                        <td>{{ $maGiamGia->so_luong }}</td>
+                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
+                                        <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
+                                        <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button
+                                                    type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
+                                                    <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                        <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
+                                                    type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
+                                                    <i class="bx bx-lock-open me-1"></i> </button></a></td>
+                                    </tr>
+                                </tbody>
                             @else
-                            <tbody class="table-border-bottom-0">
-                                <tr>
-                                    <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        <strong>{{ $maGiamGia->ten_ma }}</strong>
-                                    </td>
-                                    <td>{{ $maGiamGia->so_luong }}</td>
-                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
-                                    <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
-                                    <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
-                                    <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button type="button"
-                                                id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
-                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-lock me-1"></i> </button></a></td>
-                                </tr>
-                            </tbody>
+                                <tbody class="table-border-bottom-0">
+                                    <tr>
+                                        <td> {{ $count++ }} </td>
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                            <strong>{{ $maGiamGia->ten_ma }}</strong>
+                                        </td>
+                                        <td>{{ $maGiamGia->so_luong }}</td>
+                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
+                                        <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
+                                        <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button
+                                                    type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
+                                                    <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                        <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
+                                                    type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
+                                                    <i class="bx bx-lock me-1"></i> </button></a></td>
+                                    </tr>
+                                </tbody>
                             @endif
                         @endforeach
                     </table>
+                    @if ($lstMaGiamGia->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstMaGiamGia->appends($request->except('page'))->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

@@ -8,7 +8,9 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh sách</span></h4>
+                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('taiKhoan.index') }}"><span
+                                class="text-muted fw-light">Danh
+                                sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
@@ -23,12 +25,12 @@
 
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="post">
-                {{ csrf_field() }}
+            <form action="{{ route('taiKhoan.search') }}" method="GET">
                 <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <input class="form-control" type="search" name="search" required
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
@@ -55,19 +57,25 @@
                                 <th>Khoá - Mở</th>
                             </tr>
                         </thead>
-                        <?php $count = 1; ?>
+                        <?php $count = $lstTaiKhoan->perPage() * ($lstTaiKhoan->currentPage() - 1) + 1; ?>
                         @foreach ($lstTaiKhoan as $taiKhoan)
                             @if ($taiKhoan->trang_thai == 0 && $taiKhoan->phan_loai_tai_khoan != 1)
                                 <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
                                     <tr>
                                         <td> {{ $count++ }} </td>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                        <td>
                                             <strong>{{ $taiKhoan->email }}</strong>
                                         </td>
                                         @foreach ($lstHinhAnh as $hinhAnh)
-                                            @if ($taiKhoan->id == $hinhAnh->user_id)
-                                                <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>
+                                            @if (!empty($hinhAnh))
+                                                <td></td>
+                                            @else
+                                                @if ($taiKhoan->id == $hinhAnh->user_id)
+                                                    <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                            alt="">
+                                                    </td>
+                                                @endif
                                             @endif
                                         @endforeach
                                         <td>{{ $taiKhoan->ho_ten }}</td>
@@ -103,7 +111,7 @@
                                 <tbody class="table-border-bottom-0">
 
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                    <td>
                                         <strong>{{ $taiKhoan->email }}</strong>
                                     </td>
                                     {{-- @if ($taiKhoan->id == $taiKhoan->hinhAnh->user_id)
@@ -115,15 +123,15 @@
                             <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;" src="{{ asset("storage/17.jpg") }}" alt=""></td>
                             @endif --}}
                                     @foreach ($lstHinhAnh as $hinhAnh)
-                                        @if ($taiKhoan->id == $hinhAnh->user_id && $hinhAnh->trang_thai == 1)
+                                        @if ($taiKhoan->id == $hinhAnh->user_id)
                                             <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt=""></td>
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
+                                            </td>
                                         @endif
                                     @endforeach
-
                                     <td>{{ $taiKhoan->ho_ten }}</td>
                                     <td>{{ $taiKhoan->sdt }}</td>
-                                    <td>{{ $taiKhoan->ngay_sinh }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($taiKhoan->ngay_sinh)) }}</td>
                                     <td>{{ $taiKhoan->dia_chi }}</td>
                                     @if ($taiKhoan->phan_loai_tai_khoan == 2)
                                         <td>Quản lí</td>
@@ -168,6 +176,22 @@
                             @endif
                         @endforeach
                     </table>
+                    @if ($lstTaiKhoan->total() > 5)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Basic Pagination -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ $lstTaiKhoan->appends($request->except('page'))->links() }}
+                                        </ul>
+                                    </nav>
+                                    <!--/ Basic Pagination -->
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                    @endif
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
