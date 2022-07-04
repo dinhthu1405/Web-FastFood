@@ -57,6 +57,25 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
 
+    {{-- Here Map --}}
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-clustering.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        window.ENV_VARIABLE = 'developer.here.com'
+    </script>
+
+    {{-- <link rel="stylesheet" type="text/css" href="http://www.unpkg.com/heremap@2.2.6/css/heremap.css" />
+
+    <script src="http://www.unpkg.com/heremap@2.2.6/dist/libhere.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://www.unpkg.com/heremap@2.2.6/dist/heremap.min.js" type="text/javascript" charset="utf-8"></script> --}}
+    {{-- Maptiler --}}
+    {{-- <script src="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.css" rel="stylesheet" /> --}}
 
 </head>
 

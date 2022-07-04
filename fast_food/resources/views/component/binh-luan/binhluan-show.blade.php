@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4 class="fw-bold py-3 mb-4"><a href="{{ route('binhLuan.index') }}"><span
-                        class="text-muted fw-light">Danh sách</span></a></h4>
+                                class="text-muted fw-light">Danh sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
@@ -18,13 +18,21 @@
                 </div>
             </div>
             <form action="{{ route('binhLuan.search') }}" method="GET">
-                <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required value="{{ request('search') }}" />
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -70,8 +78,9 @@
                                         @endforeach
 
                                         <td> <a href="{{ route('binhLuan.xoa', $binhLuan->id) }}"><button type="button"
-                                                    id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit"
-                                                    data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                                    id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-lock-open me-1"></i> </button></a></td>
                                     </tr>
                                 </tbody>
@@ -99,8 +108,9 @@
                                         @endforeach
 
                                         <td> <a href="{{ route('binhLuan.xoa', $binhLuan->id) }}"><button type="button"
-                                                    id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit"
-                                                    data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                                    id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                    data-target="#modal-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-lock me-1"></i> </button></a></td>
                                     </tr>
                                 </tbody>
@@ -114,7 +124,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstBinhLuan->appends($request->except('page'))->links() }}
+                                            {{ $lstBinhLuan->appends($request->except('page'))->onEachSide(1)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
@@ -126,4 +136,5 @@
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
+            @include('Partial/binh-luan/JSPartial-binhluan-show')
         @endsection

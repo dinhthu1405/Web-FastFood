@@ -8,7 +8,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh sách</span></h4>
+                    <h4 class="fw-bold py-3 mb-4"><a href="{{ route('monAn.index') }}"><span class="text-muted fw-light">Danh
+                                sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
@@ -16,15 +17,40 @@
                             món ăn</button></a>
                 </div>
             </div>
-            <form action="{{ route('monAn.search') }}" method="GET">
-                <label>Tìm kiếm</label>
+            <form action="{{ route('monAn.search') }}" method="GET" id="form-search">
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" value="{{ request('search') }}"
-                            required />
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Lọc</label>
+                            <select class="form-control" name="LocDonHang" id="loc_don_hang">
+                                <option value="0">--Chọn loại muốn lọc--</option>
+                                <option value="Còn món" {{ request()->LocDonHang == 'Còn món' ? 'selected' : '' }}>
+                                    Còn món
+                                </option>
+                                <option value="Hết món" {{ request()->LocDonHang == 'Hết món' ? 'selected' : '' }}>
+                                    Hết món
+                                </option>
+                                <option value="Sắp hết" {{ request()->LocDonHang == 'Sắp hết' ? 'selected' : '' }}>
+                                    Sắp hết
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -38,10 +64,10 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên món</th>
-                                <th>Hình món ăn</th>
+                                <th>Hình món</th>
                                 <th>Đơn giá</th>
                                 <th>Số lượng</th>
-                                <th>Loại món ăn</th>
+                                <th>Loại món</th>
                                 <th>Địa điểm</th>
                                 <th>Tình trạng</th>
                                 <th>Chỉnh sửa</th>
@@ -60,72 +86,124 @@
                                             hình</a></td> --}}
                                     @foreach ($lstHinhAnh as $hinhAnh)
                                         @if ($monAn->id == $hinhAnh->mon_an_id)
-                                            {{-- @if ($loop->index == 0) --}}
                                             <td>
                                                 <img class="d-block w-100" id="preview-image"
                                                     src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="preview image"
                                                     style="max-height: 80px; border-radius: 50%;" data-target="#modal-add"
-                                                    data-bs-toggle="modal" data-bs-target='#modalCenter' />
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target='#modalCenter{{ $monAn->id }}' />
                                             </td>
-                                            {{-- @endif --}}
-                                        @endif
-                                    @endforeach
-                                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                @foreach ($lstHinhAnh as $hinhAnh)
-                                                    @if ($monAn->id == $hinhAnh->mon_an_id)
-                                                        <img class="d-block w-100" id="preview-image"
-                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
-                                                            alt="preview image" style="max-height: 200px;" />
-                                                    @endif
+                                        @break
+                                    @endif
+                                @endforeach
+                                <div class="modal fade" id="modalCenter{{ $monAn->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            @foreach ($lstHinhAnh as $hinhAnh)
+                                                @if ($monAn->id == $hinhAnh->mon_an_id)
+                                                    <img class="d-block w-100" id="preview-image"
+                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                        alt="preview image" style="max-height: 200px;" />
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <td>{{ number_format($monAn->don_gia) }}</td>
+                                <td>{{ $monAn->so_luong }}</td>
+                                <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
+                                <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
+                                @if ($monAn->tinh_trang == 'Còn món')
+                                    <td>Còn món</td>
+                                @elseif($monAn->tinh_trang == 'Sắp hết')
+                                    <td>Sắp hết</td>
+                                @else
+                                    <td>Hết món</td>
+                                @endif
+                                <td><a href="{{ route('monAn.edit', $monAn->id) }}"><button type="button"
+                                            id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
+                                            data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
+                                            <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
+                                <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
+                                        data-target="#modal-delete" data-bs-toggle="modal"
+                                        data-bs-target="#modalCenter-Delete">
+                                        <i class="bx bx-trash me-1"></i> </button></td>
+                                <!-- Modal Cảnh báo -->
+                                <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            @if (Session::has('success'))
+                                                <div class="alert alert-success" role="alert">
+                                                    {{ Session::get('success') }}
+                                                </div>
+                                            @endif
+                                            @if (Session::has('error'))
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ Session::get('error') }}</div>
+                                            @endif
+                                            @if ($errors->any())
+                                                @foreach ($errors->all() as $error)
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $error }}
+                                                    </div>
                                                 @endforeach
+                                            @endif
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3" style="text-align: center">
+                                                        <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                            alt="" width="180px" height="75px">
+                                                    </div>
+                                                    <div class="mb3 text-nowrap" style="text-align: center">
+                                                        <span style="font-size: 22px;">
+                                                            Bạn có chắc muốn xoá món ăn này, vì nó sẽ ảnh<br /> hưởng
+                                                            đến đánh giá; bình luận và ảnh bìa
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding: 3%">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-2">
+                                                    <a href="{{ route('monAn.xoa', $monAn->id) }}"><button
+                                                            type="submit" class="btn btn-danger btn-delete-confirm"
+                                                            data-bs-dismiss="modal">Xoá</button></a>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" value="delete"
+                                                        class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-2"></div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <td>{{ number_format($monAn->don_gia) }}</td>
-                                    <td>{{ $monAn->so_luong }}</td>
-                                    <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
-                                    <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
-                                    @if ($monAn->tinh_trang == 'Còn món')
-                                        <td>Còn món</td>
-                                    @elseif($monAn->tinh_trang == 'Sắp hết')
-                                        <td>Sắp hết</td>
-                                    @else
-                                        <td>Hết món</td>
-                                    @endif
-                                    <td><a href="{{ route('monAn.edit', $monAn->id) }}"><button type="button"
-                                                id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
-                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('monAn.xoa', $monAn->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá món ăn này, vì nó sẽ ảnh hưởng đến đánh giá; bình luận và ảnh bìa')"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
-                                </tr>
-                            </tbody>
-                        @endforeach
-                    </table>
-                    @if ($lstMonAn->total() > 5)
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Basic Pagination -->
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            {{ $lstMonAn->appends($request->except('page'))->links() }}
-                                        </ul>
-                                    </nav>
-                                    <!--/ Basic Pagination -->
                                 </div>
+                            </tr>
+                        </tbody>
+                    @endforeach
+                </table>
+                @if ($lstMonAn->total() > 5)
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <!-- Basic Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        {{ $lstMonAn->appends($request->except('page'))->onEachSide(1)->links() }}
+                                    </ul>
+                                </nav>
+                                <!--/ Basic Pagination -->
                             </div>
                         </div>
-                    @else
-                    @endif
-                </div>
+                    </div>
+                @else
+                @endif
             </div>
-            <!-- Bootstrap Table with Header - Light -->
-        @endsection
+        </div>
+        <!-- Bootstrap Table with Header - Light -->
+        @include('Partial/mon-an/JSPartial-monan-show')
+    @endsection

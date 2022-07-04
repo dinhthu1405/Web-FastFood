@@ -293,13 +293,13 @@ class UserController extends Controller
             $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 0]);
             $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 0]);
 
-            foreach ($lstDiemMuaHang as $diemMuaHang) {
-                if ($diemMuaHang->user_id == $id) {
-                    $diemMuaHang->update([
-                        'trang_thai' => 0,
-                    ]);
-                }
-            }
+            // foreach ($lstDiemMuaHang as $diemMuaHang) {
+            //     if ($diemMuaHang->user_id == $id) {
+            //         $diemMuaHang->update([
+            //             'trang_thai' => 0,
+            //         ]);
+            //     }
+            // }
             // $taiKhoan->diemMuaHang()->update(['diem_mua_hangs.trang_thai' => 0]);
             return Redirect::route('taiKhoan.index');
         }

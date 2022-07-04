@@ -85,7 +85,7 @@
                         class="menu-item {{ request()->is('loaiMonAn*') || request()->is('loaiMonAn*') ? 'active' : '' }}">
                         <a href="{{ route('loaiMonAn.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-fridge"></i>
-                            <div data-i18n="Analytics">Loại món ăn</div>
+                            <div data-i18n="Analytics">Loại món</div>
                         </a>
                     </li>
                     <!-- Địa điểm -->

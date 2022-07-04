@@ -20,6 +20,8 @@ class DiaDiem extends Model
         'ten_dia_diem',
         'thoi_gian_mo',
         'thoi_gian_dong',
+        'kinh_do',
+        'vi_do',
         'trang_thai',
     ];
 
