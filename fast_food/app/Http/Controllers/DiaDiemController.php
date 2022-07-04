@@ -25,6 +25,13 @@ class DiaDiemController extends Controller
         return view('component/dia-diem/diadiem-show', compact('lstDiaDiem', 'request'));
     }
 
+    public function index1(Request $request, $dia_diem_id)
+    {
+        //
+        $lstDiaDiem = DiaDiem::where('trang_thai', 1)->where('id', $dia_diem_id)->paginate(5);
+        return view('component/dia-diem/diadiem-show', compact('lstDiaDiem', 'request'));
+    }
+
     public function search(Request $request)
     {
         // Get the search value from the request
@@ -256,6 +263,8 @@ class DiaDiemController extends Controller
         $diaDiem->fill([
             'thoi_gian_mo' => $request->input('ThoiGianMo'),
             'thoi_gian_dong' => $request->input('ThoiGianDong'),
+            'kinh_do' => $request->input('KinhDo'),
+            'vi_do' => $request->input('ViDo'),
         ]);
         $diaDiem->save(); //lưu xong mới có mã địa điểm
         return Redirect::route('diaDiem.index')->with('success', 'Sửa địa điểm thành công');

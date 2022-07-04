@@ -82,7 +82,7 @@
                     </li>
                     <!-- Loại món ăn -->
                     <li
-                        class="menu-item {{ request()->is('loaiMonAn*') || request()->is('loaiMonAn*') ? 'active' : '' }}">
+                        class="menu-item {{ request()->is('loaiMonAn*') || request()->is('loaiMonAns*') ? 'active' : '' }}">
                         <a href="{{ route('loaiMonAn.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-fridge"></i>
                             <div data-i18n="Analytics">Loại món</div>
@@ -94,7 +94,7 @@
                     </li>
                     <!-- Địa điểm -->
                     <li
-                        class="menu-item {{ request()->is('diaDiem*') || request()->is('diaDiem*') ? 'active' : '' }}">
+                        class="menu-item {{ request()->is('diaDiem*') || request()->is('diaDiems*') ? 'active' : '' }}">
                         <a href="{{ route('diaDiem.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-store-alt"></i>
                             <div data-i18n="Analytics">Địa điểm</div>
@@ -124,7 +124,7 @@
                     </li>
                     <!-- Trạng thái đơn hàng -->
                     <li
-                        class="menu-item {{ request()->is('trangThaiDonHang*') || request()->is('trangThaiDonHang*') ? 'active' : '' }}">
+                        class="menu-item {{ request()->is('trangThaiDonHang*') || request()->is('trangThaiDonHangs*') ? 'active' : '' }}">
                         <a href="{{ route('trangThaiDonHang.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-food-menu"></i>
                             <div data-i18n="Analytics">Trạng thái đơn hàng</div>
@@ -155,7 +155,7 @@
                     </li>
                     <!-- Loại mã giảm giá -->
                     <li
-                        class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGia*') ? 'active' : '' }}">
+                        class="menu-item {{ request()->is('loaiGiamGia*') || request()->is('loaiGiamGias*') ? 'active' : '' }}">
                         <a href="{{ route('loaiGiamGia.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-coupon"></i>
                             <div data-i18n="Analytics">Loại mã giảm giá</div>

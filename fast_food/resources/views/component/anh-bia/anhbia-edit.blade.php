@@ -54,8 +54,10 @@
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="user-image col-md-6 text-center">
-                                        <img id="preview-image" src="{{ asset('assets/img/khongxacdinh.jpg') }}"
-                                            alt="preview image" style="max-height: 200px;">
+                                        @foreach ($lstHinhAnh as $image)
+                                            <img id="preview-image" src="{{ asset("storage/$image->duong_dan") }}"
+                                                alt="preview image" style="max-height: 200px;">
+                                        @endforeach
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>

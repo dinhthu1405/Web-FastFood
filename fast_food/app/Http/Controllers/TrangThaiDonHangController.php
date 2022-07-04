@@ -22,6 +22,13 @@ class TrangThaiDonHangController extends Controller
         return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang', 'request'));
     }
 
+    public function index1(Request $request, $trang_thai_don_hang_id)
+    {
+        //
+        $lstTrangThaiDonHang = TrangThaiDonhang::where('trang_thai', 1)->where('id', $trang_thai_don_hang_id)->paginate(5);
+        return view('component.trang-thai-don-hang.trangthaidonhang-show', compact('lstTrangThaiDonHang', 'request'));
+    }
+
     public function search(Request $request)
     {
         $search = $request->search;

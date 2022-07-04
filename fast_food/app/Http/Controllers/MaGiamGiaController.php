@@ -19,7 +19,9 @@ class MaGiamGiaController extends Controller
     public function index(Request $request)
     {
         //
-        $lstMaGiamGia = MaGiamGia::paginate(5);
+        // MaGiamGia::withTrashed()->find(1)->restore();
+        $lstMaGiamGia = MaGiamGia::where('deleted_at', null)->paginate(5);
+        // $lstMaGiamGia->restore();
         return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
     }
 
@@ -28,9 +30,9 @@ class MaGiamGiaController extends Controller
         $search = $request->search;
         $lstMaGiamGia = MaGiamGia::where('trang_thai', 1)->where(function ($query) use ($search) {
             $query->where('ten_ma', 'LIKE', '%' . $search . '%')
-            ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
-            ->orWhere('ngay_bat_dau', 'LIKE', '%' . $search . '%')
-            ->orWhere('ngay_ket_thuc', 'LIKE', '%' . $search . '%');
+                ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+                ->orWhere('ngay_bat_dau', 'LIKE', '%' . $search . '%')
+                ->orWhere('ngay_ket_thuc', 'LIKE', '%' . $search . '%');
         })->paginate(5);
 
         return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
@@ -132,14 +134,12 @@ class MaGiamGiaController extends Controller
         $this->validate(
             $request,
             [
-                'TenMaGiamGia' => 'required',
                 'LoaiGiamGia' => 'required',
                 'SoLuong' => 'required',
                 'NgayBatDau' => 'required',
                 'NgayKetThuc' => 'required',
             ],
             [
-                'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
                 'SoLuong.required' => 'Bạn chưa nhập số lượng',
                 'NgayBatDau.required' => 'Bạn chưa nhập ngày bắt đầu',
@@ -147,17 +147,17 @@ class MaGiamGiaController extends Controller
             ]
         );
         $maGiamGium->fill([
-            'ten_ma' => $request->input('TenMaGiamGia'),
             'so_luong' => $request->input('SoLuong'),
             'ngay_bat_dau' => $request->input('NgayBatDau'),
             'ngay_ket_thuc' => $request->input('NgayKetThuc'),
             'loai_giam_gia_id' => $request->input('LoaiGiamGia'),
         ]);
 
-        $ktMaGiamGia = MaGiamGia::all()->where('ten_ma', $request->input('TenMaGiamGia'))->where('trang_thai', 1)->where('loai_giam_gia_id', $request->input('LoaiGiamGia'))->first();
-        if ($ktMaGiamGia) {
-            return Redirect::back()->with('error', 'Tên mã giảm giá đã tồn tại');
-        } else if ($request->input('NgayBatDau') > $request->input('NgayKetThuc')) {
+        // $ktMaGiamGia = MaGiamGia::all()->where('ten_ma', $request->input('TenMaGiamGia'))->where('trang_thai', 1)->where('loai_giam_gia_id', $request->input('LoaiGiamGia'))->first();
+        // if ($ktMaGiamGia) {
+        //     return Redirect::back()->with('error', 'Tên mã giảm giá đã tồn tại');
+        // } else 
+        if ($request->input('NgayBatDau') > $request->input('NgayKetThuc')) {
             return Redirect::back()->with('error', 'Ngày kết thúc phải lớn hơn ngày bắt đầu');
         } else {
             $maGiamGium->save();

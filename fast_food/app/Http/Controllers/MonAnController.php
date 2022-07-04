@@ -35,15 +35,16 @@ class MonAnController extends Controller
         // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
-        // foreach ($lstMonAn as $monAn) {
-        //     if ($monAn->so_luong > 10) {
-        //         $monAn->update(['tinh_trang' => 'Còn món']);
-        //     } else if ($monAn->so_luong > 0 && $monAn->so_luong <= 10) {
-        //         $monAn->update(['tinh_trang' => 'Sắp hết']);
-        //     } else if ($monAn->so_luong == 0) $monAn->update(['tinh_trang' => 'Hết món']);
-        // }
         return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
     }
+
+    public function index1(Request $request, $mon_an_id)
+    {
+        $lstMonAn = MonAn::where('trang_thai', 1)->where('id', $mon_an_id)->paginate(5);
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
+    }
+
 
     public function images($id)
     {
