@@ -59,7 +59,7 @@ class DiaDiemController extends Controller
     public function store(Request $request)
     {
         //
-
+        // dd(request()->KinhDo);
         // $weekMap = [
         //     0 => 'Chủ nhật',
         //     1 => 'Thứ hai',
@@ -104,17 +104,34 @@ class DiaDiemController extends Controller
         // $diaDiem->save();
         // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // return response()->json(['diaDiem'=>$diaDiem]);
-
-        $validator = Validator::make(
-            $request->all(),
+        $this->validate(
+            $request,
             [
                 'TenDiaDiem' => 'required',
+                'KinhDo' => 'required',
+                'ViDo' => 'required',
             ],
             [
                 'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+                'KinhDo.required' => 'Bạn chưa nhập kinh độ',
+                'ViDo.required' => 'Bạn chưa nhập vĩ độ',
                 // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
             ]
         );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'TenDiaDiem' => 'required',
+        //         'KinhDo' => 'required',
+        //         'ViDo' => 'required',
+        //     ],
+        //     [
+        //         'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
+        //         'KinhDo.required' => 'Bạn chưa nhập kinh độ',
+        //         'ViDo.required' => 'Bạn chưa nhập vĩ độ',
+        //         // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
+        //     ]
+        // );
         // $validator=$request->validate(
         //     [
         //         'TenDiaDiem' => 'required',
@@ -147,24 +164,36 @@ class DiaDiemController extends Controller
         // $diaDiem->save();
         // return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
         // return response()->json(['diaDiem'=>$diaDiem]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->errors(),
-                // 'error' => $validator->messages(),
-            ]);
-        } else {
-            $diaDiem = new DiaDiem();
-            $diaDiem->ten_dia_diem = $request->input('ten_dia_diem');
-            $diaDiem->thoi_gian_mo = $request->input('thoi_gian_mo');
-            $diaDiem->thoi_gian_dong = $request->input('thoi_gian_dong');
-            $diaDiem->save();
-            // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem' => $diaDiem], 200);
-            return response()->json(['status' => 200, 'message' => 'Thêm thành công']);
-            // return response()->json(['success' => 'Data is successfully added']);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 400,
+        //         'errors' => $validator->errors(),
+        //         // 'error' => $validator->messages(),
+        //     ]);
+        // } else {
+        //     $diaDiem = new DiaDiem();
+        //     $diaDiem->ten_dia_diem = $request->input('ten_dia_diem');
+        //     $diaDiem->thoi_gian_mo = $request->input('thoi_gian_mo');
+        //     $diaDiem->thoi_gian_dong = $request->input('thoi_gian_dong');
+        //     $diaDiem->save();
+        //     // return response()->json(['error' => false, 'success' => 'Thêm thành công', 'diaDiem' => $diaDiem], 200);
+        //     return response()->json(['status' => 200, 'message' => 'Thêm thành công']);
+        //     // return response()->json(['success' => 'Data is successfully added']);
 
-        }
+        // }
         // return response()->json($diaDiem);
+        $diaDiem = new DiaDiem();
+
+        $diaDiem->fill([
+            'ten_dia_diem' => $request->input('TenDiaDiem'),
+            'thoi_gian_mo' => $request->input('ThoiGianMo'),
+            'thoi_gian_dong' => $request->input('ThoiGianDong'),
+            'kinh_do' => $request->input('KinhDo'),
+            'vi_do' => $request->input('ViDo'),
+        ]);
+        // dd($diaDiem);
+        $diaDiem->save(); //lưu xong mới có mã địa điểm
+        return Redirect::route('diaDiem.index')->with('success', 'Sửa địa điểm thành công');
     }
 
     /**

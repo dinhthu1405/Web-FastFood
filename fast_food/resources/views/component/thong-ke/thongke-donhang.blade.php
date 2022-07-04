@@ -257,7 +257,7 @@
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination" name="page" id="paginate">
                                             {{-- {{ $lstDonHang->links() }} --}}
-                                            {{ $lstDonHang->appends(request()->all())->links() }}
+                                            {{ $lstDonHang->appends(request()->all())->onEachSide(1)->links() }}
                                             {{-- {{ $lstDonHang->appends($request->except('page'))->links() }} --}}
                                             {{-- search with paginate --}}
                                             {{-- {{ $lstDonHang->withQueryString()->links() }} --}}

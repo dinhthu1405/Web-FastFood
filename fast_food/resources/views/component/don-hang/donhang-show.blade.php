@@ -19,15 +19,22 @@
                 </div>
             </div>
             <form action="{{ route('donHang.searchChiTietDonHang') }}" method="GET">
-                <label>Tìm kiếm</label>
                 <input type="hidden" name="id" value="{{ $id }}" />
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
                             value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -54,9 +61,9 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                        <td>
-                                            {{ $chiTietDonHang->don_hang_id }}
-                                        </td>
+                                    <td>
+                                        {{ $chiTietDonHang->don_hang_id }}
+                                    </td>
                                     @foreach ($lstMonAn as $monAn)
                                         @if ($monAn->id == $chiTietDonHang->mon_an_id)
                                             <td>{{ $monAn->ten_mon }}</td>
@@ -88,7 +95,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstChiTietDonHang->appends($request->except('page'))->links() }}
+                                            {{ $lstChiTietDonHang->appends($request->except('page'))->onEachSide(1)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
@@ -100,4 +107,5 @@
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
+            @include('Partial/don-hang/JSPartial-donhang-show')
         @endsection

@@ -82,7 +82,7 @@ Route::get('/timKiemMonAn', [MonAnController::class, 'search'])->name('monAn.sea
 Route::get('/timKiemLoaiMonAn', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
 Route::get('/timKiemDiaDiem', [DiaDiemController::class, 'search'])->name('diaDiem.search')->middleware('auth');
 Route::get('/timKiemTaiKhoan', [UserController::class, 'search'])->name('taiKhoan.search')->middleware('auth');
-Route::get('/timKiemDonHang', [DonHangController::class, 'searchDonHang'])->name('donHang.searchDonHang')->middleware('auth');
+Route::get('/timKiemDonHang/{taiKhoan}', [DonHangController::class, 'searchDonHang'])->name('donHang.searchDonHang')->middleware('auth');
 Route::get('/timKiemChiTietDonHang', [DonHangController::class, 'searchChiTietDonHang'])->name('donHang.searchChiTietDonHang')->middleware('auth');
 Route::get('/timKiemTrangThaiDonHang', [TrangThaiDonHangController::class, 'search'])->name('trangThaiDonHang.search')->middleware('auth');
 Route::get('/timKiemDanhGia', [DanhGiaController::class, 'search'])->name('danhGia.search')->middleware('auth');
@@ -97,6 +97,9 @@ Route::get('/monAn/images/{id}', [MonAnController::class, 'images'])->name('monA
 //Route
 Route::get('/donHang/{id}/{user_id}/{nguoi_giao_hang_id}/{trang_thai_don_hang_id}', [DonHangController::class, 'index1'])->name('donHang.index1')->middleware('auth');
 Route::get('/taiKhoan/{user_id}/{nguoi_giao_hang_id}', [UserController::class, 'index1'])->name('taiKhoan.index1')->middleware('auth');
+
+//Ajax
+Route::get('/danhSach_loaiMonAn', [LoaiMonAnController::class, 'indexAjax'])->name('loaiMonAn.indexAjax')->middleware('auth');
 
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');

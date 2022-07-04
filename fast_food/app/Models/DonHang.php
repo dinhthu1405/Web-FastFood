@@ -39,7 +39,7 @@ class DonHang extends Model
 
     public function chiTietDonHangs()
     {
-        return $this->hasMany(ChiTietDonHangs::class, 'id');
+        return $this->hasMany(ChiTietDonHang::class, 'id');
     }
 
     public function diemMuaHang()

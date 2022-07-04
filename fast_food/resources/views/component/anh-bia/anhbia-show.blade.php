@@ -18,13 +18,21 @@
             </div>
             <form action="{{ route('loaiMonAn.search') }}" method="post">
                 {{ csrf_field() }}
-                <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -62,11 +70,13 @@
                                                     data-target="#modal-add" data-bs-toggle="modal"
                                                     data-bs-target='#modalCenter{{ $count }}' alt="">
                                             </td>
-                                            <div class="modal fade" id="modalCenter{{ $count }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="modalCenter{{ $count }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <img style="vertical-align: middle; height: 50%; "
-                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                            alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +102,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstAnhBia->links() }}
+                                            {{ $lstAnhBia->onEachSide(1)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
@@ -104,4 +114,5 @@
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
+            @include('Partial/anh-bia/JSPartial-anhbia-show')
         @endsection
