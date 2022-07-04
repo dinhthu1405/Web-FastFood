@@ -150,47 +150,56 @@
                                     <td>{{ $donHang->loai_thanh_toan }}</td>
                                     <td> @switch($donHang->trang_thai_don_hang_id)
                                             @case(1)
-                                                <span
-                                                    class="badge bg-label-warning me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-warning me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(2)
-                                                <span
-                                                    class="badge bg-label-secondary me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-secondary me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(3)
-                                                <span
-                                                    class="badge bg-label-dark me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-dark me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(4)
-                                                <span
-                                                    class="badge bg-label-warning me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-warning me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(5)
-                                                <span
-                                                    class="badge bg-label-info me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-info me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(6)
-                                                <span
-                                                    class="badge bg-label-primary me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-primary me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(7)
-                                                <span
-                                                    class="badge bg-label-danger me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-danger me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @case(8)
-                                                <span
-                                                    class="badge bg-label-success me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span>
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}"><span
+                                                        class="badge bg-label-success me-1">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</span></a>
                                             @break
 
                                             @default
-                                                {{ $donHang->trangThaiDonHang->ten_trang_thai }}
+                                                <a
+                                                    href="{{ route('trangThaiDonHang.index1', $donHang->trang_thai_don_hang_id) }}">{{ $donHang->trangThaiDonHang->ten_trang_thai }}</a>
                                         @endswitch
                                     </td>
                                     {{-- <td><a href="{{ route('donHang.show', $donHang->id) }}"><button type="button"

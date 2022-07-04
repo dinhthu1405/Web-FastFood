@@ -56,7 +56,7 @@
                         </thead>
                         <?php $count = $lstMaGiamGia->perPage() * ($lstMaGiamGia->currentPage() - 1) + 1; ?>
                         @foreach ($lstMaGiamGia as $maGiamGia)
-                            @if ($maGiamGia->trang_thai == 0)
+                            @if ($maGiamGia->trang_thai == 0 || $maGiamGia->so_luong == 0)
                                 <tbody class="table-border-bottom-0" style="background-color: #ECEEF1">
                                     <tr>
                                         <td> {{ $count++ }} </td>
@@ -64,19 +64,70 @@
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
-                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
-                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
                                         <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
                                         <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button
                                                     type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
                                                     data-target="#modal-edit" data-bs-toggle="modal"
                                                     data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                        <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
-                                                    type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                    data-target="#modal-edit" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter-Edit">
-                                                    <i class="bx bx-lock-open me-1"></i> </button></a></td>
+                                        <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
+                                                data-target="#modal-delete" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter-Delete-Unlock">
+                                                <i class="bx bx-lock-open me-1"></i> </button></td>
+                                        <!-- Modal Cảnh báo (Mở khoá)-->
+                                        <div class="modal fade" id="modalCenter-Delete-Unlock" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    @if (Session::has('success'))
+                                                        <div class="alert alert-success" role="alert">
+                                                            {{ Session::get('success') }}
+                                                        </div>
+                                                    @endif
+                                                    @if (Session::has('error'))
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{ Session::get('error') }}</div>
+                                                    @endif
+                                                    @if ($errors->any())
+                                                        @foreach ($errors->all() as $error)
+                                                            <div class="alert alert-danger" role="alert">
+                                                                {{ $error }}
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="mb-3" style="text-align: center">
+                                                                <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                    alt="" width="180px" height="75px">
+                                                            </div>
+                                                            <div class="mb3 text-nowrap" style="text-align: center">
+                                                                <span style="font-size: 22px; padding-left: 5%">
+                                                                    Bạn có chắc muốn mở khoá mã giảm giá này
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding: 3%">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-3">
+                                                            <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
+                                                                    type="submit" class="btn btn-danger btn-delete-confirm"
+                                                                    data-bs-dismiss="modal">Mở khoá</button></a>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button type="submit" value="delete"
+                                                                class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-2"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 </tbody>
                             @else
@@ -87,19 +138,76 @@
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
-                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
-                                        <td>{{ date('d-m-Y: H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
-                                        <td>{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
+                                        <td>
+                                            <a style="color: #697a8d"
+                                                href="{{ route('loaiGiamGia.index1', [$maGiamGia->loai_giam_gia_id]) }}">{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}
+                                            </a>
+                                        </td>
+
                                         <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button
                                                     type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
                                                     data-target="#modal-edit" data-bs-toggle="modal"
                                                     data-bs-target="#modalCenter-Edit">
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                        <td> <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
-                                                    type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                    data-target="#modal-edit" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter-Edit">
-                                                    <i class="bx bx-lock me-1"></i> </button></a></td>
+                                        <td><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                data-target="#modal-edit" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter-Delete-Lock">
+                                                <i class="bx bx-lock me-1"></i> </button></td>
+                                        <!-- Modal Cảnh báo (Khoá)-->
+                                        <div class="modal fade" id="modalCenter-Delete-Lock" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    @if (Session::has('success'))
+                                                        <div class="alert alert-success" role="alert">
+                                                            {{ Session::get('success') }}
+                                                        </div>
+                                                    @endif
+                                                    @if (Session::has('error'))
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{ Session::get('error') }}</div>
+                                                    @endif
+                                                    @if ($errors->any())
+                                                        @foreach ($errors->all() as $error)
+                                                            <div class="alert alert-danger" role="alert">
+                                                                {{ $error }}
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="mb-3" style="text-align: center">
+                                                                <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                    alt="" width="180px" height="75px">
+                                                            </div>
+                                                            <div class="mb3 text-nowrap" style="text-align: center">
+                                                                <span style="font-size: 22px; padding-left: 5%">
+                                                                    Bạn có chắc muốn khoá mã giảm giá này
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding: 3%">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{ route('maGiamGia.xoa', $maGiamGia->id) }}"><button
+                                                                    type="submit"
+                                                                    class="btn btn-danger btn-delete-confirm"
+                                                                    data-bs-dismiss="modal">Khoá</button></a>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button type="submit" value="delete"
+                                                                class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 </tbody>
                             @endif

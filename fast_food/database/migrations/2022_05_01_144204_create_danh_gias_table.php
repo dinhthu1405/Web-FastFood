@@ -16,6 +16,8 @@ class CreateDanhGiasTable extends Migration
         Schema::create('danh_gias', function (Blueprint $table) {
             $table->id();
             $table->double('danh_gia_sao');
+            $table->text('noi_dung');
+            $table->dateTime('thoi_gian');
             $table->unsignedBigInteger('user_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('mon_an_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('dia_diem_id')->nullable(); //khoá ngoại

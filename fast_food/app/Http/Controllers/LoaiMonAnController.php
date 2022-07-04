@@ -24,6 +24,16 @@ class LoaiMonAnController extends Controller
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
     }
 
+    public function index1(Request $request, $loai_mon_an_id)
+    {
+        //
+        // dd($loai_mon_an_id);
+        if ($loai_mon_an_id != 0) {
+            $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->where('id', $loai_mon_an_id)->paginate(5);
+        }
+        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
+    }
+
     public function indexAjax(Request $request)
     {
         // if ($request->ajax()) {

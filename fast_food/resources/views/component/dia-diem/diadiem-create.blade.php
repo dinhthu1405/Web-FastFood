@@ -38,18 +38,18 @@
                             <div class="mb-3 row">
                                 <label for="html5-time-input" class="form-label">Thời gian mở</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianMo" type="time" value="12:30:00"
+                                    <input class="form-control" name="ThoiGianMo" type="time" value="12:30"
                                         id="html5-time-input">
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="html5-time-input" class="form-label">Thời gian đóng</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianDong" type="time" value="13:30:00"
+                                    <input class="form-control" name="ThoiGianDong" type="time" value="13:30"
                                         id="html5-time-input">
                                 </div>
                             </div>
-                            <div class="mb-3 row">
+                            <div class="mb-3 row" hidden>
                                 <div class="col-md-6">
                                     <input class="form-control" name="KinhDo" type="text" value=""
                                         id="KinhDo">

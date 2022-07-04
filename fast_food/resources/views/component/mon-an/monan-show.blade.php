@@ -113,8 +113,13 @@
 
                                 <td>{{ number_format($monAn->don_gia) }}</td>
                                 <td>{{ $monAn->so_luong }}</td>
-                                <td>{{ $monAn->loaiMonAn->ten_loai }}</td>
-                                <td>{{ $monAn->diaDiem->ten_dia_diem }}</td>
+                                <td><a style="color: #697a8d"
+                                        href="{{ route('loaiMonAn.index1', $monAn->loai_mon_an_id) }}">{{ $monAn->loaiMonAn->ten_loai }}</a>
+                                </td>
+
+                                <td> <a style="color: #697a8d"
+                                        href="{{ route('diaDiem.index1', $monAn->dia_diem_id) }}">{{ $monAn->diaDiem->ten_dia_diem }}</a>
+                                </td>
                                 @if ($monAn->tinh_trang == 'Còn món')
                                     <td>Còn món</td>
                                 @elseif($monAn->tinh_trang == 'Sắp hết')

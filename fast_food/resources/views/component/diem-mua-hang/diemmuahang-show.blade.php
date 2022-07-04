@@ -68,7 +68,11 @@
                                     </td>
                                     @foreach ($lstTaiKhoan as $taiKhoan)
                                         @if ($diemMuaHang->user_id == $taiKhoan->id)
-                                            <td>{{ $taiKhoan->email }}</td>
+                                            <td>
+                                                <a style="color: #697a8d"
+                                                    href="{{ route('taiKhoan.index1', [$diemMuaHang->user_id, 0]) }}">{{ $taiKhoan->email }}
+                                                </a>
+                                            </td>
                                         @endif
                                     @endforeach
                                     @foreach ($lstDonHang as $donHang)
@@ -128,12 +132,61 @@
                                             data-bs-target="#modalCenter-Detail">
                                             <i class="bx bx-edit-alt me-1"></i> </button>
                                     </td>
-                                    <td> <a href="{{ route('diemMuaHang.xoa', $diemMuaHang->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá điểm mua hàng này')"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                    <td> <button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                            data-target="#modal-edit" data-bs-toggle="modal"
+                                            data-bs-target="#modalCenter-Delete">
+                                            <i class="bx bx-trash me-1"></i> </button></td>
+                                    <!-- Modal Cảnh báo -->
+                                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                @if (Session::has('success'))
+                                                    <div class="alert alert-success" role="alert">
+                                                        {{ Session::get('success') }}
+                                                    </div>
+                                                @endif
+                                                @if (Session::has('error'))
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ Session::get('error') }}</div>
+                                                @endif
+                                                @if ($errors->any())
+                                                    @foreach ($errors->all() as $error)
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{ $error }}
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="mb-3" style="text-align: center">
+                                                            <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                alt="" width="180px" height="75px">
+                                                        </div>
+                                                        <div class="mb3 text-nowrap" style="text-align: center">
+                                                            <span style="font-size: 22px;">Bạn có chắc muốn xoá điểm mua
+                                                                hàng này
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding: 3%">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2">
+                                                        <a href="{{ route('diemMuaHang.xoa', $diemMuaHang->id) }}"><button
+                                                                type="submit" class="btn btn-danger btn-delete-confirm"
+                                                                data-bs-dismiss="modal">Xoá</button></a>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" value="delete"
+                                                            class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                             </tbody>
                         @endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\models\LoaiGiamGia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
 
 class LoaiGiamGiaController extends Controller
 {
@@ -17,7 +18,14 @@ class LoaiGiamGiaController extends Controller
     {
         //
         $lstLoaiGiamGia = LoaiGiamGia::where('trang_thai', 1)->paginate(5);
-        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia','request'));
+        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia', 'request'));
+    }
+
+    public function index1(Request $request, $loai_giam_gia_id)
+    {
+        //
+        $lstLoaiGiamGia = LoaiGiamGia::where('trang_thai', 1)->where('id', $loai_giam_gia_id)->paginate(5);
+        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia', 'request'));
     }
 
     public function search(Request $request)
@@ -26,7 +34,7 @@ class LoaiGiamGiaController extends Controller
         $lstLoaiGiamGia = LoaiGiamGia::where('trang_thai', 1)->where(function ($query) use ($search) {
             $query->where('ten_loai_giam_gia', 'LIKE', '%' . $search . '%');
         })->paginate(5);
-        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia','request'));
+        return view('component/loai-ma-giam-gia/loaimagiamgia-show', compact('lstLoaiGiamGia', 'request'));
     }
 
     /**
@@ -136,10 +144,11 @@ class LoaiGiamGiaController extends Controller
 
     public function xoa($id)
     {
+        $ngay_hien_tai = Carbon::now()->toDateTimeString();
         $loaiGiamGia = loaiGiamGia::find($id);
         $loaiGiamGia->trang_thai = 0;
         $loaiGiamGia->save();
-        $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.trang_thai' => 0]);
+        $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.deleted_at' => $ngay_hien_tai]);
         return Redirect::route('loaiGiamGia.index');
     }
 }

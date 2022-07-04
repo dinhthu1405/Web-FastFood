@@ -117,18 +117,18 @@
                                                     </div>
                                                     <div class="row" style="padding: 3%">
                                                         <div class="col-md-2"></div>
-                                                        <div class="col-md-2"></div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-4">
                                                             <a href="{{ route('danhGia.xoa', $danhGia->id) }}"><button
                                                                     type="submit" class="btn btn-danger btn-delete-confirm"
                                                                     data-bs-dismiss="modal">Mở khoá</button></a>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-3">
                                                             <button type="submit" value="delete"
                                                                 class="btn btn-primary btn-delete-close">Huỷ</button>
                                                         </div>
-                                                        <div class="col-md-2"></div>
-                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-1"></div>
                                                     </div>
                                                 </div>
                                             </div>
