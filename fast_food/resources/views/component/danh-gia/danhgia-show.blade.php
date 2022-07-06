@@ -46,9 +46,12 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Đánh giá sao</th>
+                                <th>Nội dung</th>
+                                <th>Thời gian</th>
                                 <th>Người dùng</th>
                                 <th>Món ăn</th>
                                 <th>Địa điểm</th>
+                                <th>Duyệt</th>
                                 <th>Khoá - Mở</th>
                             </tr>
                         </thead>
@@ -61,6 +64,16 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             {{ $danhGia->danh_gia_sao }}
                                         </td>
+                                        @if ($danhGia->noi_dung == null)
+                                            <td></td>
+                                        @else
+                                            <td>{{ $danhGia->noi_dung }}</td>
+                                        @endif
+                                        @if ($danhGia->thoi_gian == null)
+                                            <td></td>
+                                        @else
+                                            <td>{{ $danhGia->thoi_gian }}</td>
+                                        @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
                                         @else
@@ -76,32 +89,30 @@
                                         @else
                                             <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
-
+                                        @if ($danhGia->duyet == 1)
+                                            <td>
+                                                <span class="badge bg-label-success me-1">Đã duyệt</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                @if ($danhGia->trang_thai == 1)
+                                                    <a href="{{ route('danhGias.index1', $danhGia->duyet) }}">
+                                                        <span class="badge bg-label-warning me-1">Chưa duyệt</span></a>
+                                                @else
+                                                    <span class="badge bg-label-warning me-1">Chưa duyệt</span>
+                                                @endif
+                                            </td>
+                                        @endif
                                         <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-delete" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Delete-UnLock">
+                                                data-bs-target="#modalCenter-Delete-UnLock{{ $danhGia->id }}">
                                                 <i class="bx bx-lock-open me-1"></i> </button></td>
+
                                         <!-- Modal Cảnh báo -->
-                                        <div class="modal fade" id="modalCenter-Delete-UnLock" tabindex="-1"
-                                            aria-hidden="true">
+                                        <div class="modal fade" id="modalCenter-Delete-UnLock{{ $danhGia->id }}"
+                                            tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
-                                                    @if (Session::has('success'))
-                                                        <div class="alert alert-success" role="alert">
-                                                            {{ Session::get('success') }}
-                                                        </div>
-                                                    @endif
-                                                    @if (Session::has('error'))
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ Session::get('error') }}</div>
-                                                    @endif
-                                                    @if ($errors->any())
-                                                        @foreach ($errors->all() as $error)
-                                                            <div class="alert alert-danger" role="alert">
-                                                                {{ $error }}
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="mb-3" style="text-align: center">
@@ -142,6 +153,16 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             {{ $danhGia->danh_gia_sao }}
                                         </td>
+                                        @if ($danhGia->noi_dung == null)
+                                            <td></td>
+                                        @else
+                                            <td>{{ $danhGia->noi_dung }}</td>
+                                        @endif
+                                        @if ($danhGia->thoi_gian == null)
+                                            <td></td>
+                                        @else
+                                            <td>{{ $danhGia->thoi_gian }}</td>
+                                        @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
                                         @else
@@ -157,15 +178,67 @@
                                         @else
                                             <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
-
-                                        <td> <a href="{{ route('danhGia.xoa', $danhGia->id) }}"><button type="button"
-                                                    id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                    data-target="#modal-edit" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter-Edit">
-                                                    <i class="bx bx-lock me-1"></i> </button></a></td>
+                                        @if ($danhGia->duyet == 1)
+                                            <td>
+                                                <span class="badge bg-label-success me-1">Đã duyệt</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <a href="{{ route('danhGias.index1', $danhGia->id) }}"><span
+                                                        class="badge bg-label-warning me-1">Chưa duyệt</span></a>
+                                            </td>
+                                        @endif
+                                        <td><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                                data-target="#modal-edit" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter-Delete-Lock{{ $danhGia->id }}">
+                                                <i class="bx bx-lock me-1"></i> </button></td>
+                                        <!-- Modal Cảnh báo -->
+                                        <div class="modal fade" id="modalCenter-Delete-Lock{{ $danhGia->id }}"
+                                            tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="mb-3" style="text-align: center">
+                                                                <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                    alt="" width="180px" height="75px">
+                                                            </div>
+                                                            <div class="mb3 text-nowrap" style="text-align: center">
+                                                                <span style="font-size: 22px">
+                                                                    Bạn có chắc muốn khoá đánh giá này
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding: 3%">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{ route('danhGia.xoa', $danhGia->id) }}"><button
+                                                                    type="submit"
+                                                                    class="btn btn-danger btn-delete-confirm"
+                                                                    data-bs-dismiss="modal">Khoá</button></a>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button type="submit" value="delete"
+                                                                class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 </tbody>
                             @endif
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete-UnLock{{ $danhGia->id }}').modal('hide');
+                                    $('#modalCenter-Delete-Lock{{ $danhGia->id }}').modal('hide');
+                                    console.log('ok');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstDanhGia->total() > 5)

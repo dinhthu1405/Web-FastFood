@@ -16,8 +16,8 @@ class CreateTableYeuThichsTable extends Migration
         Schema::create('yeu_thichs', function (Blueprint $table) {
             $table->id();
             $table->integer('yeu_thich');
-            $table->unsignedBigInteger('mon_an_id')->nullable();//khoá ngoại
-            $table->unsignedBigInteger('user_id')->nullable();//khoá ngoại
+            $table->unsignedBigInteger('mon_an_id')->nullable(); //khoá ngoại
+            $table->unsignedBigInteger('user_id')->nullable(); //khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
         });

@@ -36,13 +36,33 @@ class LoaiMonAn extends Model
         return $this->hasOneThrough(HinhAnh::class, MonAn::class);
     }
 
-    public function binhLuans()
+    public function danhGias()
     {
-        return $this->hasManyThrough(BinhLuan::class, MonAn::class);
+        return $this->hasManyThrough(DanhGia::class, MonAn::class);
     }
 
-    public function binhLuan()
+    public function danhGia()
     {
-        return $this->hasOneThrough(BinhLuan::class, MonAn::class);
+        return $this->hasOneThrough(DanhGia::class, MonAn::class);
+    }
+
+    public function anhBias()
+    {
+        return $this->hasManyThrough(AnhBia::class, MonAn::class);
+    }
+
+    public function anhBia()
+    {
+        return $this->hasOneThrough(AnhBia::class, MonAn::class);
+    }
+
+    public function chiTietDonHangs()
+    {
+        return $this->hasManyThrough(ChiTietDonHang::class, MonAn::class);
+    }
+
+    public function chiTietDonHang()
+    {
+        return $this->hasOneThrough(ChiTietDonHang::class, MonAn::class);
     }
 }

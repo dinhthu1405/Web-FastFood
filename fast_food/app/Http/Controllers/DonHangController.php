@@ -6,6 +6,7 @@ use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\User;
 use App\Models\MonAn;
+use App\Models\HinhAnh;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreDonHangRequest;
@@ -217,7 +218,8 @@ class DonHangController extends Controller
         //
         $lstChiTietDonHang = ChiTietDonHang::where('trang_thai', 1)->where('don_hang_id', $id)->paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
-        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn', 'id'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn', 'lstHinhAnh', 'id'));
     }
 
     /**

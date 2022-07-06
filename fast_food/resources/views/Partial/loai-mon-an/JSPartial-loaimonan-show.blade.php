@@ -95,9 +95,5 @@
         //             "{{ route('loaiMonAn.index') }}"
         //     }, 1000);
         // });
-
-        $(document).on('click', '.btn-delete-close', function(e) {
-            $('#modalCenter-Delete').modal('hide');
-        });
     });
 </script>

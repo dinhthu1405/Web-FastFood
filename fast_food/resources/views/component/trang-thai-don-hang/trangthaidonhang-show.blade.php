@@ -12,9 +12,12 @@
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <a href="{{ route('trangThaiDonHang.create') }}"><button type="button"
+                    {{-- <a href="{{ route('trangThaiDonHang.create') }}"><button type="button"
                             class="btn btn-success py-2 mb-4">Thêm
-                            Trạng Thái Đơn Hàng</button></a>
+                            Trạng Thái Đơn Hàng</button></a> --}}
+                    <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">Thêm
+                        Trạng Thái Đơn Hàng</button>
                 </div>
             </div>
             <form action="{{ route('trangThaiDonHang.search') }}" method="GET">
@@ -55,9 +58,43 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                    <td>
                                         <strong>{{ $trangThaiDonHang->ten_trang_thai }}</strong>
                                     </td>
+                                    <!-- Modal Thêm -->
+                                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalCenterTitle">Thêm trạng thái đơn hàng
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
+                                                        <div class="mb-3">
+                                                            <label for="exampleFormControlInput1" class="form-label">Tên
+                                                                trạng thái</label>
+                                                            <input type="text" name="TenTrangThai" class="form-control"
+                                                                id="TenTrangThai" placeholder="Tên trạng thái" />
+                                                            <span class="text-danger error-text ten_trang_thai_err"
+                                                                id="TenTrangThai"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                    <button type="submit" value="add"
+                                                        class="btn btn-primary btn-save">Thêm trạng thái đơn hàng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     {{-- <td><a href="{{ route('trangThaiDonHang.edit', $trangThaiDonHang->id) }}"><button
                                                 type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
@@ -65,28 +102,13 @@
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
                                     <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                             data-target="#modal-delete" data-bs-toggle="modal"
-                                            data-bs-target="#modalCenter-Delete">
+                                            data-bs-target="#modalCenter-Delete{{ $trangThaiDonHang->id }}">
                                             <i class="bx bx-trash me-1"></i> </button></td>
                                     <!-- Modal Cảnh báo -->
-                                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="modalCenter-Delete{{ $trangThaiDonHang->id }}"
+                                        tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                                @if (Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ Session::get('success') }}
-                                                    </div>
-                                                @endif
-                                                @if (Session::has('error'))
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ Session::get('error') }}</div>
-                                                @endif
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="mb-3" style="text-align: center">
@@ -95,9 +117,7 @@
                                                         </div>
                                                         <div class="mb3 text-nowrap" style="text-align: center">
                                                             <span style="font-size: 22px">
-                                                                Bạn có chắc muốn xoá trạng thái đơn hàng này, vì <br />nó sẽ
-                                                                ảnh
-                                                                hưởng đến đơn hàng
+                                                                Bạn có chắc muốn xoá trạng thái đơn hàng này
                                                             </span>
                                                         </div>
                                                     </div>
@@ -123,6 +143,11 @@
                                     </div>
                                 </tr>
                             </tbody>
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete{{ $trangThaiDonHang->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstTrangThaiDonHang->total() > 5)

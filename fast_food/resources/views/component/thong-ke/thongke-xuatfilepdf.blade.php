@@ -7,7 +7,7 @@
         {{-- <img src="{{ asset('assets/img/icons/unicons/logo.png') }}" alt="" style="width: 10%"> --}}
         {{-- <img src="{{ '/../assets/img/icons/unicons/logo.png' }}" alt="" style="width: 10%"> --}}
         <div id="watermark">
-            <img src="{{ public_path('assets/img/icons/unicons/logo.png') }}" alt="" style="width: 6%">
+            <img src="{{ public_path('assets/img/favicon/favicon.ico') }}" alt="" style="width: 6%">
         </div>
         <div class="TieuDeCongHoaDocLap">
             <span class="TieuDeCongHoa">

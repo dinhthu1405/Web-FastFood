@@ -48,6 +48,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Mã đơn</th>
+                                <th>Hình ảnh</th>
                                 <th>Tên món</th>
                                 <th>Đơn giá</th>
                                 <th>Số lượng</th>
@@ -64,17 +65,43 @@
                                     <td>
                                         {{ $chiTietDonHang->don_hang_id }}
                                     </td>
-                                    @foreach ($lstMonAn as $monAn)
-                                        @if ($monAn->id == $chiTietDonHang->mon_an_id)
-                                            <td>{{ $monAn->ten_mon }}</td>
-                                        @else
-                                            <td></td>
-                                        @endif
-                                    @endforeach
-                                    <td>{{ number_format($chiTietDonHang->don_gia) }}</td>
-                                    <td>{{ $chiTietDonHang->so_luong }}</td>
-                                    <td>{{ number_format($chiTietDonHang->thanh_tien) }}</td>
-                                    {{-- <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
+                                    @foreach ($lstHinhAnh as $hinhAnh)
+                                        @if ($hinhAnh->mon_an_id == $chiTietDonHang->mon_an_id)
+                                            <td>
+                                                <img class="d-block w-100" id="preview-image"
+                                                    src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="preview image"
+                                                    style="max-height: 80px; max-width: 100px; border-radius: 50%;"
+                                                    data-target="#modal-add" data-bs-toggle="modal"
+                                                    data-bs-target='#modalCenter{{ $chiTietDonHang->id }}' />
+                                            </td>
+                                        @break
+                                    @endif
+                                @endforeach
+                                <div class="modal fade" id="modalCenter{{ $chiTietDonHang->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            @foreach ($lstHinhAnh as $hinhAnh)
+                                                @if ($hinhAnh->mon_an_id == $chiTietDonHang->mon_an_id)
+                                                    <img class="d-block w-100" id="preview-image"
+                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                        alt="preview image" style="max-height: 200px;" />
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach ($lstMonAn as $monAn)
+                                    @if ($monAn->id == $chiTietDonHang->mon_an_id)
+                                        <td>{{ $monAn->ten_mon }}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                @endforeach
+                                <td>{{ number_format($chiTietDonHang->don_gia) }}</td>
+                                <td>{{ $chiTietDonHang->so_luong }}</td>
+                                <td>{{ number_format($chiTietDonHang->thanh_tien) }}</td>
+                                {{-- <td><a href="{{ route('donHang.edit', $donHang->id) }}"><button type="button"
                                                         id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                         data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
@@ -84,28 +111,28 @@
                                                         data-target="#modal-edit" data-bs-toggle="modal"
                                                         data-bs-target="#modalCenter-Edit">
                                                         <i class="bx bx-trash me-1"></i> </button></a></td> --}}
-                                </tr>
-                            </tbody>
-                        @endforeach
-                    </table>
-                    @if ($lstChiTietDonHang->total() > 5)
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Basic Pagination -->
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            {{ $lstChiTietDonHang->appends($request->except('page'))->onEachSide(1)->links() }}
-                                        </ul>
-                                    </nav>
-                                    <!--/ Basic Pagination -->
-                                </div>
+                            </tr>
+                        </tbody>
+                    @endforeach
+                </table>
+                @if ($lstChiTietDonHang->total() > 5)
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <!-- Basic Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        {{ $lstChiTietDonHang->appends($request->except('page'))->onEachSide(1)->links() }}
+                                    </ul>
+                                </nav>
+                                <!--/ Basic Pagination -->
                             </div>
                         </div>
-                    @else
-                    @endif
-                </div>
+                    </div>
+                @else
+                @endif
             </div>
-            <!-- Bootstrap Table with Header - Light -->
-            @include('Partial/don-hang/JSPartial-donhang-show')
-        @endsection
+        </div>
+        <!-- Bootstrap Table with Header - Light -->
+        @include('Partial/don-hang/JSPartial-donhang-show')
+    @endsection

@@ -34,19 +34,6 @@
             <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                        @if (Session::has('success'))
-                            <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
-                        @endif
-                        @if (Session::has('error'))
-                            <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
-                        @endif
-                        @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error }}
-                                </div>
-                            @endforeach
-                        @endif
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalCenterTitle">Thêm loại món</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -57,7 +44,7 @@
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Tên loại món</label>
                                     <input type="text" name="TenLoai" class="form-control" id="TenLoai"
-                                        placeholder="Tên địa điểm" />
+                                        placeholder="Tên loại món" />
                                     <span class="text-danger error-text ten_loai_err" id="tenLoai"></span>
                                 </div>
                             </div>
@@ -98,8 +85,5 @@
             </div>
         </div>
         <!-- Bootstrap Table with Header - Light -->
-
-    @endsection
-    @section('script')
         @include('Partial/loai-mon-an/JSPartial-loaimonan-show')
     @endsection

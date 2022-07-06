@@ -20,6 +20,7 @@ class DanhGiaSeeder extends Seeder
             DB::table('danh_gias')->insert([
                 'danh_gia_sao' => $i,
                 'noi_dung' => Str::random(10),
+                'thoi_gian' => '2022-12-12',
                 'user_id' => '1',
                 'mon_an_id' => '1',
                 'dia_diem_id' => '1',

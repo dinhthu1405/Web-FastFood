@@ -118,23 +118,14 @@
                                         @else
                                             <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                                     data-target="#modal-delete" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter-Delete-Unlock">
+                                                    data-bs-target="#modalCenter-Delete-Unlock{{ $taiKhoan->id }}">
                                                     <i class="bx bx-lock-open me-1"></i> </button></td>
                                         @endif
                                         <!-- Modal Cảnh báo (Mở khoá)-->
-                                        <div class="modal fade" id="modalCenter-Delete-Unlock" tabindex="-1"
-                                            aria-hidden="true">
+                                        <div class="modal fade" id="modalCenter-Delete-Unlock{{ $taiKhoan->id }}"
+                                            tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
-                                                    @if (Session::has('success'))
-                                                        <div class="alert alert-success" role="alert">
-                                                            {{ Session::get('success') }}
-                                                        </div>
-                                                    @endif
-                                                    @if (Session::has('error'))
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ Session::get('error') }}</div>
-                                                    @endif
                                                     @if ($errors->any())
                                                         @foreach ($errors->all() as $error)
                                                             <div class="alert alert-danger" role="alert">
@@ -235,7 +226,7 @@
                                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                             <td><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                     data-target="#modal-edit" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter-Delete-Lock">
+                                                    data-bs-target="#modalCenter-Delete-Lock{{ $taiKhoan->id }}">
                                                     <i class="bx bx-lock me-1"></i> </button></td>
                                         @endif
 
@@ -251,31 +242,16 @@
                                                             <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                                 <td> <button type="button" id="btn-delete"
                                                         class="btn btn-danger py-2 mb-4" data-target="#modal-delete"
-                                                        data-bs-toggle="modal" data-bs-target="#modalCenter-Delete-Lock">
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalCenter-Delete-Lock{{ $taiKhoan->id }}">
                                                         <i class="bx bx-lock me-1"></i> </button></td>
                                             @endif
                                         @endif
                                         <!-- Modal Cảnh báo (Khoá)-->
-                                        <div class="modal fade" id="modalCenter-Delete-Lock" tabindex="-1"
-                                            aria-hidden="true">
+                                        <div class="modal fade" id="modalCenter-Delete-Lock{{ $taiKhoan->id }}"
+                                            tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
-                                                    @if (Session::has('success'))
-                                                        <div class="alert alert-success" role="alert">
-                                                            {{ Session::get('success') }}
-                                                        </div>
-                                                    @endif
-                                                    @if (Session::has('error'))
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ Session::get('error') }}</div>
-                                                    @endif
-                                                    @if ($errors->any())
-                                                        @foreach ($errors->all() as $error)
-                                                            <div class="alert alert-danger" role="alert">
-                                                                {{ $error }}
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="mb-3" style="text-align: center">
@@ -311,6 +287,12 @@
                                     </tr>
                                 </tbody>
                             @endif
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete-Unlock{{ $taiKhoan->id }}').modal('hide');
+                                    $('#modalCenter-Delete-Lock{{ $taiKhoan->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstTaiKhoan->total() > 5)

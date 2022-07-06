@@ -39,7 +39,7 @@
             <br />
             <!-- Bootstrap Table with Header - Light -->
             <div class="card">
-                <h5 class="card-header">Danh sách loại món ăn</h5>
+                <h5 class="card-header">Danh sách mã giảm giá</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table">
                         <thead class="table-light">
@@ -74,29 +74,13 @@
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                         <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-delete" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Delete-Unlock">
+                                                data-bs-target="#modalCenter-Delete-Unlock{{ $maGiamGia->id }}">
                                                 <i class="bx bx-lock-open me-1"></i> </button></td>
                                         <!-- Modal Cảnh báo (Mở khoá)-->
-                                        <div class="modal fade" id="modalCenter-Delete-Unlock" tabindex="-1"
-                                            aria-hidden="true">
+                                        <div class="modal fade" id="modalCenter-Delete-Unlock{{ $maGiamGia->id }}"
+                                            tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
-                                                    @if (Session::has('success'))
-                                                        <div class="alert alert-success" role="alert">
-                                                            {{ Session::get('success') }}
-                                                        </div>
-                                                    @endif
-                                                    @if (Session::has('error'))
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ Session::get('error') }}</div>
-                                                    @endif
-                                                    @if ($errors->any())
-                                                        @foreach ($errors->all() as $error)
-                                                            <div class="alert alert-danger" role="alert">
-                                                                {{ $error }}
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="mb-3" style="text-align: center">
@@ -153,11 +137,11 @@
                                                     <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                         <td><button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Delete-Lock">
+                                                data-bs-target="#modalCenter-Delete-Lock{{ $maGiamGia->id }}">
                                                 <i class="bx bx-lock me-1"></i> </button></td>
                                         <!-- Modal Cảnh báo (Khoá)-->
-                                        <div class="modal fade" id="modalCenter-Delete-Lock" tabindex="-1"
-                                            aria-hidden="true">
+                                        <div class="modal fade" id="modalCenter-Delete-Lock{{ $maGiamGia->id }}"
+                                            tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     @if (Session::has('success'))
@@ -211,6 +195,12 @@
                                     </tr>
                                 </tbody>
                             @endif
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete-Unlock{{ $maGiamGia->id }}').modal('hide');
+                                    $('#modalCenter-Delete-Lock{{ $maGiamGia->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstMaGiamGia->total() > 5)

@@ -5,8 +5,5 @@
             document.getElementById("timKiem").value = search;
             console.log(search);
         });
-        $(document).on('click', '.btn-delete-close', function(e) {
-            $('#modalCenter-Delete').modal('hide');
-        });
     });
 </script>

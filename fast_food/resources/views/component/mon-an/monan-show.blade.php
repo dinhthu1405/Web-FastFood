@@ -14,7 +14,7 @@
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
                     <a href="{{ route('monAn.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                            món ăn</button></a>
+                            món</button></a>
                 </div>
             </div>
             <form action="{{ route('monAn.search') }}" method="GET" id="form-search">
@@ -57,7 +57,7 @@
             <br />
             <!-- Bootstrap Table with Header - Light -->
             <div class="card">
-                <h5 class="card-header">Danh sách món ăn</h5>
+                <h5 class="card-header">Danh sách món</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table">
                         <thead class="table-light">
@@ -133,28 +133,13 @@
                                             <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                 <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                         data-target="#modal-delete" data-bs-toggle="modal"
-                                        data-bs-target="#modalCenter-Delete">
+                                        data-bs-target="#modalCenter-Delete{{ $monAn->id }}">
                                         <i class="bx bx-trash me-1"></i> </button></td>
                                 <!-- Modal Cảnh báo -->
-                                <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="modalCenter-Delete{{ $monAn->id }}" tabindex="-1"
+                                    aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            @if (Session::has('success'))
-                                                <div class="alert alert-success" role="alert">
-                                                    {{ Session::get('success') }}
-                                                </div>
-                                            @endif
-                                            @if (Session::has('error'))
-                                                <div class="alert alert-danger" role="alert">
-                                                    {{ Session::get('error') }}</div>
-                                            @endif
-                                            @if ($errors->any())
-                                                @foreach ($errors->all() as $error)
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ $error }}
-                                                    </div>
-                                                @endforeach
-                                            @endif
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="mb-3" style="text-align: center">
@@ -163,8 +148,7 @@
                                                     </div>
                                                     <div class="mb3 text-nowrap" style="text-align: center">
                                                         <span style="font-size: 22px;">
-                                                            Bạn có chắc muốn xoá món ăn này, vì nó sẽ ảnh<br /> hưởng
-                                                            đến đánh giá; bình luận và ảnh bìa
+                                                            Bạn có chắc muốn xoá món ăn này
                                                         </span>
                                                     </div>
                                                 </div>
@@ -189,6 +173,11 @@
                                 </div>
                             </tr>
                         </tbody>
+                        <script>
+                            $(document).on('click', '.btn-delete-close', function(e) {
+                                $('#modalCenter-Delete{{ $monAn->id }}').modal('hide');
+                            });
+                        </script>
                     @endforeach
                 </table>
                 @if ($lstMonAn->total() > 5)

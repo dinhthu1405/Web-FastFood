@@ -169,7 +169,7 @@
                                     <td>{{ $diaDiem->thoi_gian_mo }}</td>
                                     <td>{{ $diaDiem->thoi_gian_dong }}</td>
                                     <!-- <td><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="bx bx-edit-alt me-1"></i> </button></td> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="bx bx-edit-alt me-1"></i> </button></td> -->
                                     <td><a href="{{ route('diaDiem.edit', $diaDiem->id) }}"><button type="button"
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"
@@ -177,28 +177,13 @@
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
                                     <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                             data-target="#modal-delete" data-bs-toggle="modal"
-                                            data-bs-target="#modalCenter-Delete">
+                                            data-bs-target="#modalCenter-Delete{{ $diaDiem->id }}">
                                             <i class="bx bx-trash me-1"></i> </button></td>
                                     <!-- Modal Cảnh báo -->
-                                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="modalCenter-Delete{{ $diaDiem->id }}" tabindex="-1"
+                                        aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                                @if (Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ Session::get('success') }}
-                                                    </div>
-                                                @endif
-                                                @if (Session::has('error'))
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ Session::get('error') }}</div>
-                                                @endif
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="mb-3" style="text-align: center">
@@ -207,8 +192,7 @@
                                                         </div>
                                                         <div class="mb3 text-nowrap" style="text-align: center">
                                                             <span style="font-size: 22px;">
-                                                                Bạn có chắc muốn xoá địa điểm này, vì nó sẽ ảnh <br />hưởng
-                                                                đến món ăn; đánh giá và bình luận
+                                                                Bạn có chắc muốn xoá địa điểm này
                                                             </span>
                                                         </div>
                                                     </div>
@@ -233,6 +217,7 @@
                                     </div>
                                 </tr>
                             </tbody>
+                            @include('Partial/dia-diem/JSPartial-diadiem-show')
                         @endforeach
                     </table>
                     @if ($lstDiaDiem->total() > 5)
@@ -266,5 +251,5 @@
                         </div>
                     </div>
                 </div>
-                @include('Partial/dia-diem/JSPartial-diadiem-show')
+                @include('Partial/dia-diem/JSPartial-diadiem-show-map')
             @endsection
