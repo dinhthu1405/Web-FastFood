@@ -28,6 +28,16 @@ class DanhGiaController extends Controller
         return view('component/danh-gia/danhgia-show', compact('lstDanhGia', 'lstMonAn', 'lstTaiKhoan', 'lstDiaDiem', 'request'));
     }
 
+    public function index1($id)
+    {
+        //
+        $danhGia = DanhGia::find($id);
+        // dd($danhGia);
+        $danhGia->duyet = 1;
+        $danhGia->save();
+        return Redirect::route('danhGia.index');
+    }
+
     public function search(Request $request)
     {
         $search = $request->search;

@@ -31,7 +31,7 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tên loại món ăn</label>
                                 <input type="text" name="TenLoai" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Tên loại món ăn" />
+                                    placeholder="Tên loại món ăn" value="{{ old('TenLoai') }}" />
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>

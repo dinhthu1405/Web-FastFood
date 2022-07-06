@@ -103,10 +103,12 @@ Route::get('/diaDiems/{dia_diem_id}', [DiaDiemController::class, 'index1'])->nam
 Route::get('/trangThaiDonHangs/{trang_thai_don_hang_id}', [TrangThaiDonHangController::class, 'index1'])->name('trangThaiDonHang.index1')->middleware('auth');
 Route::get('/loaiGiamGias/{loai_giam_gia_id}', [LoaiGiamGiaController::class, 'index1'])->name('loaiGiamGia.index1')->middleware('auth');
 Route::get('/monAns/{mon_an_id}', [MonAnController::class, 'index1'])->name('monAn.index1')->middleware('auth');
-
+Route::get('/danhGias/{id}', [DanhGiaController::class, 'index1'])->name('danhGias.index1')->middleware('auth');
 
 //Ajax
 Route::get('/danhSach_loaiMonAn', [LoaiMonAnController::class, 'indexAjax'])->name('loaiMonAn.indexAjax')->middleware('auth');
+Route::get('/danhSach_trangThaiDonHang', [TrangThaiDonHangController::class, 'indexAjax'])->name('trangThaiDonHang.indexAjax')->middleware('auth');
+Route::get('/danhSach_loaiGiamGia', [LoaiGiamGiaController::class, 'indexAjax'])->name('loaiGiamGia.indexAjax')->middleware('auth');
 
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');

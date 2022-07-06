@@ -17,13 +17,13 @@
             @if (Session::has('error'))
                 <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
             @endif
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
                         {{ $error }}
                     </div>
                 @endforeach
-            @endif
+            @endif --}}
             <div class="col-md-12">
                 <div class="card mb-4">
                     <h5 class="card-header">Thêm địa điểm</h5>
@@ -33,13 +33,27 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
                                 <input type="text" name="TenDiaDiem" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Tên địa điểm" />
+                                    placeholder="Tên địa điểm" value="{{ old('TenLoai') }}" />
+                                @error('TenDiaDiem')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3 row">
                                 <label for="html5-time-input" class="form-label">Thời gian mở</label>
                                 <div class="col-md-10">
                                     <input class="form-control" name="ThoiGianMo" type="time" value="12:30"
                                         id="html5-time-input">
+                                    @error('ThoiGianMo')
+                                        <div class="error">
+                                            <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                                <strong style="font-size: 14px">{{ $message }}</strong>
+                                            </span>
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -47,16 +61,21 @@
                                 <div class="col-md-10">
                                     <input class="form-control" name="ThoiGianDong" type="time" value="13:30"
                                         id="html5-time-input">
+                                    @error('ThoiGianDong')
+                                        <div class="error">
+                                            <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                                <strong style="font-size: 14px">{{ $message }}</strong>
+                                            </span>
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row" hidden>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="KinhDo" type="text" value=""
-                                        id="KinhDo">
+                                    <input class="form-control" name="KinhDo" type="text" value="" id="KinhDo">
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="ViDo" type="text" value=""
-                                        id="ViDo">
+                                    <input class="form-control" name="ViDo" type="text" value="" id="ViDo">
                                 </div>
                             </div>
                             <div class="mb-3">

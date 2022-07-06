@@ -9,7 +9,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><a href="{{ route('monAn.index') }}"><span class="text-muted fw-light">Danh sách
-                        /</span></a> Thêm món ăn</h4>
+                        /</span></a> Thêm món</h4>
             <form action="{{ route('monAn.store') }}" method="post" enctype="multipart/form-data">
                 {!! @csrf_field() !!}
                 @if (Session::has('success'))
@@ -18,27 +18,41 @@
                 @if (Session::has('error'))
                     <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
                 @endif
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     @foreach ($errors->all() as $error)
                         <div class="alert alert-danger" role="alert">
                             {{ $error }}
                         </div>
                     @endforeach
-                @endif
+                @endif --}}
                 <div class="col-md-12">
                     <div class="card mb-4">
-                        <h5 class="card-header">Thêm món ăn</h5>
+                        <h5 class="card-header">Thêm món</h5>
                         <div class="card-body">
 
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tên món</label>
                                 <input type="text" name="TenMonAn" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Tên món" />
+                                    placeholder="Tên món" value="{{ old('TenMonAn') }}" />
+                                @error('TenMonAn')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
                                 <input type="file" class="form-control" name="images[]" accept="image/*"
                                     onchange="loadFile(event)" multiple id="images" placeholder="Hình ảnh" />
+                                @error('images')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Xem trước hình</label>
@@ -61,36 +75,63 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlSelect1" class="form-label">Loại món ăn</label>
+                                <label for="exampleFormControlSelect1" class="form-label">Loại món</label>
                                 <select class="form-select" name="LoaiMonAn" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
-                                    <option selected>-- Chọn loại món ăn --</option>
+                                    <option value='' selected>-- Chọn loại món --</option>
                                     @foreach ($lstLoaiMonAn as $loaiMonAn)
                                         <option value="{{ $loaiMonAn->id }}">{{ $loaiMonAn->ten_loai }}</option>
                                     @endforeach
                                 </select>
+                                @error('LoaiMonAn')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Địa điểm</label>
                                 <select class="form-select" name="DiaDiem" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
-                                    <option selected>-- Chọn địa điểm --</option>
+                                    <option value='' selected>-- Chọn địa điểm --</option>
                                     @foreach ($lstDiaDiem as $diaDiem)
                                         <option value="{{ $diaDiem->id }}">{{ $diaDiem->ten_dia_diem }}</option>
                                     @endforeach
                                 </select>
+                                @error('DiaDiem')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleDataList" class="form-label">Đơn giá</label>
                                 <input type="text" name="DonGia" class="form-control format_number" min="1"
-                                    id="" placeholder="Đơn giá" />
-
+                                    id="" placeholder="Đơn giá" value="{{ old('DonGia') }}" />
+                                @error('DonGia')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleDataList" class="form-label">Số lượng</label>
                                 <input type="number" name="SoLuong" class="form-control" min="1"
-                                    id="exampleFormControlInput1" placeholder="Số lượng" />
-
+                                    id="exampleFormControlInput1" placeholder="Số lượng"
+                                    value="{{ old('SoLuong') }}" />
+                                @error('SoLuong')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>

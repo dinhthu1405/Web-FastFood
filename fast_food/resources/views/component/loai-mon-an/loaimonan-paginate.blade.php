@@ -18,23 +18,9 @@
                         <strong>{{ $loaiMonAn->ten_loai }}</strong>
                     </td>
                     <!-- Modal Cảnh báo -->
-                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="modalCenter-Delete{{ $loaiMonAn->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
-                                @if (Session::has('success'))
-                                    <div class="alert alert-success" role="alert">{{ Session::get('success') }}
-                                    </div>
-                                @endif
-                                @if (Session::has('error'))
-                                    <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
-                                @endif
-                                @if ($errors->any())
-                                    @foreach ($errors->all() as $error)
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $error }}
-                                        </div>
-                                    @endforeach
-                                @endif
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="mb-3" style="text-align: center">
@@ -42,9 +28,7 @@
                                                 width="180px" height="75px">
                                         </div>
                                         <div class="mb3 text-nowrap" style="text-align: center">
-                                            <span style="font-size: 22px;">Bạn có chắc muốn xoá loại món ăn này,
-                                                vì nó sẽ ảnh <br />hưởng đến món
-                                                ăn; đánh giá và bình luận </span>
+                                            <span style="font-size: 22px;">Bạn có chắc muốn xoá loại món ăn này</span>
                                         </div>
                                     </div>
                                 </div>
@@ -72,11 +56,16 @@
                                 data-bs-target="#modalCenter-Edit">
                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
 <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4" data-target="#modal-edit"
-        data-bs-toggle="modal" data-bs-target="#modalCenter-Delete">
+        data-bs-toggle="modal" data-bs-target="#modalCenter-Delete{{ $loaiMonAn->id }}">
         <i class="bx bx-trash me-1"></i> </button></td>
 {{-- onclick="return confirm('Bạn có chắc muốn xoá loại món ăn này, vì nó có thể ảnh hưởng đến món ăn; đánh giá và bình luận')" --}}
 </tr>
 </tbody>
+<script>
+    $(document).on('click', '.btn-delete-close', function(e) {
+        $('#modalCenter-Delete{{ $loaiMonAn->id }}').modal('hide');
+    });
+</script>
 @endforeach
 </table>
 @if ($lstLoaiMonAn->total() > 5)

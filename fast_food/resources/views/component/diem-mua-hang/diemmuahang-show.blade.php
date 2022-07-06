@@ -57,10 +57,13 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                    <td>
                                         @foreach ($lstDonHang as $donHang)
                                             @if ($diemMuaHang->user_id == $donHang->user_id)
-                                                <strong>{{ $diemMuaHang->sum('so_diem') }}</strong>
+                                                @once
+                                                    <strong>{{ $diemMuaHang->sum('so_diem') }}</strong>
+                                                @endonce
+                                                {{-- @break --}}
                                             @else
                                                 <strong>{{ $diemMuaHang->so_diem }}</strong>
                                             @endif
@@ -134,28 +137,13 @@
                                     </td>
                                     <td> <button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
                                             data-target="#modal-edit" data-bs-toggle="modal"
-                                            data-bs-target="#modalCenter-Delete">
+                                            data-bs-target="#modalCenter-Delete{{ $diemMuaHang->id }}">
                                             <i class="bx bx-trash me-1"></i> </button></td>
                                     <!-- Modal Cảnh báo -->
-                                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="modalCenter-Delete{{ $diemMuaHang->id }}" tabindex="-1"
+                                        aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                                @if (Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ Session::get('success') }}
-                                                    </div>
-                                                @endif
-                                                @if (Session::has('error'))
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ Session::get('error') }}</div>
-                                                @endif
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="mb-3" style="text-align: center">
@@ -189,6 +177,11 @@
                                     </div>
                                 </tr>
                             </tbody>
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete{{ $diemMuaHang->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstDiemMuaHang->total() > 5)

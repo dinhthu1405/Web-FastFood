@@ -18,6 +18,7 @@ class DanhGia extends Model
         'id',
         'danh_gia_sao',
         'noi_dung',
+        'thoi_gian',
         'user_id',
         'mon_an_id',
         'dia_diem_id',

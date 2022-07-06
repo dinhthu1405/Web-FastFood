@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\models\LoaiGiamGia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class LoaiGiamGiaController extends Controller
@@ -57,27 +58,31 @@ class LoaiGiamGiaController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate(
-            $request,
+        $validator = Validator::make(
+            $request->all(),
             [
-                'TenLoaiMaGiamGia' => 'required',
+                'loai_giam_gia' => 'required'
             ],
             [
-                'TenLoaiMaGiamGia.required' => 'Bạn chưa nhập tên loại mã giảm giá',
+                'loai_giam_gia.required' => 'Bạn chưa nhập tên loại giảm giá',
             ]
         );
-        $loaiGiamGia = new LoaiGiamGia();
-        $loaiGiamGia->fill([
-            'ten_loai_giam_gia' => $request->input('TenLoaiMaGiamGia'),
-        ]);
-        // dd($request->input('TenLoaiMaGiamGia'));
-        $ktLoaiMaGiamGia = LoaiGiamGia::all()->where('ten_loai_giam_gia', $request->input('TenLoaiMaGiamGia'))->where('trang_thai', 1)->first();
-        // dd($ktMonAn);
-        if ($ktLoaiMaGiamGia) {
-            return Redirect::back()->with('error', 'Tên loại giảm giá đã tồn tại');
+        if ($validator->fails()) {
+            // dd($validator);
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors(),
+            ]);
         } else {
-            $loaiGiamGia->save();
-            return Redirect::route('loaiGiamGia.index')->with('success', 'Thêm loại mã giảm giá thành công');
+            $loaiGiamGia = new LoaiGiamGia();
+            $loaiGiamGia->ten_loai_giam_gia = $request->input('loai_giam_gia');
+            $ktLoaiMaGiamGia = LoaiGiamGia::all()->where('ten_loai_giam_gia', $request->input('loai_giam_gia'))->where('trang_thai', 1)->first();
+            if ($ktLoaiMaGiamGia) {
+                return response()->json(['status' => 401, 'errors' => 'Tên loại giảm giá đã tồn tại']);
+            } else {
+                $loaiGiamGia->save();
+                return response()->json(['status' => 200, 'success' => 'Thêm thành công']);
+            }
         }
     }
 

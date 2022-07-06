@@ -71,13 +71,13 @@
                     </li>
 
                     <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Món ăn</span>
+                        <span class="menu-header-text">Món</span>
                     </li>
                     <!-- Món ăn -->
                     <li class="menu-item {{ request()->is('monAn*') || request()->is('monAn*') ? 'active' : '' }}">
                         <a href="{{ route('monAn.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dish"></i>
-                            <div data-i18n="Analytics">Món ăn</div>
+                            <div data-i18n="Analytics">Món</div>
                         </a>
                     </li>
                     <!-- Loại món ăn -->
@@ -141,15 +141,15 @@
                         </a>
                     </li>
                     <!-- Bình luận -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Bình luận</span></li>
+                    {{-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Bình luận</span></li> --}}
                     <!-- Bình luận -->
-                    <li
+                    {{-- <li
                         class="menu-item {{ request()->is('binhLuan*') || request()->is('binhLuan*') ? 'active' : '' }}">
                         <a href="{{ route('binhLuan.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-message-square-dots"></i>
                             <div data-i18n="Analytics">Bình luận</div>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Mã giảm giá -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Mã giảm giá</span>
                     </li>
@@ -244,23 +244,23 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        <div class="navbar-nav align-items-center">
+                        {{-- <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
                                 <i class="bx bx-search fs-4 lh-0"></i>
                                 <input type="text" class="form-control border-0 shadow-none"
                                     placeholder="Search..." aria-label="Search..." />
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
                             <!-- Place this tag where you want the button to render. -->
-                            <li class="nav-item lh-1 me-3">
+                            {{-- <li class="nav-item lh-1 me-3">
                                 <a class="github-button"
                                     href="https://github.com/themeselection/sneat-html-admin-template-free"
                                     data-icon="octicon-star" data-size="large" data-show-count="true"
                                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-                            </li>
+                            </li> --}}
 
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -323,8 +323,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
+                                        {{-- <div class="dropdown-divider"></div> --}}
+                                        {{-- </li>
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <i class="bx bx-user me-2"></i>
@@ -353,17 +353,13 @@
                                     <li>
                                         <form id="frm-logout" action="{{ route('logout') }}" method="POST">
                                             {{ csrf_field() }}
-                                            {{-- <a class="dropdown-item" href="{{ route('logout') }}">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Đăng xuất</span>
-                                        </a> --}}
 
                                             <button type="submit" class="dropdown-item">
                                                 <i class="bx bx-power-off me-2"></i>
                                                 <span class="align-middle">Đăng xuất</span>
                                             </button>
                                         </form>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
                             <!--/ User -->

@@ -13,9 +13,40 @@
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <a href="{{ route('loaiGiamGia.create') }}"><button type="button"
-                            class="btn btn-success py-2 mb-4">Thêm
-                            loại giảm giá</button></a>
+                    <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">Thêm
+                        loại giảm giá</button>
+                </div>
+                <!-- Modal Thêm -->
+                <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Thêm loại giảm giá
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Tên
+                                            loại giảm giá</label>
+                                        <input type="text" name="LoaiGiamGia" class="form-control" id="LoaiGiamGia"
+                                            placeholder="Tên loại giảm giá" />
+                                        <span class="text-danger error-text loai_giam_gia_err" id="LoaiGiamGia"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
+                                <button type="submit" value="add" class="btn btn-primary btn-save">Thêm loại giảm giá</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <form action="{{ route('loaiGiamGia.search') }}" method="GET">
@@ -63,28 +94,13 @@
                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
                                     <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
                                             data-target="#modal-delete" data-bs-toggle="modal"
-                                            data-bs-target="#modalCenter-Delete">
+                                            data-bs-target="#modalCenter-Delete{{ $loaiGiamGia->id }}">
                                             <i class="bx bx-trash me-1"></i> </button></td>
                                     <!-- Modal Cảnh báo -->
-                                    <div class="modal fade" id="modalCenter-Delete" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="modalCenter-Delete{{ $loaiGiamGia->id }}" tabindex="-1"
+                                        aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                                @if (Session::has('success'))
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ Session::get('success') }}
-                                                    </div>
-                                                @endif
-                                                @if (Session::has('error'))
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ Session::get('error') }}</div>
-                                                @endif
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="mb-3" style="text-align: center">
@@ -92,8 +108,9 @@
                                                                 alt="" width="180px" height="75px">
                                                         </div>
                                                         <div class="mb3 text-nowrap" style="text-align: center">
-                                                            <span style="font-size: 22px;">Bạn có chắc muốn xoá loại giảm
-                                                                giá này, vì nó sẽ ảnh <br /> hưởng đến mã giảm giá </span>
+                                                            <span style="font-size: 22px;">
+                                                                Bạn có chắc muốn xoá loại giảm giá này
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,6 +134,11 @@
                                     </div>
                                 </tr>
                             </tbody>
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete{{ $loaiGiamGia->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstLoaiGiamGia->total() > 5)

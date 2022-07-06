@@ -20,10 +20,16 @@ class AuthController extends Controller
         // return view('auth/login');
         $countId = User::all();
         if (Auth::check()) {
-            return Redirect::route('home.index');
-        } else
-
-        if ($countId->count() == 0) {
+            // dd('có cc');
+            // dd(Auth::user()->phan_loai_tai_khoan == 0);
+            if (Auth::user()->phan_loai_tai_khoan == 0 || Auth::user()->phan_loai_tai_khoan == 3) {
+                return view('auth/login')->with('loi', 'Bạn không phải là quản trị viên');
+            } else if (Auth::user()->trang_thai == 0) {
+                return view('auth/login')->with('loi', 'Tài khoản của bạn đã bị khoá');
+            } else {
+                return Redirect::route('home.index');
+            }
+        } else        if ($countId->count() == 0) {
             return view('auth/register');
         } else {
             return view('auth/login');
@@ -43,22 +49,28 @@ class AuthController extends Controller
         $this->validate(
             $request,
             [
-                'email' => 'required',
+                'email' => 'required|email',
                 'password' => 'required|alphaNum|min:6',
             ],
             [
                 'email.required' => 'Bạn chưa nhập email',
+                'email.email' => 'Vui lòng nhập bao gồm ‘@’ trong địa chỉ email',
                 'password.required' => 'Bạn chưa nhập mật khẩu',
                 'password.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
             ]
         );
         $user_data = (['email' => $request->email, 'password' => $request->password, 'trang_thai' => 1]);
-        if (Auth::attempt($user_data) && Auth::user()->phan_loai_tai_khoan == 1) {
-            $request->session()->regenerate();
-            // $request->session()->put('loginId', Auth::user()->id);
-            return redirect('home')->with('success', 'Đăng nhập thành công');
+        if (Auth::attempt($user_data)) {
+            // dd(Auth::check() && Auth::user()->phan_loai_tai_khoan != 1);
+            if ((Auth::check() && Auth::user()->phan_loai_tai_khoan == 0) || (Auth::check() && Auth::user()->phan_loai_tai_khoan == 3)) {
+                return back()->with('loi', 'Bạn không phải là quản trị viên');
+            } else {
+                $request->session()->regenerate();
+                // $request->session()->put('loginId', Auth::user()->id);
+                return redirect('home')->with('success', 'Đăng nhập thành công');
+            }
         } else {
-            return back()->with('error', 'Đăng nhập không thành công');
+            return back()->with('loi', 'Tài khoản của bạn đã bị khoá');
         }
     }
 
