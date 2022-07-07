@@ -76,13 +76,14 @@ Route::get('/maGiamGia/xoa/{id}', [MaGiamGiaController::class, 'xoa'])->name('ma
 Route::get('/loaiGiamGia/xoa/{id}', [LoaiGiamGiaController::class, 'xoa'])->name('loaiGiamGia.xoa')->middleware('auth');
 Route::get('/anhBias/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBias.xoa')->middleware('auth');
 Route::get('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
+Route::get('/anhBia/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBia.xoa')->middleware('auth');
 
 //Tìm kiếm
 Route::get('/timKiemMonAn', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');
 Route::get('/timKiemLoaiMonAn', [LoaiMonAnController::class, 'search'])->name('loaiMonAn.search')->middleware('auth');
 Route::get('/timKiemDiaDiem', [DiaDiemController::class, 'search'])->name('diaDiem.search')->middleware('auth');
 Route::get('/timKiemTaiKhoan', [UserController::class, 'search'])->name('taiKhoan.search')->middleware('auth');
-Route::get('/timKiemDonHang', [DonHangController::class, 'searchDonHang'])->name('donHang.searchDonHang')->middleware('auth');
+Route::get('/timKiemDonHang/{taiKhoan}', [DonHangController::class, 'searchDonHang'])->name('donHang.searchDonHang')->middleware('auth');
 Route::get('/timKiemChiTietDonHang', [DonHangController::class, 'searchChiTietDonHang'])->name('donHang.searchChiTietDonHang')->middleware('auth');
 Route::get('/timKiemTrangThaiDonHang', [TrangThaiDonHangController::class, 'search'])->name('trangThaiDonHang.search')->middleware('auth');
 Route::get('/timKiemDanhGia', [DanhGiaController::class, 'search'])->name('danhGia.search')->middleware('auth');
@@ -97,6 +98,17 @@ Route::get('/monAn/images/{id}', [MonAnController::class, 'images'])->name('monA
 //Route
 Route::get('/donHang/{id}/{user_id}/{nguoi_giao_hang_id}/{trang_thai_don_hang_id}', [DonHangController::class, 'index1'])->name('donHang.index1')->middleware('auth');
 Route::get('/taiKhoan/{user_id}/{nguoi_giao_hang_id}', [UserController::class, 'index1'])->name('taiKhoan.index1')->middleware('auth');
+Route::get('/loaiMonAns/{loai_mon_an_id}', [LoaiMonAnController::class, 'index1'])->name('loaiMonAn.index1')->middleware('auth');
+Route::get('/diaDiems/{dia_diem_id}', [DiaDiemController::class, 'index1'])->name('diaDiem.index1')->middleware('auth');
+Route::get('/trangThaiDonHangs/{trang_thai_don_hang_id}', [TrangThaiDonHangController::class, 'index1'])->name('trangThaiDonHang.index1')->middleware('auth');
+Route::get('/loaiGiamGias/{loai_giam_gia_id}', [LoaiGiamGiaController::class, 'index1'])->name('loaiGiamGia.index1')->middleware('auth');
+Route::get('/monAns/{mon_an_id}', [MonAnController::class, 'index1'])->name('monAn.index1')->middleware('auth');
+Route::get('/danhGias/{id}', [DanhGiaController::class, 'index1'])->name('danhGias.index1')->middleware('auth');
+
+//Ajax
+Route::get('/danhSach_loaiMonAn', [LoaiMonAnController::class, 'indexAjax'])->name('loaiMonAn.indexAjax')->middleware('auth');
+Route::get('/danhSach_trangThaiDonHang', [TrangThaiDonHangController::class, 'indexAjax'])->name('trangThaiDonHang.indexAjax')->middleware('auth');
+Route::get('/danhSach_loaiGiamGia', [LoaiGiamGiaController::class, 'indexAjax'])->name('loaiGiamGia.indexAjax')->middleware('auth');
 
 //Authorize
 Route::get('/register', [AuthController::class, 'register'])->name('register');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForeignKeyTable extends Migration
+class CreateForeignKeysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,6 +28,7 @@ class CreateForeignKeyTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ma_giam_gia_id')->references('id')->on('ma_giam_gias');
             $table->foreign('anh_bia_id')->references('id')->on('anh_bias');
+            $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
         });
         Schema::table('don_hangs', function (Blueprint $table) {
             $table->foreign('trang_thai_don_hang_id')->references('id')->on('trang_thai_don_hangs');
@@ -56,6 +57,7 @@ class CreateForeignKeyTable extends Migration
         // });
         Schema::table('ma_giam_gias', function (Blueprint $table) {
             $table->foreign('loai_giam_gia_id')->references('id')->on('loai_giam_gias');
+            $table->foreign('mon_an_id')->references('id')->on('mon_ans');
         });
         Schema::table('anh_bias', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
@@ -63,6 +65,10 @@ class CreateForeignKeyTable extends Migration
         Schema::table('diem_mua_hangs', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('don_hang_id')->references('id')->on('don_hangs');
+        });
+        Schema::table('yeu_thichs', function (Blueprint $table) {
+            $table->foreign('mon_an_id')->references('id')->on('mon_ans');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

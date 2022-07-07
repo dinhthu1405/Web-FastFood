@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LoaiMonAn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreLoaiMonAnRequest;
 use App\Http\Requests\UpdateLoaiMonAnRequest;
@@ -20,8 +21,28 @@ class LoaiMonAnController extends Controller
     {
         //
         $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->paginate(5);
-
         return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
+    }
+
+    public function index1(Request $request, $loai_mon_an_id)
+    {
+        //
+        // dd($loai_mon_an_id);
+        if ($loai_mon_an_id != 0) {
+            $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->where('id', $loai_mon_an_id)->paginate(5);
+        }
+        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
+    }
+
+    public function indexAjax(Request $request)
+    {
+        // if ($request->ajax()) {
+        //     $lstLoaiMonAn = LoaiMonAn::where('trang_thai', 1)->paginate(5);
+        //     dd($lstLoaiMonAn);
+        //     return view('component/loai-mon-an/loaimonan-paginate', compact('lstLoaiMonAn', 'request'))->render();
+        // }
+        $lstLoaiMonAn = LoaiMonAn::all()->where('trang_thai', 1);
+        return response()->json(['lstLoaiMonAn' => $lstLoaiMonAn]);
     }
 
     public function search(Request $request)
@@ -33,7 +54,6 @@ class LoaiMonAnController extends Controller
             $query->where('ten_loai', 'LIKE', '%' . $search . '%');
         })->paginate(5);
         // dd($lstLoaiMonAn);
-        return view('component/loai-mon-an/loaimonan-show', compact('lstLoaiMonAn', 'request'));
     }
 
     /**
@@ -55,28 +75,31 @@ class LoaiMonAnController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $this->validate(
-            $request,
+        $validator = Validator::make(
+            $request->all(),
             [
-                'TenLoai' => 'required',
+                'ten_loai' => 'required'
             ],
             [
-                'TenLoai.required' => 'Bạn chưa nhập tên loại món ăn',
+                'ten_loai.required' => 'Bạn chưa nhập tên loại món ăn',
             ]
         );
-        $loaiMonAn = new LoaiMonAn();
-
-        $loaiMonAn->fill([
-            'ten_loai' => $request->input('TenLoai'),
-        ]);
-        $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', $request->input('TenLoai'))->where('trang_thai', 1)->first();
-        // dd($ktLoaiMonAn);
-        if ($ktLoaiMonAn) {
-            return Redirect::back()->with('error', 'Tên loại món ăn đã tồn tại');
+        if ($validator->fails()) {
+            // dd($validator);
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors(),
+            ]);
         } else {
-            $loaiMonAn->save();
-            return Redirect::route('loaiMonAn.index')->with('success', 'Thêm loại món ăn thành công');
+            $loaiMonAn = new LoaiMonAn();
+            $loaiMonAn->ten_loai = $request->input('ten_loai');
+            $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', strtolower($request->input('ten_loai')))->where('trang_thai', 1)->first();
+            if ($ktLoaiMonAn) {
+                return response()->json(['status' => 401, 'errors' => 'Tên loại món ăn đã tồn tại']);
+            } else {
+                $loaiMonAn->save();
+                return response()->json(['status' => 200, 'success' => 'Thêm thành công']);
+            }
         }
     }
 
@@ -149,12 +172,16 @@ class LoaiMonAnController extends Controller
 
     public function xoa($id)
     {
+        // dd($id);
         $loaiMonAn = LoaiMonAn::find($id);
         $loaiMonAn->trang_thai = 0;
+
         $loaiMonAn->save();
         $loaiMonAn->monAns()->update(['mon_ans.trang_thai' => 0]);
         $loaiMonAn->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
-        $loaiMonAn->binhLuans()->update(['binh_luans.trang_thai' => 0]);
+        $loaiMonAn->danhGias()->update(['danh_gias.trang_thai' => 0]);
+        $loaiMonAn->anhBias()->update(['anh_bias.trang_thai' => 0]);
+        $loaiMonAn->chiTietDonHangs()->update(['chi_tiet_don_hangs.trang_thai' => 0]);
         return Redirect::route('loaiMonAn.index');
     }
 }

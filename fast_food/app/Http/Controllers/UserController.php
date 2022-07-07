@@ -8,6 +8,8 @@ use App\Models\HinhAnh;
 use App\Models\DiemMuaHang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -132,22 +134,35 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $dt = new Carbon();
+        $before = $dt->subYears(18)->format('d-m-Y');
+        // dd($before);
         $this->validate(
             $request,
             [
                 'Email' => 'required|email|unique:users',
+                'images' => 'required',
                 'MatKhau' => 'required|alphaNum|min:6',
-                'SDT' => 'max:12',
-                'HoTen' => 'max:255',
+                'SDT' => 'regex:/^([0-9\s\(\)]*)$/|min:10|max:12',
+                'HoTen' => 'required|max:255',
+                'NgaySinh' => 'before:' . $before,
             ],
             [
                 'Email.required' => 'Bạn chưa nhập Email',
-                'Email.email' => 'Email không đúng định dạng',
+                'Email.email' => 'Vui lòng nhập bao gồm ‘@’ trong địa chỉ email',
                 'Email.unique' => 'Email đã tồn tại',
+                'images.required' => 'Bạn chưa chọn hình ảnh',
+                // 'images.image' => 'File bạn chọn không phải là hình ảnh',
+                // 'images.max' => 'Hình ảnh phải nhỏ hơn 2MB',
+                // 'images.mimes' => 'Bạn chỉ được chọn file hình ảnh có đuôi jpg, png, jpeg, gif, svg',
                 'MatKhau.required' => 'Bạn chưa nhập mật khẩu',
                 'MatKhau.min' => 'Mật khẩu không được nhỏ hơn 6 ký tự',
                 'SDT.max' => 'Số điện thoại không được vượt quá 12 ký tự',
+                'SDT.regex' => 'Số điện thoại không đúng định dạng',
+                'SDT.min' => 'Số điện thoại không được nhỏ hơn 10 ký tự',
+                'HoTen.required' => 'Bạn chưa nhập họ tên',
                 'HoTen.max' => 'Họ tên không được vượt quá 255 ký tự',
+                'NgaySinh.before' => 'Chưa đủ tuổi để tham gia làm quản trị viên'
             ]
         );
         $taiKhoan = new User();
@@ -160,7 +175,6 @@ class UserController extends Controller
             'dia_chi' => $request->input('DiaChi'),
             'phan_loai_tai_khoan' => 2,
         ]);
-
         $taiKhoan->save();
 
         if ($request->hasFile('images')) {
@@ -215,17 +229,23 @@ class UserController extends Controller
             [
                 'HoTen' => 'required|max:255',
                 // 'HinhAnh' => 'required',
-                'SDT' => 'required|max:12',
+                'SDT' => 'required|regex:/^([0-9\s\(\)]*)$/|min:10|max:12',
                 'NgaySinh' => 'required',
+                'DiaChi' => 'required|max:255',
+                'MatKhau' => 'nullable|min:6',
             ],
             [
                 // 'Email.required' => 'required|email|unique:users',
-
                 'SDT.required' => 'Bạn chưa nhập số điện thoại',
                 'SDT.max' => 'Số điện thoại không được vượt quá 12 ký tự',
+                'SDT.regex' => 'Số điện thoại không đúng định dạng',
+                'SDT.min' => 'Số điện thoại không được nhỏ hơn 10 ký tự',
                 'HoTen.max' => 'Họ tên không được vượt quá 255 ký tự',
-                'HoTen.required' => 'Bạn chưa nhập họ & tên',
+                'HoTen.required' => 'Bạn chưa nhập họ tên',
                 'NgaySinh.required' => 'Bạn chưa chọn ngày sinh',
+                'DiaChi.max' => 'Địa chỉ không được vượt quá 255 ký tự',
+                'DiaChi.required' => 'Bạn chưa nhập địa chỉ',
+                'MatKhau.min' => 'Mật khẩu phải lớn hơn 6 ký tự',
             ]
         );
         $hinhAnh = HinhAnh::where('user_id', $taiKhoan->id)->get();
@@ -243,13 +263,30 @@ class UserController extends Controller
             ]);
         }
         // $isValid = password_verify($password, $hash);
-        $taiKhoan->fill([
-            'ho_ten' => $request->input('HoTen'),
-            'sdt' => $request->input('SDT'),
-            'ngay_sinh' => $request->input('NgaySinh'),
-            'dia_chi' => $request->input('DiaChi'),
-            'phan_loai_tai_khoan' => $request->input('PhanLoaiTaiKhoan'),
-        ]);
+        $user = User::find($taiKhoan->id);
+        // dd(Hash::check($request->input('MatKhau'), $user->password));
+        if (Hash::check($request->input('MatKhau'), $user->password)) {
+            // Success
+            return Redirect::back()->with('error', 'Mật khẩu mới phải khác mật khẩu cũ');
+        } else if ($request->input('MatKhau') == null) {
+            $taiKhoan->fill([
+                'ho_ten' => $request->input('HoTen'),
+                'sdt' => $request->input('SDT'),
+                'ngay_sinh' => $request->input('NgaySinh'),
+                'dia_chi' => $request->input('DiaChi'),
+                'phan_loai_tai_khoan' => $request->input('PhanLoaiTaiKhoan'),
+            ]);
+        } else {
+            $taiKhoan->fill([
+                'mat_khau' => $request->input('MatKhau'),
+                'ho_ten' => $request->input('HoTen'),
+                'sdt' => $request->input('SDT'),
+                'ngay_sinh' => $request->input('NgaySinh'),
+                'dia_chi' => $request->input('DiaChi'),
+                'phan_loai_tai_khoan' => $request->input('PhanLoaiTaiKhoan'),
+            ]);
+        }
+
         $taiKhoan->save();
         // dd($taiKhoan);
         return Redirect::route('taiKhoan.index')->with('success', 'Sửa tài khoản thành công');
@@ -293,13 +330,13 @@ class UserController extends Controller
             $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 0]);
             $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 0]);
 
-            foreach ($lstDiemMuaHang as $diemMuaHang) {
-                if ($diemMuaHang->user_id == $id) {
-                    $diemMuaHang->update([
-                        'trang_thai' => 0,
-                    ]);
-                }
-            }
+            // foreach ($lstDiemMuaHang as $diemMuaHang) {
+            //     if ($diemMuaHang->user_id == $id) {
+            //         $diemMuaHang->update([
+            //             'trang_thai' => 0,
+            //         ]);
+            //     }
+            // }
             // $taiKhoan->diemMuaHang()->update(['diem_mua_hangs.trang_thai' => 0]);
             return Redirect::route('taiKhoan.index');
         }

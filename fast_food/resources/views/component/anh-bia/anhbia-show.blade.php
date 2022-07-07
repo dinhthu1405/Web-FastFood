@@ -18,13 +18,21 @@
             </div>
             <form action="{{ route('loaiMonAn.search') }}" method="post">
                 {{ csrf_field() }}
-                <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required />
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -48,8 +56,12 @@
                             <tbody class="table-border-bottom-0">
                                 <tr>
                                     <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        <strong>{{ $anhBia->monAn->ten_mon }}</strong>
+                                    <td>
+                                        <strong>
+                                            <a style="color: #697a8d"
+                                                href="{{ route('monAn.index1', [$anhBia->mon_an_id]) }}">{{ $anhBia->monAn->ten_mon }}
+                                            </a>
+                                        </strong>
                                     </td>
                                     @foreach ($lstHinhAnh as $hinhAnh)
                                         @if ($anhBia->id == $hinhAnh->anh_bia_id)
@@ -62,11 +74,13 @@
                                                     data-target="#modal-add" data-bs-toggle="modal"
                                                     data-bs-target='#modalCenter{{ $count }}' alt="">
                                             </td>
-                                            <div class="modal fade" id="modalCenter{{ $count }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="modalCenter{{ $count }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <img style="vertical-align: middle; height: 50%; "
-                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
+                                                            src="{{ asset("storage/$hinhAnh->duong_dan") }}"
+                                                            alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,13 +90,52 @@
                                                 id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit"
                                                 data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                                 <i class="bx bx-edit-alt me-1"></i> </button></a> </td>
-                                    <td> <a href="{{ route('anhBias.xoa', $anhBia->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá ảnh bìa')"><button type="button"
-                                                id="btn-edit" class="btn btn-danger py-2 mb-4" data-target="#modal-edit"
-                                                data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                    <td> <button type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
+                                            data-target="#modal-edit" data-bs-toggle="modal"
+                                            data-bs-target="#modalCenter-Delete{{ $anhBia->id }}">
+                                            <i class="bx bx-trash me-1"></i> </button></td>
+                                    <!-- Modal Cảnh báo -->
+                                    <div class="modal fade" id="modalCenter-Delete{{ $anhBia->id }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="mb-3" style="text-align: center">
+                                                            <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                alt="" width="180px" height="75px">
+                                                        </div>
+                                                        <div class="mb3 text-nowrap" style="text-align: center">
+                                                            <span style="font-size: 22px;">Bạn có chắc muốn xoá ảnh bìa này
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding: 3%">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2">
+                                                        <a href="{{ route('anhBia.xoa', $anhBia->id) }}"><button
+                                                                type="submit" class="btn btn-danger btn-delete-confirm"
+                                                                data-bs-dismiss="modal">Xoá</button></a>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" value="delete"
+                                                            class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                             </tbody>
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete{{ $anhBia->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstAnhBia->total() > 5)
@@ -92,7 +145,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstAnhBia->links() }}
+                                            {{ $lstAnhBia->onEachSide(1)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
@@ -104,4 +157,5 @@
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
+            @include('Partial/anh-bia/JSPartial-anhbia-show')
         @endsection

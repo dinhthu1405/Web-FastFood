@@ -103,7 +103,8 @@ class AnhBiaController extends Controller
     {
         //
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
-        return view('component/anh-bia/anhbia-edit', compact('anhBia', 'lstMonAn'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1)->where('anh_bia_id', $anhBia->id);
+        return view('component/anh-bia/anhbia-edit', compact('anhBia', 'lstMonAn', 'lstHinhAnh'));
     }
 
     /**
@@ -166,5 +167,13 @@ class AnhBiaController extends Controller
     public function destroy(AnhBia $anhBia)
     {
         //
+    }
+
+    public function xoa($id)
+    {
+        $anhBia = AnhBia::find($id);
+        $anhBia->trang_thai = 0;
+        $anhBia->save();
+        return Redirect::route('anhBias.index');
     }
 }

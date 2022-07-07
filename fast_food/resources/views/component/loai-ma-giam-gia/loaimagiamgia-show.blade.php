@@ -9,23 +9,62 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4 class="fw-bold py-3 mb-4"><a href="{{ route('loaiGiamGia.index') }}"><span
-                        class="text-muted fw-light">Danh sách</span></a></h4>
+                                class="text-muted fw-light">Danh sách</span></a></h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <a href="{{ route('loaiGiamGia.create') }}"><button type="button"
-                            class="btn btn-success py-2 mb-4">Thêm
-                            loại giảm giá</button></a>
+                    <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">Thêm
+                        loại giảm giá</button>
+                </div>
+                <!-- Modal Thêm -->
+                <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Thêm loại giảm giá
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Tên
+                                            loại giảm giá</label>
+                                        <input type="text" name="LoaiGiamGia" class="form-control" id="LoaiGiamGia"
+                                            placeholder="Tên loại giảm giá" />
+                                        <span class="text-danger error-text loai_giam_gia_err" id="LoaiGiamGia"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
+                                <button type="submit" value="add" class="btn btn-primary btn-save">Thêm loại giảm giá</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <form action="{{ route('loaiGiamGia.search') }}" method="GET">
-                <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" required value="{{ request('search') }}"/>
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -53,14 +92,53 @@
                                     </td>
                                     {{-- <td><a href="{{ route('loaiGiamGia.edit', $loaiGiamGia->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
                                         <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
-                                    <td> <a href="{{ route('loaiGiamGia.xoa', $loaiGiamGia->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá loại giảm giá này, vì nó có thể ảnh hưởng đến mã giảm giá')"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
+                                    <td> <button type="button" id="btn-delete" class="btn btn-danger py-2 mb-4"
+                                            data-target="#modal-delete" data-bs-toggle="modal"
+                                            data-bs-target="#modalCenter-Delete{{ $loaiGiamGia->id }}">
+                                            <i class="bx bx-trash me-1"></i> </button></td>
+                                    <!-- Modal Cảnh báo -->
+                                    <div class="modal fade" id="modalCenter-Delete{{ $loaiGiamGia->id }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="mb-3" style="text-align: center">
+                                                            <img src="{{ asset('assets/img/icons/unicons/!.png') }}"
+                                                                alt="" width="180px" height="75px">
+                                                        </div>
+                                                        <div class="mb3 text-nowrap" style="text-align: center">
+                                                            <span style="font-size: 22px;">
+                                                                Bạn có chắc muốn xoá loại giảm giá này
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding: 3%">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2">
+                                                        <a href="{{ route('loaiGiamGia.xoa', $loaiGiamGia->id) }}"><button
+                                                                type="submit" class="btn btn-danger btn-delete-confirm"
+                                                                data-bs-dismiss="modal">Xoá</button></a>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" value="delete"
+                                                            class="btn btn-primary btn-delete-close">Huỷ</button>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                             </tbody>
+                            <script>
+                                $(document).on('click', '.btn-delete-close', function(e) {
+                                    $('#modalCenter-Delete{{ $loaiGiamGia->id }}').modal('hide');
+                                });
+                            </script>
                         @endforeach
                     </table>
                     @if ($lstLoaiGiamGia->total() > 5)
@@ -70,7 +148,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstLoaiGiamGia->appends($request->except('page'))->links() }}
+                                            {{ $lstLoaiGiamGia->appends($request->except('page'))->onEachSide(1)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
@@ -82,4 +160,5 @@
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->
+            @include('Partial/loai-ma-giam-gia/JSPartial-loaimagiamgia-show')
         @endsection

@@ -8,20 +8,21 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('trangThaiDonHang.index') }}"><span class="text-muted fw-light">Danh sách /</span></a> Thêm trạng thái đơn hàng</h4>
+            <h4 class="fw-bold py-3 mb-4"><a href="{{ route('trangThaiDonHang.index') }}"><span
+                        class="text-muted fw-light">Danh sách /</span></a> Thêm trạng thái đơn hàng</h4>
             @if (Session::has('success'))
                 <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
             @endif
             @if (Session::has('error'))
                 <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
             @endif
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
                         {{ $error }}
                     </div>
                 @endforeach
-            @endif
+            @endif --}}
             <div class="col-md-12">
                 <div class="card mb-4">
                     <h5 class="card-header">Thêm trạng thái đơn hàng</h5>
@@ -31,7 +32,15 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tên trạng thái đơn hàng</label>
                                 <input type="text" name="TenTrangThaiDonHang" class="form-control"
-                                    id="exampleFormControlInput1" placeholder="Tên trạng thái đơn hàng" />
+                                    id="exampleFormControlInput1" placeholder="Tên trạng thái đơn hàng"
+                                    value="{{ old('TenTrangThaiDonHang') }}" />
+                                @error('TenTrangThaiDonHang')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>

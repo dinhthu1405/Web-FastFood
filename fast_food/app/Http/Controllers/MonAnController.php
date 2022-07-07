@@ -35,15 +35,16 @@ class MonAnController extends Controller
         // $lstMonAn = MonAn::all()->where('trang_thai', 1)->sortBy('ten_mon');
         $lstMonAn = MonAn::where('trang_thai', 1)->paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
-        // foreach ($lstMonAn as $monAn) {
-        //     if ($monAn->so_luong > 10) {
-        //         $monAn->update(['tinh_trang' => 'Còn món']);
-        //     } else if ($monAn->so_luong > 0 && $monAn->so_luong <= 10) {
-        //         $monAn->update(['tinh_trang' => 'Sắp hết']);
-        //     } else if ($monAn->so_luong == 0) $monAn->update(['tinh_trang' => 'Hết món']);
-        // }
         return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
     }
+
+    public function index1(Request $request, $mon_an_id)
+    {
+        $lstMonAn = MonAn::where('trang_thai', 1)->where('id', $mon_an_id)->paginate(5);
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'request', 'lstHinhAnh'));
+    }
+
 
     public function images($id)
     {
@@ -57,15 +58,23 @@ class MonAnController extends Controller
     {
         // Get the search value from the request
         $search = $request->input('search');
-        // Search in the title and body columns from the posts table
-        $lstMonAn = MonAn::where('trang_thai', 1)->where(function ($query) use ($search) {
-            $query->where('ten_mon', 'LIKE', '%' . $search . '%')
-                ->orWhere('don_gia', 'LIKE', '%' . $search . '%')
-                ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
-                ->orWhere('tinh_trang', 'LIKE', '%' . $search . '%');
-        })->paginate(5);
-        // dd($lstMonAn);
-        return view('component/mon-an/monan-show', compact('lstMonAn', 'request'));
+        $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
+        if ($search != null) {
+            // Search in the title and body columns from the posts table
+            $lstMonAn = MonAn::where('trang_thai', 1)->where(function ($query) use ($search) {
+                $query->where('ten_mon', 'LIKE', '%' . $search . '%')
+                    ->orWhere('don_gia', 'LIKE', '%' . $search . '%')
+                    ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
+                    ->orWhere('tinh_trang', 'LIKE', '%' . $search . '%');
+            })->paginate(5);
+            // dd($lstMonAn);
+
+        } else if ($request->LocDonHang) {
+            $locDonHang = $request->LocDonHang;
+            // dd($locDonHang);
+            $lstMonAn = MonAn::where('trang_thai', 1)->where('tinh_trang', $request->LocDonHang)->paginate(5);
+        }
+        return view('component/mon-an/monan-show', compact('lstMonAn', 'lstHinhAnh', 'request'));
     }
 
     /**
@@ -95,18 +104,22 @@ class MonAnController extends Controller
             [
                 'TenMonAn' => 'required',
                 // 'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-                'images' => 'required|max:2048',
+                'images' => 'required',
                 'DiaDiem' => 'required',
                 'LoaiMonAn' => 'required',
+                'SoLuong' => 'required',
+                'DonGia' => 'required',
             ],
             [
-                'TenMonAn.required' => 'Bạn chưa nhập tên món ăn',
+                'TenMonAn.required' => 'Bạn chưa nhập tên món',
                 'images.required' => 'Bạn chưa chọn hình ảnh',
                 // 'images.image' => 'File bạn chọn không phải là hình ảnh',
-                'images.max' => 'Bạn chỉ được chọn file hình ảnh có dung lượng nhỏ hơn 2MB',
+                // 'images.max' => 'Bạn chỉ được chọn file hình ảnh có dung lượng nhỏ hơn 2MB',
                 // 'images.mimes' => 'Bạn chỉ được chọn file hình ảnh có đuôi jpg, png, jpeg, gif, svg',
                 'DiaDiem.required' => 'Bạn chưa chọn địa điểm',
-                'LoaiMonAn.required' => 'Bạn chưa chọn loại món ăn',
+                'LoaiMonAn.required' => 'Bạn chưa chọn loại món',
+                'SoLuong.required' => 'Bạn chưa nhập số lượng',
+                'DonGia.required' => 'Bạn chưa nhập đơn giá',
             ]
         );
         $monAn = new MonAn();
@@ -125,7 +138,7 @@ class MonAnController extends Controller
         $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
         // dd($ktMonAn);
         if ($ktMonAn) {
-            return Redirect::back()->with('error', 'Tên món ăn đã tồn tại');
+            return Redirect::back()->with('error', 'Tên món đã tồn tại');
         } else {
 
             $monAn->save();
@@ -141,7 +154,7 @@ class MonAnController extends Controller
                     ]);
                 }
             }
-            return Redirect::route('monAn.index')->with('success', 'Thêm món ăn thành công');
+            return Redirect::route('monAn.index')->with('success', 'Thêm món thành công');
         }
     }
 
@@ -188,13 +201,18 @@ class MonAnController extends Controller
                 'images' => 'max:2048',
                 'DiaDiem' => 'required',
                 'LoaiMonAn' => 'required',
+                'SoLuong' => 'required',
+                'DonGia' => 'required'
             ],
             [
+                // 'images.required' => 'Bạn chưa chọn hình ảnh',
                 // 'images.image' => 'File bạn chọn không phải là hình ảnh',
                 'images.max' => 'Bạn chỉ được chọn file hình ảnh có dung lượng nhỏ hơn 2MB',
                 // 'images.mimes' => 'Bạn chỉ được chọn file hình ảnh có đuôi jpg, png, jpeg, gif, svg',
                 'DiaDiem.required' => 'Bạn chưa chọn địa điểm',
-                'LoaiMonAn.required' => 'Bạn chưa chọn loại món ăn',
+                'LoaiMonAn.required' => 'Bạn chưa chọn loại món',
+                'SoLuong.required' => 'Bạn chưa nhập số lượng',
+                'DonGia.required' => 'Bạn chưa nhập đơn giá',
             ]
         );
 
@@ -232,7 +250,7 @@ class MonAnController extends Controller
         ]);
         // dd($monAn);
         $monAn->save();
-        return Redirect::route('monAn.index')->with('success', 'Sửa món ăn thành công');
+        return Redirect::route('monAn.index')->with('success', 'Sửa món thành công');
     }
 
     /**

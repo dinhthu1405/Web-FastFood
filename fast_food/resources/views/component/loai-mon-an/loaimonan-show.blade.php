@@ -13,74 +13,77 @@
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <a href="{{ route('loaiMonAn.create') }}"><button type="button" class="btn btn-success py-2 mb-4">Thêm
-                            loại món ăn</button></a>
+                    <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">Thêm
+                        loại món</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <div id="alert-msg" role="alert">
+                    </div>
+                </div>
+
+            </div>
+            <!-- Modal Thêm -->
+            <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalCenterTitle">Thêm loại món</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Tên loại món</label>
+                                    <input type="text" name="TenLoai" class="form-control" id="TenLoai"
+                                        placeholder="Tên loại món" />
+                                    <span class="text-danger error-text ten_loai_err" id="tenLoai"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Đóng
+                            </button>
+                            <button type="submit" value="add" class="btn btn-primary btn-save">Thêm loại
+                                món</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <form action="{{ route('loaiMonAn.search') }}" method="GET">
-                <label>Tìm kiếm</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input class="form-control" type="search" name="search" value="{{ request('search') }}"
-                            required />
+                        <label>Tìm kiếm</label>
+                        <input class="form-control" type="search" name="search" required id="timKiem"
+                            value="{{ request('search') }}" />
                     </div>
                     <div class="col-md-2">
+                        <label></label>
                         <button type="submit" class="form-control btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-1">
+                        <label for=""></label>
+                        <button type="button" class="form-control btn btn-info" id="refresh">
+                            <i class='bx bx-refresh'></i>
+                        </button>
                     </div>
                 </div>
             </form>
             <br />
             <!-- Bootstrap Table with Header - Light -->
             <div class="card">
-                <h5 class="card-header">Danh sách loại món ăn</h5>
-                <div class="table-responsive text-nowrap">
-                    <table class="table">
-                        <thead class="table-light">
-                            <tr>
-                                <th>STT</th>
-                                <th>Tên loại</th>
-                                {{-- <th>Chỉnh sửa</th> --}}
-                                <th>Xoá</th>
-                            </tr>
-                        </thead>
-                        <?php $count = $lstLoaiMonAn->perPage() * ($lstLoaiMonAn->currentPage() - 1) + 1; ?>
-                        @foreach ($lstLoaiMonAn as $loaiMonAn)
-                            <tbody class="table-border-bottom-0">
-                                <tr>
-                                    <td> {{ $count++ }} </td>
-                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                        <strong>{{ $loaiMonAn->ten_loai }}</strong>
-                                    </td>
-                                    {{-- <td><a href="{{ route('loaiMonAn.edit', $loaiMonAn->id) }}"><button type="button" id="btn-edit" class="btn btn-warning py-2 mb-4" data-target="#modal-edit" data-bs-toggle="modal" data-bs-target="#modalCenter-Edit">
-                                        <i class="bx bx-edit-alt me-1"></i> </button></a> </td> --}}
-                                    <td> <a href="{{ route('loaiMonAn.xoa', $loaiMonAn->id) }}"
-                                            onclick="return confirm('Bạn có chắc muốn xoá loại món ăn này, vì nó có thể ảnh hưởng đến món ăn; đánh giá và bình luận')"><button
-                                                type="button" id="btn-edit" class="btn btn-danger py-2 mb-4"
-                                                data-target="#modal-edit" data-bs-toggle="modal"
-                                                data-bs-target="#modalCenter-Edit">
-                                                <i class="bx bx-trash me-1"></i> </button></a></td>
-                                </tr>
-                            </tbody>
-                        @endforeach
-                    </table>
-                    @if ($lstLoaiMonAn->total() > 5)
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Basic Pagination -->
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            {{ $lstLoaiMonAn->appends($request->except('page'))->links() }}
-                                        </ul>
-                                    </nav>
-                                    <!--/ Basic Pagination -->
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                    @endif
-                </div>
+                @include('component/loai-mon-an/loaimonan-paginate')
             </div>
         </div>
         <!-- Bootstrap Table with Header - Light -->
+        @include('Partial/loai-mon-an/JSPartial-loaimonan-show')
     @endsection

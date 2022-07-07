@@ -9,7 +9,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><a href="{{ route('monAn.index') }}"><span class="text-muted fw-light">Danh sách
-                        /</span></a> Sửa món ăn</h4>
+                        /</span></a> Sửa món</h4>
             {!! @csrf_field() !!}
             @if (Session::has('success'))
                 <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
@@ -17,16 +17,16 @@
             @if (Session::has('error'))
                 <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
             @endif
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
                         {{ $error }}
                     </div>
                 @endforeach
-            @endif
+            @endif --}}
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">Sửa món ăn</h5>
+                    <h5 class="card-header">Sửa món</h5>
                     <div class="card-body">
                         <form action="{{ route('monAn.update', ['monAn' => $monAn]) }}" method="post"
                             enctype="multipart/form-data">
@@ -41,6 +41,13 @@
                                 <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
                                 <input type="file" class="form-control" name="images[]" accept="image/*"
                                     onchange="loadFile(event)" multiple id="images" placeholder="Hình ảnh" />
+                                @error('images')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Xem trước hình</label>
@@ -112,10 +119,10 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlSelect1" class="form-label">Loại món ăn</label>
+                                <label for="exampleFormControlSelect1" class="form-label">Loại món</label>
                                 <select class="form-select" name="LoaiMonAn" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
-                                    <option selected>-- Chọn loại món ăn --</option>
+                                    <option selected>-- Chọn loại món --</option>
                                     @foreach ($lstLoaiMonAn as $loaiMonAn)
                                         <option value="{{ $loaiMonAn->id }}"
                                             @if ($loaiMonAn->id == $monAn->loai_mon_an_id) selected @endif>{{ $loaiMonAn->ten_loai }}
@@ -138,16 +145,28 @@
                             <div class="mb-3">
                                 <label for="exampleDataList" class="form-label">Đơn giá</label>
                                 <input type="text" name="DonGia" class="form-control format_number" min="1"
-                                    value="{{ $monAn->don_gia }}" onkeypress='validate(event)'
+                                    value="{{ old('DonGia', $monAn->don_gia) }}" onkeypress='validate(event)'
                                     id="exampleFormControlInput1" placeholder="Đơn giá" />
-
+                                @error('DonGia')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleDataList" class="form-label">Số lượng</label>
                                 <input type="number" name="SoLuong" class="form-control" min="1"
-                                    value="{{ $monAn->so_luong }}" id="exampleFormControlInput1"
+                                    value="{{ old('SoLuong', $monAn->so_luong) }}" id="exampleFormControlInput1"
                                     placeholder="Số lượng" />
-
+                                @error('SoLuong')
+                                    <div class="error">
+                                        <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                        </span>
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlSelect1" class="form-label">Tình trạng món ăn</label>
@@ -161,7 +180,7 @@
                             <div class="row">
                                 <div class="col-md-5"></div>
                                 <div class="col-md-5 mb-3">
-                                    <button type="submit" class="btn btn-success py-2 mb-4">Sửa món ăn</button>
+                                    <button type="submit" class="btn btn-success py-2 mb-4">Sửa món</button>
                                 </div>
                                 <div class="col-md-2"></div>
                             </div>

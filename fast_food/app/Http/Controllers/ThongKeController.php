@@ -27,8 +27,8 @@ class ThongKeController extends Controller
         $value = 0;
         $value_top = 0;
         $value_loai = 0;
-        $tu_ngay = '01-01-01';
-        $den_ngay = '01-01-01';
+        $tu_ngay = '0000-01-01';
+        $den_ngay = '0000-01-01';
         $thongKe = 0;
         $topDH = 0;
         return view('component/thong-ke/thongke-donhang', compact('lstDonHang', 'lstTrangThaiDonHang', 'lstTaiKhoan', 'value', 'value_top', 'value_loai', 'tu_ngay', 'den_ngay', 'thongKe', 'topDH'));
@@ -47,8 +47,8 @@ class ThongKeController extends Controller
             $tu_ngay = request()->tu_ngay;
             $den_ngay = request()->den_ngay;
         } else {
-            $tu_ngay = '01-01-01';
-            $den_ngay = '01-01-01';
+            $tu_ngay = '0000-01-01';
+            $den_ngay = '0000-01-01';
         }
         $topDH = request()->TOPDH;
         //Thống kê theo ngày tháng năm

@@ -311,7 +311,7 @@ class DonHangExport implements
         $drawingLogo = new Drawing();
         $drawingLogo->setName('Logo');
         $drawingLogo->setDescription('This is my logo');
-        $drawingLogo->setPath(public_path('assets/img/icons/unicons/logo.png'));
+        $drawingLogo->setPath(public_path('assets/img/favicon/favicon.ico'));
         $drawingLogo->setHeight(90);
         $drawingLogo->setCoordinates('A2');
         $offsetX = 40; //pixels
