@@ -37,7 +37,8 @@
     const coords = [
         @foreach ($lstDiaDiem as $diaDiem)
             [{{ $diaDiem->kinh_do }}, {{ $diaDiem->vi_do }},
-                '{{ $diaDiem->ten_dia_diem }}'
+                '{{ $diaDiem->ten_dia_diem }}', '{{ $diaDiem->thoi_gian_mo }}',
+                '{{ $diaDiem->thoi_gian_dong }}'
             ],
         @endforeach
     ];
@@ -67,8 +68,11 @@
             // for all objects that it contains
             var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
                 // read custom data
-                content: evt.target.getData()
+                content: evt.target.getData(),
             });
+            // .H_ib_body {
+            //     background: rgb(45, 213, 201);
+            // }
             // show info bubble
             ui.addBubble(bubble);
         }, false);
@@ -77,9 +81,14 @@
                     lat: el[0],
                     lng: el[1]
                 },
-                '<div>' + el[2] + '</div>');
+                '<div style="max-width: 1200px;"><div><img src="{{ asset('assets/img/favicon/heremap.png') }}" style="max-width:50px" alt=""></div><div><span>Tên:</span> <span>' +
+                el[2] +
+                '</span></div><div><span>Thời gian mở:' +
+                el[3] + '</span></div><div><span>Thời gian đóng:' + el[4] + '</span></div></div>'
+            );
         });
     }
+
     // Now use the map as required...
     addInfoBubble(map);
 
@@ -219,5 +228,4 @@
     //         console.log(obj.getGeometry());
     //     }
     // });
-
 </script>

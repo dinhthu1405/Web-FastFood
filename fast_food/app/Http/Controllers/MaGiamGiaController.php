@@ -31,8 +31,26 @@ class MaGiamGiaController extends Controller
         $lstMaGiamGia = MaGiamGia::where('trang_thai', 1)->where(function ($query) use ($search) {
             $query->where('ten_ma', 'LIKE', '%' . $search . '%')
                 ->orWhere('so_luong', 'LIKE', '%' . $search . '%')
-                ->orWhere('ngay_bat_dau', 'LIKE', '%' . $search . '%')
-                ->orWhere('ngay_ket_thuc', 'LIKE', '%' . $search . '%');
+                ->orWhere('ngay_bat_dau', 'LIKE', '%' . date('Y-m-d', strtotime($search)) . '%')
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereTime('ngay_bat_dau', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereMonth('ngay_bat_dau', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereYear('ngay_bat_dau', $search);
+                })
+                ->orWhere('ngay_ket_thuc', 'LIKE', '%' . date('Y-m-d', strtotime($search)) . '%')
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereTime('ngay_ket_thuc', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereMonth('ngay_ket_thuc', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereYear('ngay_ket_thuc', $search);
+                });
         })->paginate(5);
 
         return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
@@ -72,8 +90,8 @@ class MaGiamGiaController extends Controller
                 'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
                 'SoLuong.required' => 'Bạn chưa nhập số lượng',
-                'NgayBatDau.required' => 'Bạn chưa nhập ngày bắt đầu',
-                'NgayKetThuc.required' => 'Bạn chưa nhập ngày kết thúc',
+                'NgayBatDau.required' => 'Bạn chưa chọn ngày bắt đầu',
+                'NgayKetThuc.required' => 'Bạn chưa chọn ngày kết thúc',
             ]
         );
         $maGiamGia = new MaGiamGia();
@@ -142,8 +160,8 @@ class MaGiamGiaController extends Controller
             [
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
                 'SoLuong.required' => 'Bạn chưa nhập số lượng',
-                'NgayBatDau.required' => 'Bạn chưa nhập ngày bắt đầu',
-                'NgayKetThuc.required' => 'Bạn chưa nhập ngày kết thúc',
+                'NgayBatDau.required' => 'Bạn chưa chọn ngày bắt đầu',
+                'NgayKetThuc.required' => 'Bạn chưa chọn ngày kết thúc',
             ]
         );
         $maGiamGium->fill([
