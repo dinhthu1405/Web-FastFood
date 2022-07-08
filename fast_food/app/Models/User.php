@@ -87,7 +87,7 @@ class User extends Authenticatable
 
     public function diemMuaHangs()
     {
-        return $this->hasMany(DiemMuaHang::class);
+        return $this->hasMany(DiemMuaHang::class, 'id');
     }
 
 }

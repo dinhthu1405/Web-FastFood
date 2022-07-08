@@ -21,4 +21,14 @@
     .log - entry: nth - child(odd) {
         background - color: #e1e7f1;
     }
+
+    /** Style for the info bubble content */
+    .H_ib_body {
+        width: 200px;
+    }
+
+    /** Style for the info bubble tail */
+    .H_ib.H_ib_top .H_ib_tail::after {
+        border-color: rgb(45, 213, 201) transparent !important;
+    }
 </style>

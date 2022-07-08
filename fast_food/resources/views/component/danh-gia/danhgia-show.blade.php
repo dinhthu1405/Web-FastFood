@@ -72,7 +72,7 @@
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
                                         @else
-                                            <td>{{ $danhGia->thoi_gian }}</td>
+                                            <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
                                         @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
@@ -161,7 +161,7 @@
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
                                         @else
-                                            <td>{{ $danhGia->thoi_gian }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
                                         @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>

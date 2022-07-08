@@ -16,7 +16,7 @@
                             ảnh bìa</button></a>
                 </div>
             </div>
-            <form action="{{ route('loaiMonAn.search') }}" method="post">
+            {{-- <form action="{{ route('loaiMonAn.search') }}" method="post">
                 {{ csrf_field() }}
                 <div class="row">
                     <div class="col-md-4">
@@ -35,7 +35,7 @@
                         </button>
                     </div>
                 </div>
-            </form>
+            </form> --}}
             <br />
             <!-- Bootstrap Table with Header - Light -->
             <div class="card">

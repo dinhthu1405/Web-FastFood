@@ -31,32 +31,38 @@
                             enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @method('PATCH')
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
-                                <input type="text" disabled name="TenDiaDiem" class="form-control"
-                                    id="exampleFormControlInput1" value="{{ $diaDiem->ten_dia_diem }}"
-                                    placeholder="Tên địa điểm" />
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="html5-time-input" class="form-label">Thời gian mở</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianMo" type="time"
-                                        value="{{ $diaDiem->thoi_gian_mo }}" id="html5-time-input">
+                            <div class="row">
+                                <div class="mb-3 col-md-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
+                                    <input type="text" disabled name="TenDiaDiem" class="form-control"
+                                        id="exampleFormControlInput1" value="{{ $diaDiem->ten_dia_diem }}"
+                                        placeholder="Tên địa điểm" />
+                                </div>
+
+                                <div class="mb-3 col-md-4">
+                                    <label for="html5-time-input" class="form-label">Thời gian mở</label>
+                                    <div class="col-md-12">
+                                        <input class="form-control" name="ThoiGianMo" type="time"
+                                            value="{{ $diaDiem->thoi_gian_mo }}" id="html5-time-input">
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label for="html5-time-input" class="form-label">Thời gian đóng</label>
+                                    <div class="col-md-12">
+                                        <input class="form-control" name="ThoiGianDong" type="time"
+                                            value="{{ $diaDiem->thoi_gian_dong }}" id="html5-time-input">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label for="html5-time-input" class="form-label">Thời gian đóng</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianDong" type="time"
-                                        value="{{ $diaDiem->thoi_gian_dong }}" id="html5-time-input">
-                                </div>
-                            </div>
+
                             <div class="mb-3 row" hidden>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="KinhDo" type="text" value="{{ $diaDiem->kinh_do }}" id="KinhDo">
+                                    <input class="form-control" name="KinhDo" type="text"
+                                        value="{{ $diaDiem->kinh_do }}" id="KinhDo">
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="ViDo" type="text" value="{{ $diaDiem->vi_do }}" id="ViDo">
+                                    <input class="form-control" name="ViDo" type="text"
+                                        value="{{ $diaDiem->vi_do }}" id="ViDo">
                                 </div>
                             </div>
                             <div class="mb-3">

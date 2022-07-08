@@ -22,6 +22,7 @@ class CreateDonHangsTable extends Migration
             $table->unsignedBigInteger('trang_thai_don_hang_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('nguoi_giao_hang_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('user_id')->nullable(); //khoá ngoại
+            $table->unsignedBigInteger('ma_giam_gia_id')->nullable(); //khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();

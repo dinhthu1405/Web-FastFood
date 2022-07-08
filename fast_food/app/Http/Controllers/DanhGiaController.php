@@ -42,7 +42,19 @@ class DanhGiaController extends Controller
     {
         $search = $request->search;
         $lstDanhGia = DanhGia::where('trang_thai', 1)->where(function ($query) use ($search) {
-            $query->where('danh_gia_sao', 'LIKE', '%' . $search . '%');
+            $query->where('danh_gia_sao', 'LIKE', '%' . $search . '%')
+                ->orWhere('noi_dung', 'LIKE', '%' . $search . '%')
+                // ->orWhere('duyet', 'LIKE', '%' . $search . '%')
+                ->orWhere('thoi_gian', 'LIKE', '%' . date('Y-m-d', strtotime($search)) . '%')
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereTime('thoi_gian', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereMonth('thoi_gian', $search);
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereYear('thoi_gian', $search);
+                });
         })->paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstTaiKhoan = User::all()->where('phan_loai_tai_khoan', '!=', 1);

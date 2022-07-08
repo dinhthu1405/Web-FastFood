@@ -24,7 +24,7 @@ class DiemMuaHang extends Model
 
     public function user()
     {
-        return $this->belongsTo(DiemMuaHang::class, 'id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function donHangs()
