@@ -116,12 +116,10 @@ class DiaDiemController extends Controller
             [
                 'TenDiaDiem' => 'required',
                 'KinhDo' => 'required',
-                'ViDo' => 'required',
             ],
             [
                 'TenDiaDiem.required' => 'Bạn chưa nhập tên địa điểm',
-                'KinhDo.required' => 'Bạn chưa nhập kinh độ',
-                'ViDo.required' => 'Bạn chưa nhập vĩ độ',
+                'KinhDo.required' => 'Bạn chưa chọn vị trí trên bản đồ',
                 // 'TenDiaDiem.unique' => 'Tên địa điểm đã tồn tại',
             ]
         );
@@ -198,9 +196,16 @@ class DiaDiemController extends Controller
             'kinh_do' => $request->input('KinhDo'),
             'vi_do' => $request->input('ViDo'),
         ]);
-        // dd($diaDiem);
-        $diaDiem->save(); //lưu xong mới có mã địa điểm
-        return Redirect::route('diaDiem.index')->with('success', 'Sửa địa điểm thành công');
+        dd($diaDiem);
+
+        $ktDiaDiem = DiaDiem::all()->where('ten_dia_diem', $request->input('TenDiaDiem'))->first();
+        return ($ktDiaDiem);
+        if ($ktDiaDiem) {
+            return Redirect::back()->with('error', 'Tên địa điểm đã tồn tại');
+        } else {
+            $diaDiem->save(); //lưu xong mới có mã địa điểm
+            return Redirect::route('diaDiem.index')->with('success', 'Thêm địa điểm thành công');
+        }
     }
 
     /**

@@ -30,46 +30,55 @@
                     <div class="card-body">
                         <form action="{{ route('diaDiem.store') }}" method="post" enctype="multipart/form-data">
                             {!! @csrf_field() !!}
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
-                                <input type="text" name="TenDiaDiem" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Tên địa điểm" value="{{ old('TenLoai') }}" />
-                                @error('TenDiaDiem')
-                                    <div class="error">
+                            <div class="row">
+                                <div class="mb-3 col-md-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Tên địa điểm</label>
+                                    <input type="text" name="TenDiaDiem" class="form-control"
+                                        id="exampleFormControlInput1" placeholder="Tên địa điểm"
+                                        value="{{ old('TenLoai') }}" />
+                                    @if (Session::has('error'))
                                         <span class="text-danger error-text ten_loai_err" id="tenLoai">
-                                            <strong style="font-size: 14px">{{ $message }}</strong>
+                                            <strong style="font-size: 14px">{{ Session::get('error') }}</strong>
                                         </span>
+                                    @endif
+                                    @error('TenDiaDiem')
+                                        <div class="error">
+                                            <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                                <strong style="font-size: 14px">{{ $message }}</strong>
+                                            </span>
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label for="html5-time-input" class="form-label">Thời gian mở</label>
+                                    <div class="col-md-12">
+                                        <input class="form-control" name="ThoiGianMo" type="time" value="12:30"
+                                            id="html5-time-input">
+                                        @error('ThoiGianMo')
+                                            <div class="error">
+                                                <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                                    <strong style="font-size: 14px">{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
                                     </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="html5-time-input" class="form-label">Thời gian mở</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianMo" type="time" value="12:30"
-                                        id="html5-time-input">
-                                    @error('ThoiGianMo')
-                                        <div class="error">
-                                            <span class="text-danger error-text ten_loai_err" id="tenLoai">
-                                                <strong style="font-size: 14px">{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label for="html5-time-input" class="form-label">Thời gian đóng</label>
+                                    <div class="col-md-12">
+                                        <input class="form-control" name="ThoiGianDong" type="time" value="13:30"
+                                            id="html5-time-input">
+                                        @error('ThoiGianDong')
+                                            <div class="error">
+                                                <span class="text-danger error-text ten_loai_err" id="tenLoai">
+                                                    <strong style="font-size: 14px">{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label for="html5-time-input" class="form-label">Thời gian đóng</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" name="ThoiGianDong" type="time" value="13:30"
-                                        id="html5-time-input">
-                                    @error('ThoiGianDong')
-                                        <div class="error">
-                                            <span class="text-danger error-text ten_loai_err" id="tenLoai">
-                                                <strong style="font-size: 14px">{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="mb-3 row" hidden>
                                 <div class="col-md-6">
                                     <input class="form-control" name="KinhDo" type="text" value="" id="KinhDo">
