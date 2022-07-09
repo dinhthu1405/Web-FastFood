@@ -90,4 +90,9 @@ class User extends Authenticatable
         return $this->hasMany(DiemMuaHang::class, 'id');
     }
 
+    public function yeu_thichs()
+    {
+        return $this->hasMany(YeuThich::class, 'id');
+    }
+
 }

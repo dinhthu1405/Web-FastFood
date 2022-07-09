@@ -26,17 +26,17 @@ class UserController extends Controller
     //         $hinhAnh = 'assets/img/17.jpg';
     //     }
     // }
-    protected function fixImage($id)
-    {
-        //chạy lệnh sau: php artisan storage:link
-        $hinhAnh = HinhAnh::where([['user_id', $id], ['trang_thai', 1]])->select('duong_dan')->first();
-        if (Storage::disk('public')->exists($hinhAnh)) {
-            $hinhAnh = Storage::url($hinhAnh);
-            // $taiKhoan->hinh_anh_id=$hinhAnh->id;
-        } else {
-            $hinhAnh = 'assets/img/17.jpg';
-        }
-    }
+    // protected function fixImage($id)
+    // {
+    //     //chạy lệnh sau: php artisan storage:link
+    //     $hinhAnh = HinhAnh::where([['user_id', $id], ['trang_thai', 1]])->select('duong_dan')->first();
+    //     if (Storage::disk('public')->exists($hinhAnh)) {
+    //         $hinhAnh = Storage::url($hinhAnh);
+    //         // $taiKhoan->hinh_anh_id=$hinhAnh->id;
+    //     } else {
+    //         $hinhAnh = 'assets/img/17.jpg';
+    //     }
+    // }
 
     /**
      * Display a listing of the resource.
