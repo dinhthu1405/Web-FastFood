@@ -61,4 +61,9 @@ class MonAn extends Model
     {
         return $this->hasMany(AnhBia::class);
     }
+
+    public function yeu_thichs()
+    {
+        return $this->hasMany(YeuThich::class);
+    }
 }

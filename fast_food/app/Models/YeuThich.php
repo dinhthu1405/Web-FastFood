@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DanhGia extends Model
+class YeuThich extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -16,9 +16,7 @@ class DanhGia extends Model
      */
     protected $fillable = [
         'id',
-        'danh_gia_sao',
-        'noi_dung',
-        'thoi_gian',
+        'yeu_thich',
         'user_id',
         'mon_an_id',
         'trang_thai',
@@ -26,16 +24,11 @@ class DanhGia extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function monAn()
     {
-        return $this->belongsTo(MonAn::class);
-    }
-
-    public function diaDiem()
-    {
-        return $this->belongsTo(DiaDiem::class);
+        return $this->belongsTo(MonAn::class, 'mon_an_id');
     }
 }

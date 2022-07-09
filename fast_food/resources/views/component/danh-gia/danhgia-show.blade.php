@@ -50,7 +50,6 @@
                                 <th>Thời gian</th>
                                 <th>Người dùng</th>
                                 <th>Món ăn</th>
-                                <th>Địa điểm</th>
                                 <th>Duyệt</th>
                                 <th>Khoá - Mở</th>
                             </tr>
@@ -83,11 +82,6 @@
                                             <td></td>
                                         @else
                                             <td>{{ $danhGia->monAn->ten_mon }}</td>
-                                        @endif
-                                        @if ($danhGia->dia_diem_id == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
                                         @if ($danhGia->duyet == 1)
                                             <td>
@@ -172,11 +166,6 @@
                                             <td></td>
                                         @else
                                             <td>{{ $danhGia->monAn->ten_mon }}</td>
-                                        @endif
-                                        @if ($danhGia->dia_diem_id == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
                                         @if ($danhGia->duyet == 1)
                                             <td>

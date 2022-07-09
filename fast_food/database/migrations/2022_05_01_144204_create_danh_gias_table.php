@@ -21,7 +21,6 @@ class CreateDanhGiasTable extends Migration
             $table->boolean('duyet')->nullable()->default(0);
             $table->unsignedBigInteger('user_id')->nullable(); //khoá ngoại
             $table->unsignedBigInteger('mon_an_id')->nullable(); //khoá ngoại
-            $table->unsignedBigInteger('dia_diem_id')->nullable(); //khoá ngoại
             $table->boolean('trang_thai')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
