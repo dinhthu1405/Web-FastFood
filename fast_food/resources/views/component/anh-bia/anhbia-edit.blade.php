@@ -31,24 +31,27 @@
                             enctype="multipart/form-data">
                             {!! @csrf_field() !!}
                             @method('PATCH')
-                            <div class="mb-3">
-                                <label for="exampleFormControlSelect1" class="form-label">Tên món</label>
-                                <select class="form-select" name="TenMon" id="exampleFormControlSelect1"
-                                    aria-label="Default select example">
-                                    @foreach ($lstMonAn as $monAn)
-                                        <option value="{{ $monAn->id }}"
-                                            @if ($monAn->id == $anhBia->mon_an_id) selected @endif>
-                                            {{ $monAn->ten_mon }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="exampleFormControlSelect1" class="form-label">Tên món</label>
+                                    <select class="form-select" name="TenMon" id="exampleFormControlSelect1"
+                                        aria-label="Default select example">
+                                        @foreach ($lstMonAn as $monAn)
+                                            <option value="{{ $monAn->id }}"
+                                                @if ($monAn->id == $anhBia->mon_an_id) selected @endif>
+                                                {{ $monAn->ten_mon }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
+                                    <input type="file" class="form-control" name="images[]" accept="image/*"
+                                        onchange="loadFile(event)" multiple id="exampleFormControlInput1"
+                                        placeholder="Hình ảnh" />
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" name="images[]" accept="image/*"
-                                    onchange="loadFile(event)" multiple id="exampleFormControlInput1"
-                                    placeholder="Hình ảnh" />
-                            </div>
+
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Xem trước hình</label>
                                 <div class="row">
