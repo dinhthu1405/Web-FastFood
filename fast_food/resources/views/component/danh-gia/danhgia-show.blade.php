@@ -66,7 +66,7 @@
                                         @if ($danhGia->noi_dung == null)
                                             <td></td>
                                         @else
-                                            <td>{{ $danhGia->noi_dung }}</td>
+                                            <td>{{ str_limit($danhGia->noi_dung, 10) }}</td>
                                         @endif
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
@@ -155,7 +155,7 @@
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
                                         @else
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
+                                            <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
                                         @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
@@ -237,7 +237,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstDanhGia->appends($request->except('page'))->onEachSide(1)->links() }}
+                                            {{ $lstDanhGia->appends($request->except('page'))->onEachSide(5)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->
