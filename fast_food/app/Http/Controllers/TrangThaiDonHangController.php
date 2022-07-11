@@ -98,7 +98,7 @@ class TrangThaiDonHangController extends Controller
         } else {
             $trangThaiDonHang = new TrangThaiDonHang();
             $trangThaiDonHang->ten_trang_thai = $request->input('ten_trang_thai');
-            $ktTrangThaiDonHang = TrangThaiDonHang::all()->where('ten_trang_thai', strtolower($request->input('ten_trang_thai')))->where('trang_thai', 1)->first();
+            $ktTrangThaiDonHang = TrangThaiDonHang::all()->where('ten_trang_thai', $request->input('ten_trang_thai'))->where('trang_thai', 1)->first();
             if ($ktTrangThaiDonHang) {
                 return response()->json(['status' => 401, 'errors' => 'Tên trạng thái đơn hàng đã tồn tại']);
             } else {

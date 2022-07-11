@@ -43,7 +43,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $lstTaiKhoan = User::paginate(5);
@@ -71,7 +71,7 @@ class UserController extends Controller
         // }
         // $lstHinhAnh = HinhAnh::where([['user_id', $taiKhoan->id], ['trang_thai', 1]])->get();
         // dd($lstHinhAnh);
-        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh'));
+        return view('component/tai-khoan/taikhoan-show', compact('lstTaiKhoan', 'lstHinhAnh', 'request'));
     }
 
     public function index1(Request $request, $user_id, $nguoi_giao_hang_id)
@@ -175,6 +175,7 @@ class UserController extends Controller
             'dia_chi' => $request->input('DiaChi'),
             'phan_loai_tai_khoan' => 2,
         ]);
+        // dd($taiKhoan);
         $taiKhoan->save();
 
         if ($request->hasFile('images')) {
