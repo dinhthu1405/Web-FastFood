@@ -88,7 +88,7 @@ class HomeController extends Controller
         $trangThaiDonHang = DonHang::select()->where('trang_thai', 1)->get();
         $lstTaiKhoan = User::all();
 
-        //Khoá mã giảm giá
+        //Khoá mã giảm giá1
         // $ngay_ket_thuc_ma_giam_gia=MaGiamGia::all()->where('trang_thai', 1)->select('ngay_ket_thuc');
         // dd($ngay_ket_thuc_ma_giam_gia);
         return view('home', compact('choXacNhan', 'xacNhanGiao', 'choGiao', 'dangGiao', 'daNhan', 'xacNhanDaGiao', 'donHangBoom', 'hoanThanh', 'tongDonHang', 'getTrangThaiDonHang', 'chartLabel', 'chartSeries', 'lstDonHang', 'lstTaiKhoan', 'hinhThucThanhToanThe', 'hinhThucThanhToanTienMat', 'tongTien', 'trangThaiDonHang'));
