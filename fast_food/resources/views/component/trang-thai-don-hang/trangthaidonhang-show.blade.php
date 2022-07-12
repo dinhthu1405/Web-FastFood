@@ -16,8 +16,40 @@
                             class="btn btn-success py-2 mb-4">Thêm
                             Trạng Thái Đơn Hàng</button></a> --}}
                     <button type="button" class="btn btn-success py-2 mb-4" data-target="#modal-add" data-bs-toggle="modal"
-                        data-bs-target="#modalCenter">Thêm
+                        data-bs-target="#modalCenter-Add">Thêm
                         Trạng Thái Đơn Hàng</button>
+                </div>
+                <!-- Modal Thêm -->
+                <div class="modal fade" id="modalCenter-Add" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Thêm trạng thái đơn hàng
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Tên
+                                            trạng thái</label>
+                                        <input type="text" name="TenTrangThai" class="form-control" id="TenTrangThai"
+                                            placeholder="Tên trạng thái" />
+                                        <span class="text-danger error-text ten_trang_thai_err" id="TenTrangThai"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
+                                <button type="submit" value="add" class="btn btn-primary btn-save">Thêm trạng thái đơn
+                                    hàng</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <form action="{{ route('trangThaiDonHang.search') }}" method="GET">
@@ -61,40 +93,6 @@
                                     <td>
                                         <strong>{{ $trangThaiDonHang->ten_trang_thai }}</strong>
                                     </td>
-                                    <!-- Modal Thêm -->
-                                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalCenterTitle">Thêm trạng thái đơn hàng
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        {{-- <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}"> --}}
-                                                        <div class="mb-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Tên
-                                                                trạng thái</label>
-                                                            <input type="text" name="TenTrangThai" class="form-control"
-                                                                id="TenTrangThai" placeholder="Tên trạng thái" />
-                                                            <span class="text-danger error-text ten_trang_thai_err"
-                                                                id="TenTrangThai"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        Đóng
-                                                    </button>
-                                                    <button type="submit" value="add"
-                                                        class="btn btn-primary btn-save">Thêm trạng thái đơn hàng</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     {{-- <td><a href="{{ route('trangThaiDonHang.edit', $trangThaiDonHang->id) }}"><button
                                                 type="button" id="btn-edit" class="btn btn-warning py-2 mb-4"
                                                 data-target="#modal-edit" data-bs-toggle="modal"

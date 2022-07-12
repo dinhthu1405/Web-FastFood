@@ -21,7 +21,6 @@ class DanhGia extends Model
         'thoi_gian',
         'user_id',
         'mon_an_id',
-        'dia_diem_id',
         'trang_thai',
     ];
 
