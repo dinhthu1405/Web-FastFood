@@ -54,13 +54,20 @@
                         </thead>
                         <?php
                         $count = $lstDiemMuaHang->perPage() * ($lstDiemMuaHang->currentPage() - 1) + 1;
-                        $lstDiemMuaHangs = App\Models\DiemMuaHang::all();
-                        $lstUsers = App\Models\User::all();
-                        $lstDonHang = App\Models\DonHang::all();
+                        $lstDiemMuaHangs = App\Models\DiemMuaHang::all()->where('trang_thai', 1);
+                        // $lstDiemMuaHangPage = App\Models\DiemMuaHang::where('trang_thai', 1)->paginate(5);
+                        $lstDiemMuaHangPage = DB::table('diem_mua_hangs AS T1')
+                            ->select('T1.*')
+                            ->distinct()
+                            ->paginate(5, ['T1.*']);
+                        $lstUsers = App\Models\User::all()->where('trang_thai', 1);
+                        $lstDonHang = App\Models\DonHang::all()->where('trang_thai', 1);
                         $lstDonHangUnique = $lstDonHang->unique('user_id');
-                        $lstDiemMuaHangUnique = $lstDiemMuaHangs->unique('user_id');
                         
-                        $lstDiemMuaHangDupes = $lstDiemMuaHangs->diff($lstDiemMuaHangUnique);
+                        $lstDiemMuaHangUnique = $lstDiemMuaHangs->unique('user_id');
+                        // $lstDiemMuaHangPageUnique = $lstDiemMuaHangPage->unique('user_id');
+                        
+                        // $lstDiemMuaHangDupes = $lstDiemMuaHangs->diff($lstDiemMuaHangUnique);
                         // $results = App\Models\DiemMuaHang::whereIn('user_id', function ($query) {
                         //     $query
                         //         ->selectRaw('user_id')
@@ -88,7 +95,7 @@
                         //     return $item->so_diem;
                         // });
                         
-                        // dump($resultEmail);
+                        // dump($lstDiemMuaHangUnique);
                         ?>
                         @foreach ($lstDiemMuaHangUnique as $diemMuaHang)
                             @foreach ($lstDonHangUnique as $donHang)
@@ -250,7 +257,8 @@
                             </script>
                         @endforeach
                     </table>
-                    @if ($lstDiemMuaHang->total() > 5)
+
+                    {{-- @if ($lstDiemMuaHang->total() > 5)
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
@@ -265,7 +273,7 @@
                             </div>
                         </div>
                     @else
-                    @endif
+                    @endif --}}
                 </div>
             </div>
             <!-- Bootstrap Table with Header - Light -->

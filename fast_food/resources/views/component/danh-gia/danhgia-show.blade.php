@@ -66,7 +66,10 @@
                                         @if ($danhGia->noi_dung == null)
                                             <td></td>
                                         @else
-                                            <td>{{ str_limit($danhGia->noi_dung, 10) }}</td>
+                                            <td data-target="#modal-edit" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter{{ $danhGia->id }}">
+                                                {{ Str::limit($danhGia->noi_dung, 20) }}
+                                            </td>
                                         @endif
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
@@ -150,8 +153,27 @@
                                         @if ($danhGia->noi_dung == null)
                                             <td></td>
                                         @else
-                                            <td>{{ $danhGia->noi_dung }}</td>
+                                            <td data-target="#modal-edit" data-bs-toggle="modal"
+                                                data-bs-target="#modalCenter{{ $danhGia->id }}">
+                                                {{ Str::limit($danhGia->noi_dung, 20) }}</td>
                                         @endif
+                                        <div class="modal fade" id="modalCenter{{ $danhGia->id }}" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalCenterTitle">Địa chỉ</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="text-wrap">
+                                                            {{ $danhGia->noi_dung }}
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
                                         @else

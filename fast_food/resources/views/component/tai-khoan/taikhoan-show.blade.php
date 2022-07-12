@@ -84,21 +84,9 @@
                                         <td>{{ $taiKhoan->sdt }}</td>
                                         <td>{{ $taiKhoan->ngay_sinh }}</td>
                                         <td data-target="#modal-add" data-bs-toggle="modal"
-                                            data-bs-target='#modalCenter{{ $taiKhoan->id }}'>{{ $taiKhoan->dia_chi }}
+                                            data-bs-target='#modalCenter{{ $taiKhoan->id }}'>
+                                            {{ Str::limit($taiKhoan->dia_chi, 10) }}
                                         </td>
-                                        <div class="modal fade" id="modalCenter{{ $taiKhoan->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalCenterTitle">Địa chỉ</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">{{ $taiKhoan->dia_chi }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         @if ($taiKhoan->phan_loai_tai_khoan == 2)
                                             <td>Quản lí</td>
                                         @endif
@@ -194,8 +182,9 @@
                                         <td>{{ $taiKhoan->sdt }}</td>
                                         <td>{{ date('d-m-Y', strtotime($taiKhoan->ngay_sinh)) }}</td>
                                         <td data-target="#modal-add" data-bs-toggle="modal"
-                                            data-bs-target='#modalCenter{{ $taiKhoan->id }}'>{{ $taiKhoan->dia_chi }}
-                                        </td>
+                                            data-bs-target='#modalCenter{{ $taiKhoan->id }}'>
+                                            {{ Str::limit($taiKhoan->dia_chi, 10) }}
+                                        </td>                                        
                                         <div class="modal fade" id="modalCenter{{ $taiKhoan->id }}" tabindex="-1"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -205,7 +194,11 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">{{ $taiKhoan->dia_chi }}</div>
+                                                    <div class="modal-body">
+                                                        <div class="text-wrap">
+                                                            {{ $taiKhoan->dia_chi }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
