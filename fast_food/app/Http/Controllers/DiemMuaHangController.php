@@ -23,31 +23,7 @@ class DiemMuaHangController extends Controller
     {
         //
         $lstTaiKhoan = User::all()->where('trang_thai', 1);
-        // $lstDonHang = DonHang::all()->where('trang_thai', 1);
-        // $lstDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->distinct('user_id')->select('user_id')->paginate(5);
         $lstDiemMuaHang = DiemMuaHang::where('trang_thai', 1)->paginate(5);
-        // $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1);
-        // $diemMuaHang = DiemMuaHang::where('trang_thai', 1)->unique('user_id');
-        // $results = DiemMuaHang::whereIn('so_diem', function ($query) {
-        //     $query->select('so_diem')
-        //         ->from('diem_mua_hangs')
-        //         ->groupBy(['user_id'])
-        //         ->havingRaw('count(*) > 1');
-        // })->get();
-        // $testArray = [];
-        // foreach ($lstDonHang as $item) {
-        //     $sum = DiemMuaHang::where('user_id', $item->user_id)->get();
-        //     $tong = $sum->sum('so_diem');
-        //     // $a = $tong;
-
-
-        //     Arr::set($testArray, 'user_id', $tong);
-        // $testArray;
-
-        // }
-        // dd($testArray);
-        // dd($a);
-
         return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstTaiKhoan', 'request'));
     }
 

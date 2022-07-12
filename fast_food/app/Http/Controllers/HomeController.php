@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Home;
 use App\Models\DonHang;
 use App\Models\User;
+use App\Models\MaGiamGia;
 use App\Models\TrangThaiDonHang;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -25,19 +26,47 @@ class HomeController extends Controller
     {
         //
         $ngay_hien_tai = Carbon::now()->toDateString();
-        $choXacNhan = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 1)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $xacNhanGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 2)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $choGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 3)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $dangGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 4)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $daNhan = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 5)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $xacNhanDaGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 6)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $donHangBoom = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 7)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $hoanThanh = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 8)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $tongDonHang = DonHang::where('trang_thai', 1)->where('ngay_lap_dh', $ngay_hien_tai)->count();
-        $tongTien = DonHang::where('trang_thai', 1)->where('ngay_lap_dh', $ngay_hien_tai)->sum('tong_tien');
-        $hinhThucThanhToanThe = DonHang::where('trang_thai', 1)->where('ngay_lap_dh', $ngay_hien_tai)->where('loai_thanh_toan', 'Thẻ')->sum('tong_tien');
-        $hinhThucThanhToanTienMat = DonHang::where('trang_thai', 1)->where('ngay_lap_dh', $ngay_hien_tai)->where('loai_thanh_toan', 'Tiền mặt')->sum('tong_tien');
-        $result = DB::select(DB::raw("SELECT COUNT(*) as tong_don_hang, trang_thai_don_hang_id FROM don_hangs WHERE trang_thai = 1 AND ngay_lap_dh = '" . $ngay_hien_tai . "' GROUP BY trang_thai_don_hang_id"));
+        // $ngay_hom_nay = '2022-07-12';
+        // dd($ngay_hien_tai);
+        $choXacNhan = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 1)
+            ->where(function ($query) use ($ngay_hien_tai) {
+                $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+            })->count();
+        // dd($choXacNhan);
+        $xacNhanGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 2)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $choGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 3)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $dangGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 4)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $daNhan = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 5)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $xacNhanDaGiao = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 6)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $donHangBoom = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 7)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $hoanThanh = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 8)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $tongDonHang = DonHang::where('trang_thai', 1)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->count();
+        $tongTien = DonHang::where('trang_thai', 1)->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->sum('tong_tien');
+        $hinhThucThanhToanThe = DonHang::where('trang_thai', 1)->where('loai_thanh_toan', 'Thẻ')->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->sum('tong_tien');
+        $hinhThucThanhToanTienMat = DonHang::where('trang_thai', 1)->where('loai_thanh_toan', 'Tiền mặt')->where(function ($query) use ($ngay_hien_tai) {
+            $query->where('ngay_lap_dh', 'LIKE', '%' . date('Y-m-d', strtotime($ngay_hien_tai)) . '%');
+        })->sum('tong_tien');
+        $result = DB::select(DB::raw("SELECT COUNT(*) as tong_don_hang, trang_thai_don_hang_id FROM don_hangs WHERE trang_thai = 1 AND ngay_lap_dh LIKE  '%" . date('Y-m-d', strtotime($ngay_hien_tai)) . "%' GROUP BY trang_thai_don_hang_id"));
         $tenTrangThai = TrangThaiDonHang::all()->where('trang_thai', 1);
 
         $chartData = "";
@@ -58,6 +87,10 @@ class HomeController extends Controller
         $lstDonHang = DonHang::all()->where('trang_thai', 1)->sortByDesc('ngay_lap_dh')->take(5);
         $trangThaiDonHang = DonHang::select()->where('trang_thai', 1)->get();
         $lstTaiKhoan = User::all();
+
+        //Khoá mã giảm giá
+        // $ngay_ket_thuc_ma_giam_gia=MaGiamGia::all()->where('trang_thai', 1)->select('ngay_ket_thuc');
+        // dd($ngay_ket_thuc_ma_giam_gia);
         return view('home', compact('choXacNhan', 'xacNhanGiao', 'choGiao', 'dangGiao', 'daNhan', 'xacNhanDaGiao', 'donHangBoom', 'hoanThanh', 'tongDonHang', 'getTrangThaiDonHang', 'chartLabel', 'chartSeries', 'lstDonHang', 'lstTaiKhoan', 'hinhThucThanhToanThe', 'hinhThucThanhToanTienMat', 'tongTien', 'trangThaiDonHang'));
     }
 }

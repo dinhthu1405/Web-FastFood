@@ -30,6 +30,8 @@
     "dependencies": {
         "@here/maps-api-for-javascript": "^1.30.17",
         "heremap": "^2.2.6",
+        "laravel-echo": "^1.12.0",
+        "pusher-js": "^7.1.1-beta",
         "react-router-dom": "^6.3.0"
     }
 }

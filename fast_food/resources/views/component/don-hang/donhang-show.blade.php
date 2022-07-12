@@ -94,8 +94,6 @@
                                 @foreach ($lstMonAn as $monAn)
                                     @if ($monAn->id == $chiTietDonHang->mon_an_id)
                                         <td>{{ $monAn->ten_mon }}</td>
-                                    @else
-                                        <td></td>
                                     @endif
                                 @endforeach
                                 <td>{{ number_format($chiTietDonHang->don_gia) }}</td>
