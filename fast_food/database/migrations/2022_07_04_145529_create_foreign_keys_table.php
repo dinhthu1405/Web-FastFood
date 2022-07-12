@@ -26,7 +26,6 @@ class CreateForeignKeysTable extends Migration
         Schema::table('hinh_anhs', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('ma_giam_gia_id')->references('id')->on('ma_giam_gias');
             $table->foreign('anh_bia_id')->references('id')->on('anh_bias');
             $table->foreign('danh_gia_id')->references('id')->on('danh_gias');
         });

@@ -50,7 +50,6 @@
                                 <th>Thời gian</th>
                                 <th>Người dùng</th>
                                 <th>Món ăn</th>
-                                <th>Địa điểm</th>
                                 <th>Duyệt</th>
                                 <th>Khoá - Mở</th>
                             </tr>
@@ -67,7 +66,7 @@
                                         @if ($danhGia->noi_dung == null)
                                             <td></td>
                                         @else
-                                            <td>{{ $danhGia->noi_dung }}</td>
+                                            <td>{{ str_limit($danhGia->noi_dung, 10) }}</td>
                                         @endif
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
@@ -83,11 +82,6 @@
                                             <td></td>
                                         @else
                                             <td>{{ $danhGia->monAn->ten_mon }}</td>
-                                        @endif
-                                        @if ($danhGia->dia_diem_id == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
                                         @if ($danhGia->duyet == 1)
                                             <td>
@@ -161,7 +155,7 @@
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>
                                         @else
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
+                                            <td>{{ date('d-m-Y H:i:s', strtotime($danhGia->thoi_gian)) }}</td>
                                         @endif
                                         @if ($danhGia->user_id == null)
                                             <td></td>
@@ -172,11 +166,6 @@
                                             <td></td>
                                         @else
                                             <td>{{ $danhGia->monAn->ten_mon }}</td>
-                                        @endif
-                                        @if ($danhGia->dia_diem_id == null)
-                                            <td></td>
-                                        @else
-                                            <td>{{ $danhGia->diaDiem->ten_dia_diem }}</td>
                                         @endif
                                         @if ($danhGia->duyet == 1)
                                             <td>
@@ -248,7 +237,7 @@
                                     <!-- Basic Pagination -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
-                                            {{ $lstDanhGia->appends($request->except('page'))->onEachSide(1)->links() }}
+                                            {{ $lstDanhGia->appends($request->except('page'))->onEachSide(5)->links() }}
                                         </ul>
                                     </nav>
                                     <!--/ Basic Pagination -->

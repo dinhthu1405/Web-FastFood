@@ -96,6 +96,7 @@ return array(
     'App\\Models\\MonAn' => $baseDir . '/app/Models/MonAn.php',
     'App\\Models\\TrangThaiDonHang' => $baseDir . '/app/Models/TrangThaiDonHang.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\YeuThich' => $baseDir . '/app/Models/YeuThich.php',
     'App\\Policies\\AnhBiaPolicy' => $baseDir . '/app/Policies/AnhBiaPolicy.php',
     'App\\Policies\\BannerPolicy' => $baseDir . '/app/Policies/BannerPolicy.php',
     'App\\Policies\\BinhLuanPolicy' => $baseDir . '/app/Policies/BinhLuanPolicy.php',

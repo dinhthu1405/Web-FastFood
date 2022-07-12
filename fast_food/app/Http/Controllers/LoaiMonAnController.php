@@ -93,7 +93,7 @@ class LoaiMonAnController extends Controller
         } else {
             $loaiMonAn = new LoaiMonAn();
             $loaiMonAn->ten_loai = $request->input('ten_loai');
-            $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', strtolower($request->input('ten_loai')))->where('trang_thai', 1)->first();
+            $ktLoaiMonAn = LoaiMonAn::all()->where('ten_loai', $request->input('ten_loai'))->where('trang_thai', 1)->first();
             if ($ktLoaiMonAn) {
                 return response()->json(['status' => 401, 'errors' => 'Tên loại món ăn đã tồn tại']);
             } else {

@@ -8,11 +8,10 @@
     });
     $(document).ready(function() {
         function index() {
-            var count = 1; 
+            var count = 1;
             $.ajax({
                 url: "{{ route('trangThaiDonHang.indexAjax') }}",
                 success: function(response) {
-                    console.log(response);
                     $.each(response.lstLoaiMonAn, function(key, item) {
                         $('tbody').append('<tr>\
                                     <td>' + count++ + '</td>\
@@ -26,15 +25,17 @@
         }
         $(document).on('click', '.btn-save', function(e) {
             e.preventDefault();
-            var ten_trang_thai = $("#TenTrangThai").val();
+            // var ten_trang_thai = $("#TenTrangThai").val();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                 }
             });
             var data = {
+                // 'ten_trang_thai': document.querySelector('#TenTrangThai')
                 'ten_trang_thai': $('#TenTrangThai').val()
             }
+            console.log(data);
             $.ajax({
                 url: "{{ route('trangThaiDonHang.store') }}",
                 // url: "/loaiMonAn",
@@ -51,8 +52,8 @@
                         $('#alert-msg').append('<strong style="text-align: center">' +
                             response.success +
                             '</strong>');
-                        $('#modalCenter').modal('hide');
-                        $('#modalCenter').find('input').val("");
+                        $('#modalCenter-Add').modal('hide');
+                        $('#modalCenter-Add').find('input').val("");
                         setTimeout(function() {
                             // $('#alert-msg').remove();
                             // index();

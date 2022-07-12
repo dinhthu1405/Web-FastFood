@@ -767,6 +767,7 @@ class ComposerStaticInit644704a51ec46f7bf850e92e5dc1255c
         'App\\Models\\MonAn' => __DIR__ . '/../..' . '/app/Models/MonAn.php',
         'App\\Models\\TrangThaiDonHang' => __DIR__ . '/../..' . '/app/Models/TrangThaiDonHang.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\YeuThich' => __DIR__ . '/../..' . '/app/Models/YeuThich.php',
         'App\\Policies\\AnhBiaPolicy' => __DIR__ . '/../..' . '/app/Policies/AnhBiaPolicy.php',
         'App\\Policies\\BannerPolicy' => __DIR__ . '/../..' . '/app/Policies/BannerPolicy.php',
         'App\\Policies\\BinhLuanPolicy' => __DIR__ . '/../..' . '/app/Policies/BinhLuanPolicy.php',

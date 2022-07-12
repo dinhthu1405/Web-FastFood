@@ -46,6 +46,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên mã</th>
+                                <th>Tiền giảm</th>
                                 <th>Số lượng</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -63,6 +64,7 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
+                                        <td>10000</td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
@@ -121,6 +123,7 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
+                                        <td>10000</td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
