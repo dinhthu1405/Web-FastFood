@@ -19,7 +19,7 @@ return [
         // 'example_pivot' => 
         //     'days' => '30' // override default 'days'
         // ]
-        User::class => [
+        \App\Models\User::class => [
             'days' => '1' // per-model days setting override
         ]
     ],

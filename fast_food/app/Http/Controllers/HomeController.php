@@ -83,33 +83,14 @@ class HomeController extends Controller
         }
         $getTrangThaiDonHang = array('ten_trang_thai' => $chartLabel, 'so_luong' => $chartSeries);
         // $weather = new Weather();
-        
+
         // $ten_thanh_pho = $weather->get('girona,es');
         $lstDonHang = DonHang::all()->where('trang_thai', 1)->sortByDesc('ngay_lap_dh')->take(5);
         $trangThaiDonHang = DonHang::select()->where('trang_thai', 1)->get();
         $lstTaiKhoan = User::all();
-
-        //Khoá mã giảm giá
-        $ngay_ket_thuc_ma_giam_gia = MaGiamGia::all()->where('trang_thai', 1);
-        foreach ($ngay_ket_thuc_ma_giam_gia as $ma_giam_gia) {
-            if (date('Y-m-d', strtotime($ma_giam_gia->ngay_ket_thuc)) == $ngay_hien_tai) {
-                // dd('đúng');
-                $ma_giam_gia->trang_thai = 0;
-                $ma_giam_gia->save();
-            }
-        }
-        //Khoá tài khoản khi hết 3 tháng
-        // $lstTaiKhoan_Khoa = User::onlyTrashed()->get();
-        // foreach ($lstTaiKhoan_Khoa as $taiKhoan) {
-        //     // $xoa_tai_khoan = Carbon::parse($taiKhoan->deleted_at)->addMonth(3)->format('Y-m-d');
-        //     $taiKhoan->deleted_at = $ngay_hien_tai;
-        //     dd(date('Y-m-d', strtotime($taiKhoan->deleted_at)) == $ngay_hien_tai);
-        //     if (date('Y-m-d', strtotime($taiKhoan->deleted_at)) == $ngay_hien_tai) {
-
-        //     }
-        // }
-        // dd($lstTaiKhoan_Khoa);
-
+        //Khoá mã giảm giá1
+        // $ngay_ket_thuc_ma_giam_gia=MaGiamGia::all()->where('trang_thai', 1)->select('ngay_ket_thuc');
+        // dd($ngay_ket_thuc_ma_giam_gia);
         return view('home', compact('choXacNhan', 'xacNhanGiao', 'choGiao', 'dangGiao', 'daNhan', 'xacNhanDaGiao', 'donHangBoom', 'hoanThanh', 'tongDonHang', 'getTrangThaiDonHang', 'chartLabel', 'chartSeries', 'lstDonHang', 'lstTaiKhoan', 'hinhThucThanhToanThe', 'hinhThucThanhToanTienMat', 'tongTien', 'trangThaiDonHang'));
     }
 }
