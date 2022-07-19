@@ -22,12 +22,12 @@
                         </div>
                     @endforeach
                     <!-- <div class="alert alert-danger" role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
+                        <ul>
+                            @foreach ($errors->all() as $error)
     <li>{{ $error }}</li>
     @endforeach
-                    </ul>
-                </div> -->
+                        </ul>
+                    </div> -->
 
                 @endif
                 <!-- Register Card -->
@@ -91,7 +91,7 @@
                         <p class="mb-4">Trải nghiệm ứng dụng thật dễ dàng và thú vị!</p>
 
                         <form id="formAuthentication" class="mb-3" action="{{ route('register') }}" method="POST">
-                            {!! csrf_field() !!}
+                            @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
@@ -108,14 +108,14 @@
                             </div>
 
                             <!-- <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
-                                    <label class="form-check-label" for="terms-conditions">
-                                        I agree to
-                                        <a href="javascript:void(0);">privacy policy & terms</a>
-                                    </label>
-                                </div>
-                            </div> -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                                        <label class="form-check-label" for="terms-conditions">
+                                            I agree to
+                                            <a href="javascript:void(0);">privacy policy & terms</a>
+                                        </label>
+                                    </div>
+                                </div> -->
                             <button class="btn btn-primary d-grid w-100">Đăng ký</button>
                         </form>
 
