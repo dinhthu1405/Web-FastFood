@@ -6,6 +6,10 @@
             console.log(search);
         });
     });
+    $('.checkAll').click(function() {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+        // $('.selectBox').prop('checked', $(this).prop('checked'));
+    })
     $(document).ready(function() {
         function index() {
             var count = 1;

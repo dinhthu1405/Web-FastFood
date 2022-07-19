@@ -43,8 +43,10 @@ class DonHangExport implements
      * @return \Illuminate\Support\Collection
      */
 
-    public function __construct($tu_ngay, $den_ngay, $topDH, $thongKe)
+    public function __construct($quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe)
     {
+        $this->quy = $quy;
+        $this->thang = $thang;
         $this->tu_ngay = $tu_ngay;
         $this->den_ngay = $den_ngay;
         $this->topDH = $topDH;
@@ -55,6 +57,7 @@ class DonHangExport implements
     {
         $lstTaiKhoan = User::all();
         $lstTrangThaiDonHang = TrangThaiDonHang::all()->where('trang_thai', 1);
+
         if ($this->thongKe == 0) {
             $lstDonHang = DonHang::all()->where('trang_thai', 1);
         }
@@ -92,40 +95,57 @@ class DonHangExport implements
         else if ($this->thongKe == 8) {
             $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereYear('ngay_lap_dh', Carbon::now()->year);
         }
-        //Thống kê theo top các đơn hàng lớn nhất
+        //Thống kê theo quý
         else if ($this->thongKe == 9) {
+            $nam_hien_tai = Carbon::now()->year;
+            if ($this->quy == 1) {
+                $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-01-01", "$nam_hien_tai-03-31"]);
+            } else if ($this->quy == 2) {
+                $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-04-01", "$nam_hien_tai-06-30"]);
+            } else if ($this->quy == 3) {
+                $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-07-01", "$nam_hien_tai-09-30"]);
+            } else if ($this->quy == 4) {
+                $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-10-01", "$nam_hien_tai-12-31"]);
+            }
+        }
+        //Thống kê theo tháng
+        else if ($this->thongKe == 10) {
+            $lstDonHang = DonHang::where('trang_thai', 1)->whereMonth('ngay_lap_dh', date('m', strtotime($this->thang)))->whereYear('ngay_lap_dh', date('Y', strtotime($this->thang)))->get();
+        }
+        //Thống kê theo top các đơn hàng lớn nhất
+        else if ($this->thongKe == 11) {
             if ($this->topDH == 1) {
                 $lstDonHang = DB::table(function ($query) {
                     $query->selectRaw('*')
                         ->from('don_hangs')
                         ->orderBy('tong_tien', 'desc')
                         ->take(5);
-                })->get();
+                })->get();                
             } else if ($this->topDH == 2) {
                 $lstDonHang = DB::table(function ($query) {
                     $query->selectRaw('*')
                         ->from('don_hangs')
                         ->orderBy('tong_tien', 'desc')
                         ->take(10);
-                })->get();
+                })->get();                
             } else if ($this->topDH == 3) {
                 $lstDonHang = DB::table(function ($query) {
                     $query->selectRaw('*')
                         ->from('don_hangs')
                         ->orderBy('tong_tien', 'desc')
                         ->take(15);
-                })->get();
+                })->get();                
             }
         }
-        //Thống kê đơn hàng chưa nhận
-        else if ($this->thongKe == 10) {
-            $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 1);
-        }
-        //Thống kê đơn hàng đã nhận
-        else if ($this->thongKe == 11) {
-            $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 2);
-        }
-        return view('component/thong-ke/thongke-xuatfileexcel', ['lstDonHang' => $lstDonHang, 'lstTaiKhoan' => $lstTaiKhoan, 'lstTrangThaiDonHang' => $lstTrangThaiDonHang, 'tu_ngay' => $this->tu_ngay, 'den_ngay' => $this->den_ngay]);
+        // //Thống kê đơn hàng chưa nhận
+        // else if ($this->thongKe == 10) {
+        //     $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 1);
+        // }
+        // //Thống kê đơn hàng đã nhận
+        // else if ($this->thongKe == 11) {
+        //     $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 2);
+        // }
+        return view('component/thong-ke/thongke-xuatfileexcel', ['lstDonHang' => $lstDonHang, 'lstTaiKhoan' => $lstTaiKhoan, 'lstTrangThaiDonHang' => $lstTrangThaiDonHang, 'tu_ngay' => $this->tu_ngay, 'den_ngay' => $this->den_ngay, 'quy' => $this->quy, 'thang' => $this->thang]);
     }
 
     public function columnFormats(): array
@@ -275,6 +295,34 @@ class DonHangExport implements
             $sheet->setCellValue('F9', date('d/m/Y', strtotime($this->tu_ngay)));
             //Dữ liệu (Đến ngày)
             $sheet->setCellValue('H9', date('d/m/Y', strtotime($this->den_ngay)));
+            //Tiêu đề (Danh sách đơn hàng)
+            $sheet->setMergeCells(['B9:D9', 'C3:E3', 'C4:E4']);
+            $sheet->getStyle('B9:D9')->applyFromArray($styleTieuDeDanhSach); // Màu
+            //Tiêu đề người lập báo cáo
+            $sheet->getStyle('B11')->applyFromArray($styleTieuDeNguoiLap); // Màu 
+            //Tiêu đề người lập báo cáo
+            $sheet->getStyle('B12')->applyFromArray($styleTieuDeNgayLap); // Màu
+        } else if ($this->thongKe == 9) {
+            //Tiêu đề (Đến ngày)
+            $sheet->setCellValue('E9', 'Quý');
+            $sheet->getStyle('E9')->getFont()->setBold(true);
+            $sheet->getStyle('E9')->applyFromArray($styleTieuDeDenNgay);
+            //Dữ liệu (Quý)
+            $sheet->setCellValue('F9', $this->quy);
+            //Tiêu đề (Danh sách đơn hàng)
+            $sheet->setMergeCells(['B9:D9', 'C3:E3', 'C4:E4']);
+            $sheet->getStyle('B9:D9')->applyFromArray($styleTieuDeDanhSach); // Màu
+            //Tiêu đề người lập báo cáo
+            $sheet->getStyle('B11')->applyFromArray($styleTieuDeNguoiLap); // Màu 
+            //Tiêu đề người lập báo cáo
+            $sheet->getStyle('B12')->applyFromArray($styleTieuDeNgayLap); // Màu
+        } else if ($this->thongKe == 10) {
+            //Tiêu đề (Đến ngày)
+            $sheet->setCellValue('E9', 'Tháng');
+            $sheet->getStyle('E9')->getFont()->setBold(true);
+            $sheet->getStyle('E9')->applyFromArray($styleTieuDeDenNgay);
+            //Dữ liệu (Quý)
+            $sheet->setCellValue('F9', date('m/Y', strtotime($this->thang)));
             //Tiêu đề (Danh sách đơn hàng)
             $sheet->setMergeCells(['B9:D9', 'C3:E3', 'C4:E4']);
             $sheet->getStyle('B9:D9')->applyFromArray($styleTieuDeDanhSach); // Màu

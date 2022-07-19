@@ -55,8 +55,8 @@ Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth')
 Route::resource('thongKe', ThongKeController::class)->middleware('auth');
 
 //Thống kê
-Route::get('/thongKe/xuatFilePDF/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportPDF'])->name('thongKe.exportPDF')->middleware('auth');
-Route::get('/thongKe/xuatFileExcel/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportExcel'])->name('thongKe.exportExcel')->middleware('auth');
+Route::get('/thongKe/xuatFilePDF/{quy}/{thang}/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportPDF'])->name('thongKe.exportPDF')->middleware('auth');
+Route::get('/thongKe/xuatFileExcel/{quy}/{thang}/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [ThongKeController::class, 'exportExcel'])->name('thongKe.exportExcel')->middleware('auth');
 
 // Route::get('/thongKe/thongKeDonHang/{thongKe}', [ThongKeController::class, 'thongKeDonHang'])->name('thongKe.thongKeDonHang')->middleware('auth');
 // Route::get('/thongKe/thongKeDonHangs/', [ThongKeController::class, 'thongKeDonHangs'])->name('thongKe.thongKeDonHangs')->middleware('auth');
@@ -64,19 +64,30 @@ Route::get('/thongKe/xuatFileExcel/{tu_ngay}/{den_ngay}/{topDH}/{thongKe}', [Tho
 // Route::get('/home', [HomeController::class, 'getTrangThaiDonHang'])->name('home.getTrangThaiDonHang')->middleware('auth');
 
 //Xoá dữ liệu
-Route::get('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
-Route::get('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');
-Route::get('/monAn/xoa/{id}', [MonAnController::class, 'xoa'])->name('monAn.xoa')->middleware('auth');
+Route::post('/loaiMonAn/xoa/{id}', [LoaiMonAnController::class, 'xoa'])->name('loaiMonAn.xoa')->middleware('auth');
+Route::post('/diaDiem/xoa/{id}', [DiaDiemController::class, 'xoa'])->name('diaDiem.xoa')->middleware('auth');
+Route::post('/monAn/xoa/{id}', [MonAnController::class, 'xoa'])->name('monAn.xoa')->middleware('auth');
 Route::get('/taiKhoan/khoa_mo/{id}', [UserController::class, 'khoa_mo'])->name('taiKhoan.khoa_mo')->middleware('auth');
-Route::get('/trangThaiDonHang/xoa/{id}', [TrangThaiDonHangController::class, 'xoa'])->name('trangThaiDonHang.xoa')->middleware('auth');
-Route::get('/donHang/xoa/{id}', [DonHangController::class, 'xoa'])->name('donHang.xoa')->middleware('auth');
+Route::post('/trangThaiDonHang/xoa/{id}', [TrangThaiDonHangController::class, 'xoa'])->name('trangThaiDonHang.xoa')->middleware('auth');
+Route::post('/donHang/xoa/{id}', [DonHangController::class, 'xoa'])->name('donHang.xoa')->middleware('auth');
 Route::get('/danhGia/xoa/{id}', [DanhGiaController::class, 'xoa'])->name('danhGia.xoa')->middleware('auth');
 Route::get('/binhLuan/xoa/{id}', [BinhLuanController::class, 'xoa'])->name('binhLuan.xoa')->middleware('auth');
 Route::get('/maGiamGia/xoa/{id}', [MaGiamGiaController::class, 'xoa'])->name('maGiamGia.xoa')->middleware('auth');
-Route::get('/loaiGiamGia/xoa/{id}', [LoaiGiamGiaController::class, 'xoa'])->name('loaiGiamGia.xoa')->middleware('auth');
+Route::post('/loaiGiamGia/xoa/{id}', [LoaiGiamGiaController::class, 'xoa'])->name('loaiGiamGia.xoa')->middleware('auth');
 Route::get('/anhBias/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBias.xoa')->middleware('auth');
-Route::get('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
-Route::get('/anhBia/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBia.xoa')->middleware('auth');
+Route::post('/diemMuaHang/xoa/{id}', [DiemMuaHangController::class, 'xoa'])->name('diemMuaHang.xoa')->middleware('auth');
+Route::post('/anhBia/xoa/{id}', [AnhBiaController::class, 'xoa'])->name('anhBia.xoa')->middleware('auth');
+
+//Xoá nhiều
+Route::post('/monAn/xoaNhieu', [MonAnController::class, 'xoaNhieu'])->name('monAn.xoaNhieu')->middleware('auth');
+Route::post('/loaiMonAn/xoaNhieu', [LoaiMonAnController::class, 'xoaNhieu'])->name('loaiMonAn.xoaNhieu')->middleware('auth');
+Route::post('/diaDiem/xoaNhieu', [DiaDiemController::class, 'xoaNhieu'])->name('diaDiem.xoaNhieu')->middleware('auth');
+Route::post('/donHang/xoaNhieu', [DonHangController::class, 'xoaNhieu'])->name('donHang.xoaNhieu')->middleware('auth');
+Route::post('/trangThaiDonHang/xoaNhieu', [TrangThaiDonHangController::class, 'xoaNhieu'])->name('trangThaiDonHang.xoaNhieu')->middleware('auth');
+Route::post('/loaiGiamGia/xoaNhieu', [LoaiGiamGiaController::class, 'xoaNhieu'])->name('loaiGiamGia.xoaNhieu')->middleware('auth');
+Route::post('/anhBia/xoaNhieu', [AnhBiaController::class, 'xoaNhieu'])->name('anhBia.xoaNhieu')->middleware('auth');
+Route::post('/diemMuaHang/xoaNhieu', [DiemMuaHangController::class, 'xoaNhieu'])->name('diemMuaHang.xoaNhieu')->middleware('auth');
+
 
 //Tìm kiếm
 Route::get('/timKiemMonAn', [MonAnController::class, 'search'])->name('monAn.search')->middleware('auth');

@@ -27,11 +27,14 @@ class ThongKeController extends Controller
         $value = 0;
         $value_top = 0;
         $value_loai = 0;
+        $value_quy = 0;
         $tu_ngay = '0000-01-01';
         $den_ngay = '0000-01-01';
         $thongKe = 0;
         $topDH = 0;
-        return view('component/thong-ke/thongke-donhang', compact('lstDonHang', 'lstTrangThaiDonHang', 'lstTaiKhoan', 'value', 'value_top', 'value_loai', 'tu_ngay', 'den_ngay', 'thongKe', 'topDH'));
+        $quy = 0;
+        $thang = '01';
+        return view('component/thong-ke/thongke-donhang', compact('lstDonHang', 'lstTrangThaiDonHang', 'lstTaiKhoan', 'value', 'value_top', 'value_quy', 'value_loai', 'tu_ngay', 'den_ngay', 'thongKe', 'topDH', 'quy', 'thang'));
     }
 
     public function show($thongKe)
@@ -43,6 +46,7 @@ class ThongKeController extends Controller
         $value = 0;
         $value_loai = 0;
         $value_top = 0;
+        $value_quy = 0;
         if (isset(request()->tu_ngay) && isset(request()->tu_ngay)) {
             $tu_ngay = request()->tu_ngay;
             $den_ngay = request()->den_ngay;
@@ -50,11 +54,24 @@ class ThongKeController extends Controller
             $tu_ngay = '0000-01-01';
             $den_ngay = '0000-01-01';
         }
+        if (isset(request()->quy)) {
+            $quy = request()->quy;
+        } else {
+            $quy = '0';
+        }
+        if (isset(request()->thang)) {
+            $thang = request()->thang;
+        } else {
+            $thang = '01';
+        }
+        // dd($thang);
         $topDH = request()->TOPDH;
         //Thống kê theo ngày tháng năm
         if ($thongKe == 1) {
             if ($tu_ngay && $den_ngay) {
-                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', [$tu_ngay, $den_ngay])->paginate(5);
+                $them_ngay = Carbon::createFromFormat('Y-m-d', $den_ngay);
+                $them_ngay = $them_ngay->addDays(1);
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', [$tu_ngay, $them_ngay])->orderBy('ngay_lap_dh')->paginate(5);
                 $value = 1;
                 $value_loai = 1;
             }
@@ -103,8 +120,39 @@ class ThongKeController extends Controller
             $value = 8;
             $value_loai = 1;
         }
-        //Thống kê theo top các đơn hàng lớn nhất
+        //Thống kê theo quý
         else if ($thongKe == 9) {
+            $nam_hien_tai = Carbon::now()->year;
+            if ($quy == 1) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-01-01", "$nam_hien_tai-03-31"])->paginate(5);
+                $value = 9;
+                $value_quy = 1;
+                $value_loai = 1;
+            } else if ($quy == 2) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-04-01", "$nam_hien_tai-06-30"])->paginate(5);
+                $value = 9;
+                $value_quy = 2;
+                $value_loai = 1;
+            } else if ($quy == 3) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-07-01", "$nam_hien_tai-09-30"])->paginate(5);
+                $value = 9;
+                $value_quy = 3;
+                $value_loai = 1;
+            } else if ($quy == 4) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ["$nam_hien_tai-10-01", "$nam_hien_tai-12-31"])->paginate(5);
+                $value = 9;
+                $value_quy = 4;
+                $value_loai = 1;
+            }
+        }
+        //Thống kê theo tháng
+        else if ($thongKe == 10) {
+            $lstDonHang = DonHang::where('trang_thai', 1)->whereMonth('ngay_lap_dh', date('m', strtotime($thang)))->whereYear('ngay_lap_dh', date('Y', strtotime($thang)))->paginate(5);
+            $value = 10;
+            $value_loai = 1;
+        }
+        //Thống kê theo top các đơn hàng lớn nhất
+        else if ($thongKe == 11) {
             if ($topDH == 1) {
                 $lstDonHang = DB::table(function ($query) {
                     $query->selectRaw('*')
@@ -112,7 +160,7 @@ class ThongKeController extends Controller
                         ->orderBy('tong_tien', 'desc')
                         ->take(5);
                 })->paginate(5);
-                $value = 9;
+                $value = 11;
                 $value_top = 1;
                 $value_loai = 1;
             } else if ($topDH == 2) {
@@ -137,20 +185,20 @@ class ThongKeController extends Controller
                 $value_loai = 1;
             }
         }
-        //Thống kê đơn hàng chưa nhận
-        else if ($thongKe == 10) {
-            $lstDonHang = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 1)->paginate(5);
-            $value = 10;
-            $value_loai = 2;
-        }
-        //Thống kê đơn hàng đã nhận
-        else if ($thongKe == 11) {
-            $lstDonHang = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 2)->paginate(5);
-            $value = 11;
-            $value_loai = 2;
-        }
+        // //Thống kê đơn hàng chưa nhận
+        // else if ($thongKe == 10) {
+        //     $lstDonHang = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 1)->paginate(5);
+        //     $value = 10;
+        //     $value_loai = 2;
+        // }
+        // //Thống kê đơn hàng đã nhận
+        // else if ($thongKe == 11) {
+        //     $lstDonHang = DonHang::where('trang_thai', 1)->where('trang_thai_don_hang_id', 2)->paginate(5);
+        //     $value = 11;
+        //     $value_loai = 2;
+        // }
         // dd($thongKe);
-        return view('component/thong-ke/thongke-donhang', compact('lstDonHang', 'lstTrangThaiDonHang', 'lstTaiKhoan', 'value', 'value_top', 'value_loai', 'tu_ngay', 'den_ngay', 'thongKe', 'topDH'));
+        return view('component/thong-ke/thongke-donhang', compact('lstDonHang', 'lstTrangThaiDonHang', 'lstTaiKhoan', 'value', 'value_top', 'value_quy', 'value_loai', 'tu_ngay', 'den_ngay', 'thongKe', 'topDH', 'quy', 'thang'));
     }
 
     public function search(Request $request)
@@ -165,26 +213,37 @@ class ThongKeController extends Controller
         return view('component/diem-mua-hang/diemmuahang-show', compact('lstDiemMuaHang', 'lstDonHang', 'lstTaiKhoan', 'request'));
     }
 
-    public function exportExcel($tu_ngay, $den_ngay, $topDH, $thongKe)
+    public function exportExcel($quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe)
     {
-        return (new DonHangExport($tu_ngay, $den_ngay, $topDH, $thongKe))->download('DonHangExport.xlsx');
+        return (new DonHangExport($quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe))->download('DonHangExport.xlsx');
         // $lstDonHang = DonHang::all();
         // $lstTaiKhoan = User::all();
         // $lstTrangThaiDonHang = TrangThaiDonHang::all()->where('trang_thai', 1);
         // return view('component/thong-ke/thongke-xuatfileexcel', compact('lstDonHang', 'lstTaiKhoan', 'lstTrangThaiDonHang'));
     }
 
-    public function exportPDF($tu_ngay, $den_ngay, $topDH, $thongKe)
+    public function exportPDF($quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe)
     {
         $lstTaiKhoan = User::all();
         $lstTrangThaiDonHang = TrangThaiDonHang::all()->where('trang_thai', 1);
-
+        // if (isset(request()->quy)) {
+        //     $quy = request()->quy;
+        // } else {
+        //     $quy = '0';
+        // }
+        // if (isset(request()->thang)) {
+        //     $thang = request()->thang;
+        // } else {
+        //     $thang = '01';
+        // }
         if ($thongKe == 0) {
             $lstDonHang = DonHang::all()->where('trang_thai', 1);
         }
         //Thống kê theo ngày tháng năm
         else if ($thongKe == 1) {
-            $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', [$tu_ngay, $den_ngay])->get();
+            $them_ngay = Carbon::createFromFormat('Y-m-d', $den_ngay);
+            $them_ngay = $them_ngay->addDays(1);
+            $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', [$tu_ngay, $them_ngay])->get();
         }
         //Thống kê theo ngày hiện tại
         else if ($thongKe == 2) {
@@ -216,8 +275,38 @@ class ThongKeController extends Controller
         else if ($thongKe == 8) {
             $lstDonHang = DonHang::all()->where('trang_thai', 1)->whereYear('ngay_lap_dh', Carbon::now()->year);
         }
-        //Thống kê theo top các đơn hàng lớn nhất
+        //Thống kê theo quý
         else if ($thongKe == 9) {
+            if ($quy == 1) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ['2022-01-01', '2022-03-31'])->whereYear('ngay_lap_dh', Carbon::now()->year)->paginate(5);
+                $value = 9;
+                $value_quy = 1;
+                $value_loai = 1;
+            } else if ($quy == 2) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ['2022-04-01', '2022-06-30'])->whereYear('ngay_lap_dh', Carbon::now()->year)->paginate(5);
+                $value = 9;
+                $value_quy = 2;
+                $value_loai = 1;
+            } else if ($quy == 3) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ['2022-07-01', '2022-09-30'])->whereYear('ngay_lap_dh', Carbon::now()->year)->paginate(5);
+                $value = 9;
+                $value_quy = 3;
+                $value_loai = 1;
+            } else if ($quy == 4) {
+                $lstDonHang = DonHang::where('trang_thai', 1)->whereBetween('ngay_lap_dh', ['2022-10-01', '2022-12-31'])->whereYear('ngay_lap_dh', Carbon::now()->year)->paginate(5);
+                $value = 9;
+                $value_quy = 4;
+                $value_loai = 1;
+            }
+        }
+        //Thống kê theo tháng
+        else if ($thongKe == 10) {
+            $lstDonHang = DonHang::where('trang_thai', 1)->whereMonth('ngay_lap_dh', date('m', strtotime($thang)))->whereYear('ngay_lap_dh', date('Y', strtotime($thang)))->paginate(5);
+            $value = 10;
+            $value_loai = 1;
+        }
+        //Thống kê theo top các đơn hàng lớn nhất
+        else if ($thongKe == 11) {
             if ($topDH == 1) {
                 $lstDonHang = DB::table(function ($query) {
                     $query->selectRaw('*')
@@ -241,18 +330,18 @@ class ThongKeController extends Controller
                 })->get();
             }
         }
-        //Thống kê đơn hàng chưa nhận
-        else if ($thongKe == 10) {
-            $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 1);
-        }
-        //Thống kê đơn hàng đã nhận
-        else if ($thongKe == 11) {
-            $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 2);
-        }
+        // //Thống kê đơn hàng chưa nhận
+        // else if ($thongKe == 10) {
+        //     $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 1);
+        // }
+        // //Thống kê đơn hàng đã nhận
+        // else if ($thongKe == 11) {
+        //     $lstDonHang = DonHang::all()->where('trang_thai', 1)->where('trang_thai_don_hang_id', 2);
+        // }
         // require_once 'dompdf/autoload.inc.php'; //Nằm cùng cấp với Controller, dùng cái này cũng được hoặc ở vendor cũng được
 
         view()->share('lstDonHang', $lstDonHang);
-        $pdf = PDF::loadView('component/thong-ke/thongke-xuatfilepdf', compact('lstDonHang', 'lstTaiKhoan', 'lstTrangThaiDonHang', 'thongKe', 'tu_ngay', 'den_ngay'))->setOptions([
+        $pdf = PDF::loadView('component/thong-ke/thongke-xuatfilepdf', compact('lstDonHang', 'lstTaiKhoan', 'lstTrangThaiDonHang', 'thongKe', 'tu_ngay', 'den_ngay', 'quy', 'thang'))->setOptions([
             'defaultFont' => 'times'
         ]);
         // $pdf->setWatermarkImage(public_path('assets/img/icons/unicons/logo.png'));

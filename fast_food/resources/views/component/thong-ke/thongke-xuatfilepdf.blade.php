@@ -45,14 +45,35 @@
             <div class="DonViTien">
                 <span>Đơn vị tiền tệ: Việt Nam Đồng</span>
             </div>
+        @elseif($thongKe == 9)
+            <div class="TuNgay_DenNgay">
+                <span id="quy">Thống kê quý {{ $quy }}</span>
+            </div>
+            <div class="Nguoi_Ngay">
+                <span class="NguoiLap">Người lập: {{ Auth::user()->ho_ten }}</span>
+                <span class="NgayLap">Ngày lập: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</span>
+            </div>
+            <div class="DonViTien">
+                <span>Đơn vị tiền tệ: Việt Nam Đồng</span>
+            </div>
+        @elseif($thongKe == 10)
+            <div class="TuNgay_DenNgay">
+                <span id="thang">Thống kê tháng {{ date('m/Y', strtotime($thang)) }}</span>
+            </div>
+            <div class="Nguoi_Ngay">
+                <span class="NguoiLap">Người lập: {{ Auth::user()->ho_ten }}</span>
+                <span class="NgayLap">Ngày lập: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</span>
+            </div>
+            <div class="DonViTien">
+                <span>Đơn vị tiền tệ: Việt Nam Đồng</span>
+            </div>
         @else
             <div class="Nguoi_Ngay">
-                @if (Auth::user()->phan_loai_tai_khoan == 1)
-                    <span class="NguoiLap">Người lập: Tổng quản lí</span>
-                @else
-                    <span class="NguoiLap">Người lập: {{ Auth::user()->ho_ten }}</span>
-                @endif
+                <span class="NguoiLap">Người lập: {{ Auth::user()->ho_ten }}</span>
                 <span class="NgayLap">Ngày lập: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</span>
+            </div>
+            <div class="DonViTien">
+                <span>Đơn vị tiền tệ: Việt Nam Đồng</span>
             </div>
         @endif
         <div class="table-responsive text-nowrap">

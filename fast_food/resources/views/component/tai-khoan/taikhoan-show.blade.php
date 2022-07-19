@@ -88,7 +88,7 @@
                                             {{ Str::limit($taiKhoan->dia_chi, 10) }}
                                         </td>
                                         @if ($taiKhoan->phan_loai_tai_khoan == 2)
-                                            <td>Quản lí</td>
+                                            <td>Nhân viên</td>
                                         @endif
                                         @if ($taiKhoan->phan_loai_tai_khoan == 3)
                                             <td>Người giao hàng</td>
@@ -137,11 +137,11 @@
                                                     <div class="row" style="padding: 3%">
                                                         <div class="col-md-2"></div>
                                                         <div class="col-md-1"></div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3">                                                            
                                                             <a href="{{ route('taiKhoan.khoa_mo', $taiKhoan->id) }}"><button
-                                                                    type="submit"
-                                                                    class="btn btn-danger btn-delete-confirm"
+                                                                    type="submit" class="btn btn-danger btn-delete-confirm"
                                                                     data-bs-dismiss="modal">Mở khoá</button></a>
+                                                                
                                                         </div>
                                                         <div class="col-md-3">
                                                             <button type="submit" value="delete"
@@ -173,8 +173,7 @@
                                         @foreach ($lstHinhAnh as $hinhAnh)
                                             @if ($taiKhoan->id == $hinhAnh->user_id)
                                                 <td><img style=" vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}"
-                                                        alt="">
+                                                        src="{{ asset("storage/$hinhAnh->duong_dan") }}" alt="">
                                                 </td>
                                             @endif
                                         @endforeach
@@ -184,7 +183,7 @@
                                         <td data-target="#modal-add" data-bs-toggle="modal"
                                             data-bs-target='#modalCenter{{ $taiKhoan->id }}'>
                                             {{ Str::limit($taiKhoan->dia_chi, 10) }}
-                                        </td>                                        
+                                        </td>
                                         <div class="modal fade" id="modalCenter{{ $taiKhoan->id }}" tabindex="-1"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -203,7 +202,7 @@
                                             </div>
                                         </div>
                                         @if ($taiKhoan->phan_loai_tai_khoan == 2)
-                                            <td>Quản lí</td>
+                                            <td>Nhân viên</td>
                                         @endif
                                         @if ($taiKhoan->phan_loai_tai_khoan == 3)
                                             <td>Người giao hàng</td>

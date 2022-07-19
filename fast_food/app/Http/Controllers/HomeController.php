@@ -82,12 +82,12 @@ class HomeController extends Controller
             $chartSeries[] = $list->tong_don_hang;
         }
         $getTrangThaiDonHang = array('ten_trang_thai' => $chartLabel, 'so_luong' => $chartSeries);
-        $weather = new Weather();
+        // $weather = new Weather();
+
         // $ten_thanh_pho = $weather->get('girona,es');
         $lstDonHang = DonHang::all()->where('trang_thai', 1)->sortByDesc('ngay_lap_dh')->take(5);
         $trangThaiDonHang = DonHang::select()->where('trang_thai', 1)->get();
         $lstTaiKhoan = User::all();
-
         //Khoá mã giảm giá1
         // $ngay_ket_thuc_ma_giam_gia=MaGiamGia::all()->where('trang_thai', 1)->select('ngay_ket_thuc');
         // dd($ngay_ket_thuc_ma_giam_gia);

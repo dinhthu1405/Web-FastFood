@@ -184,4 +184,24 @@ class LoaiMonAnController extends Controller
         $loaiMonAn->chiTietDonHangs()->update(['chi_tiet_don_hangs.trang_thai' => 0]);
         return Redirect::route('loaiMonAn.index');
     }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        // dd($id);
+        if ($id == null) {
+            return Redirect::route('loaiMonAn.index');
+        } else {
+            LoaiMonAn::find($id)->each(function ($loaiMonAn, $key) {
+                $loaiMonAn->trang_thai = 0;
+                $loaiMonAn->save();
+                $loaiMonAn->monAns()->update(['mon_ans.trang_thai' => 0]);
+                $loaiMonAn->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
+                $loaiMonAn->danhGias()->update(['danh_gias.trang_thai' => 0]);
+                $loaiMonAn->anhBias()->update(['anh_bias.trang_thai' => 0]);
+                $loaiMonAn->chiTietDonHangs()->update(['chi_tiet_don_hangs.trang_thai' => 0]);
+            });
+            return Redirect::route('loaiMonAn.index');
+        }
+    }
 }

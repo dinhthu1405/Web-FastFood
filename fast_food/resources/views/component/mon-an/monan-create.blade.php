@@ -61,9 +61,11 @@
                                     <div class="user-image col-md-6 text-center">
                                         {{-- <div class="preview-image"></div> --}}
 
-                                        <img id="preview-image" src="{{ asset('assets/img/khongxacdinh.jpg') }}"
-                                            alt="preview image" style="max-height: 200px;" data-target="#modal-add"
+                                        <img id="preview-image" src="{{ asset('assets/img/icons/unicons/add.png') }}"
+                                            alt="preview image" style="max-width: 200px;" data-target="#modal-add"
                                             data-bs-toggle="modal" data-bs-target='#modalCenter'>
+                                        {{-- <i class='bx bx-image-add' style="max-width: 1200px;" data-target="#modal-add"
+                                            data-bs-toggle="modal" data-bs-target='#modalCenter'></i> --}}
                                         <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">

@@ -30,6 +30,14 @@
         padding-left: 2%;
     }
 
+    #quy {
+        font: bold;
+    }
+
+    #thang {
+        font: bold;
+    }
+
     .TuNgay_DenNgay {
         font-size: 13px;
     }

@@ -112,4 +112,18 @@ class DiemMuaHangController extends Controller
         $diemMuaHang->save();
         return Redirect::route('diemMuaHang.index');
     }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        if ($id == null) {
+            return Redirect::route('diemMuaHang.index');
+        } else {
+            DiemMuaHang::find($id)->each(function ($diemMuaHang, $key) {
+                $diemMuaHang->trang_thai = 0;
+                $diemMuaHang->save();
+            });
+            return Redirect::route('diemMuaHang.index');
+        }
+    }
 }

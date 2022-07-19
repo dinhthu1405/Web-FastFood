@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="mb-3 col-md-4">
                                     <label for="exampleFormControlInput1" class="form-label">Tiền giảm</label>
-                                    <select class="form-select" name="LoaiGiamGia" id="exampleFormControlSelect1"
+                                    <select class="form-select" name="TienGiam" id="exampleFormControlSelect1"
                                         aria-label="Default select example">
                                         <option value='' selected>-- Chọn tiền giảm --</option>
                                         <option value="1">10%</option>

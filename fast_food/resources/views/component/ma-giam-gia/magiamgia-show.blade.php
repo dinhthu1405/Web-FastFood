@@ -46,7 +46,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên mã</th>
-                                <th>Tiền giảm</th>
+                                <th>% giảm</th>
                                 <th>Số lượng</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -64,7 +64,49 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
-                                        <td>10000</td>
+                                        <td>
+                                            @switch($maGiamGia->tien_giam)
+                                                @case(0.1)
+                                                    10%
+                                                @break
+
+                                                @case(0.2)
+                                                    20%
+                                                @break
+
+                                                @case(0.3)
+                                                    30%
+                                                @break
+
+                                                @case(0.4)
+                                                    40%
+                                                @break
+
+                                                @case(0.5)
+                                                    50%
+                                                @break
+
+                                                @case(0.6)
+                                                    60%
+                                                @break
+
+                                                @case(0.7)
+                                                    70%
+                                                @break
+
+                                                @case(0.8)
+                                                    80%
+                                                @break
+
+                                                @case(0.9)
+                                                    90%
+                                                @break
+
+                                                @case(1)
+                                                    100%
+                                                @break
+                                            @endswitch
+                                        </td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
@@ -123,14 +165,61 @@
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong>{{ $maGiamGia->ten_ma }}</strong>
                                         </td>
-                                        <td>10000</td>
+                                        <td>
+                                            @switch($maGiamGia->tien_giam)
+                                                @case(0.1)
+                                                    10%
+                                                @break
+
+                                                @case(0.2)
+                                                    20%
+                                                @break
+
+                                                @case(0.3)
+                                                    30%
+                                                @break
+
+                                                @case(0.4)
+                                                    40%
+                                                @break
+
+                                                @case(0.5)
+                                                    50%
+                                                @break
+
+                                                @case(0.6)
+                                                    60%
+                                                @break
+
+                                                @case(0.7)
+                                                    70%
+                                                @break
+
+                                                @case(0.8)
+                                                    80%
+                                                @break
+
+                                                @case(0.9)
+                                                    90%
+                                                @break
+
+                                                @case(1)
+                                                    100%
+                                                @break
+                                            @endswitch
+                                        </td>
                                         <td>{{ $maGiamGia->so_luong }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_bat_dau)) }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($maGiamGia->ngay_ket_thuc)) }}</td>
                                         <td>
+                                            @foreach($lstLoaiGiamGia as $loaiGiamGia)
+                                            @if($maGiamGia->loai_giam_gia_id == $loaiGiamGia->id)
                                             <a style="color: #697a8d"
-                                                href="{{ route('loaiGiamGia.index1', [$maGiamGia->loai_giam_gia_id]) }}">{{ $maGiamGia->loaiGiamGia->ten_loai_giam_gia }}
+                                                href="{{ route('loaiGiamGia.index1', [$maGiamGia->loai_giam_gia_id]) }}">{{ $loaiGiamGia->ten_loai_giam_gia }}
                                             </a>
+                                            @else
+                                            @endif
+                                            @endforeach
                                         </td>
 
                                         <td><a href="{{ route('maGiamGia.edit', $maGiamGia->id) }}"><button

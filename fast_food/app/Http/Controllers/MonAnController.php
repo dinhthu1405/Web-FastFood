@@ -136,9 +136,27 @@ class MonAnController extends Controller
         // $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
 
         $ktMonAn = MonAn::all()->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
-        // dd($ktMonAn);
+        $ktGiaMonAn = MonAn::all()->where('don_gia', $don_gia)->where('ten_mon', $request->input('TenMonAn'))->where('trang_thai', 1)->first();
+        // dd($ktGiaMonAn);
         if ($ktMonAn) {
-            return Redirect::back()->with('error', 'Tên món đã tồn tại');
+            if ($ktGiaMonAn) {
+                return Redirect::back()->with('error', 'Tên món đã tồn tại');
+            } else {
+                $monAn->save();
+                $images = array();
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $file) {
+                        $images = $file->store('images/mon_an/' . $monAn->id, 'public');
+
+                        HinhAnh::insert([
+                            'duong_dan' => $images,
+                            'mon_an_id' => $monAn->id,
+                            'trang_thai' => 1,
+                        ]);
+                    }
+                }
+                return Redirect::route('monAn.index')->with('success', 'Thêm món thành công');
+            }
         } else {
 
             $monAn->save();
@@ -274,5 +292,24 @@ class MonAnController extends Controller
         $monAn->binhLuans()->update(['binh_luans.trang_thai' => 0]);
         $monAn->anhBias()->update(['anh_bias.trang_thai' => 0]);
         return Redirect::route('monAn.index');
+    }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        // dd($id);
+        if ($id == null) {
+            return Redirect::route('monAn.index');
+        } else {
+            MonAn::find($id)->each(function ($monAn, $key) {
+                $monAn->trang_thai = 0;
+                $monAn->save();
+                $monAn->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
+                $monAn->danhGias()->update(['danh_gias.trang_thai' => 0]);
+                $monAn->binhLuans()->update(['binh_luans.trang_thai' => 0]);
+                $monAn->anhBias()->update(['anh_bias.trang_thai' => 0]);
+            });
+            return Redirect::route('monAn.index');
+        }
     }
 }

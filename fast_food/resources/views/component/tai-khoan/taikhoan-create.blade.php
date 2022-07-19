@@ -156,7 +156,7 @@
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
                                     {{-- <img src="../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100"
                                 width="100" id="uploadedAvatar" /> --}}
-                                    <img id="preview-image" src="{{ asset('assets/img/khongxacdinh.jpg') }}"
+                                    <img id="preview-image" src="{{ asset('assets/img/icons/unicons/add-user.png') }}"
                                         alt="preview image" class="d-block rounded" height="100" width="100"
                                         id="uploadedAvatar">
                                     <div class="button-wrapper">

@@ -19,6 +19,7 @@ class MaGiamGia extends Model
     protected $fillable = [
         'id',
         'ten_ma',
+        'tien_giam',
         'so_luong',
         'ngay_bat_dau',
         'ngay_ket_thuc',
@@ -38,6 +39,11 @@ class MaGiamGia extends Model
 
     public function loaiGiamGia()
     {
-        return $this->belongsTo(LoaiGiamGia::class, 'loai_giam_gia_id', 'id');
+        return $this->belongsTo(LoaiGiamGia::class, 'id');
+    }
+
+    public function donHangs()
+    {
+        return $this->hasMany(DonHangs::class, 'id');
     }
 }
