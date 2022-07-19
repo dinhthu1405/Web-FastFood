@@ -67,7 +67,7 @@
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="user-image col-md-6 text-center">
-                                        <img id="preview-image" src="{{ asset('assets/img/khongxacdinh.jpg') }}"
+                                        <img id="preview-image" src="{{ asset('assets/img/icons/unicons/add.png') }}"
                                             alt="preview image" style="max-height: 200px;">
                                     </div>
                                     <div class="col-md-3"></div>

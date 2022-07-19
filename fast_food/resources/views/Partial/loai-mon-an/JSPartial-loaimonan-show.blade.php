@@ -7,6 +7,10 @@
         })
     });
 
+    $('.checkAll').click(function() {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+        // $('.selectBox').prop('checked', $(this).prop('checked'));
+    })
 
     $(document).ready(function() {
         // index();

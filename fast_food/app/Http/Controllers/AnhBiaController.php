@@ -176,4 +176,18 @@ class AnhBiaController extends Controller
         $anhBia->save();
         return Redirect::route('anhBias.index');
     }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        if ($id == null) {
+            return Redirect::route('anhBias.index');
+        } else {
+            AnhBia::find($id)->each(function ($anhBia, $key) {
+                $anhBia->trang_thai = 0;
+                $anhBia->save();
+            });
+            return Redirect::route('anhBias.index');
+        }
+    }
 }

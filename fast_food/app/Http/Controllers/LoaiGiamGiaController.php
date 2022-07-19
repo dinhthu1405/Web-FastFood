@@ -154,6 +154,24 @@ class LoaiGiamGiaController extends Controller
         $loaiGiamGia->trang_thai = 0;
         $loaiGiamGia->save();
         $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.deleted_at' => $ngay_hien_tai]);
+        // $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.trang_thai' => 0]);
         return Redirect::route('loaiGiamGia.index');
+    }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        if ($id == null) {
+            return Redirect::route('loaiGiamGia.index');
+        } else {
+            loaiGiamGia::find($id)->each(function ($loaiGiamGia, $key) {
+                $ngay_hien_tai = Carbon::now()->toDateTimeString();
+                $loaiGiamGia->trang_thai = 0;
+                $loaiGiamGia->save();
+                $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.deleted_at' => $ngay_hien_tai]);
+                // $loaiGiamGia->maGiamGias()->update(['ma_giam_gias.trang_thai' => 0]);
+            });
+            return Redirect::route('loaiGiamGia.index');
+        }
     }
 }

@@ -40,6 +40,7 @@
             </form>
             <br />
             <!-- Bootstrap Table with Header - Light -->
+            <!-- Danh sách chi tiết đơn hàng  -->
             <div class="card">
                 <h5 class="card-header">Danh sách chi tiết đơn hàng</h5>
                 <div class="table-responsive text-nowrap">
@@ -131,6 +132,121 @@
                 @endif
             </div>
         </div>
-        <!-- Bootstrap Table with Header - Light -->
-        @include('Partial/don-hang/JSPartial-donhang-show')
-    @endsection
+        <br>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="card-header">Thông tin người nhận</h5>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <h6 class="card-header"><span style="font-weight: bold; padding-right: 8%;">Ngày đặt:</span>
+                        <span>{{ date('d-m-Y H:i:s', strtotime($chiTietDonHang->donHang->ngay_lap_dh)) }}</span>
+                    </h6>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="table-responsive text-nowrap">
+                @foreach ($lstChiTietDonHang as $chiTietDonHang)
+                    <div class="row" style="padding-left: 1.5%;">
+                        <div class="col-md-4">
+                            @foreach ($lstDonHang as $donHang)
+                                @if ($donHang->id == $id)
+                                    <div><span style="font-weight: bold; padding-right: 18%">Email:</span><span>
+                                            {{ $donHang->user->email }}</span> </div>
+                                    <div style="padding-top: 5%"> <span style="font-weight: bold; padding-right: 17%">Họ
+                                            tên:</span>{{ $donHang->user->ho_ten }} <span></span> </div>
+                                    <div style="padding-top: 5%"> <span style="font-weight: bold; padding-right: 6%">Số
+                                            điện thoại:</span> <span>{{ $donHang->user->sdt }}</span> </div>
+                                    <div style="padding-top: 5%"> <span
+                                            style="font-weight: bold; padding-right: 17%">Địa
+                                            chỉ:</span><span>{{ $donHang->dia_chi }}</span> </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            @foreach ($lstDonHang as $donHang)
+                                @if ($donHang->id == $id)
+                                    <div>
+                                        <span style="font-weight: bold; padding-right: 19%">Tổng tiền:</span>
+                                        <span>
+                                            <?php $tongTien = 0;
+                                            foreach ($lstChiTietDonHang as $chiTietDonHangs) {
+                                                $tongTien += $chiTietDonHangs->thanh_tien;
+                                            }
+                                            ?>
+                                            {{ number_format($tongTien) }} đ
+                                        </span>
+                                    </div>
+                                    <div style="padding-top: 4%">
+                                        <span style="font-weight: bold; padding-right: 9%">Tổng giảm giá:</span>
+                                        <span>
+                                            @switch($donHang->maGiamGia->tien_giam)
+                                                @case(0.1)
+                                                    10%
+                                                @break
+
+                                                @case(0.2)
+                                                    20%
+                                                @break
+
+                                                @case(0.3)
+                                                    30%
+                                                @break
+
+                                                @case(0.4)
+                                                    40%
+                                                @break
+
+                                                @case(0.5)
+                                                    50%
+                                                @break
+
+                                                @case(0.6)
+                                                    60%
+                                                @break
+
+                                                @case(0.7)
+                                                    70%
+                                                @break
+
+                                                @case(0.8)
+                                                    80%
+                                                @break
+
+                                                @case(0.9)
+                                                    90%
+                                                @break
+
+                                                @case(1)
+                                                    100%
+                                                @break
+                                            @endswitch
+                                        </span>
+                                    </div>
+                                    <div style="padding-top: 4%"><span style="font-weight: bold; padding-right: 4%">Tổng
+                                            thanh toán:</span>
+                                        <span>{{ number_format($donHang->tong_tien) }} đ</span>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                @break
+            @endforeach
+
+        </div>
+    </div>
+    <!-- Bootstrap Table with Header - Light -->
+    @include('Partial/don-hang/JSPartial-donhang-show')
+@endsection

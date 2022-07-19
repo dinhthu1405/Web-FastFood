@@ -177,4 +177,19 @@ class TrangThaiDonHangController extends Controller
         $trangThaiDonHang->donHangs()->update(['don_hangs.trang_thai' => 0]);
         return Redirect::route('trangThaiDonHang.index');
     }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        if ($id == null) {
+            return Redirect::route('trangThaiDonHang.index');
+        } else {
+            TrangThaiDonHang::find($id)->each(function ($trangThaiDonHang, $key) {
+                $trangThaiDonHang->trang_thai = 0;
+                $trangThaiDonHang->save();
+                $trangThaiDonHang->donHangs()->update(['don_hangs.trang_thai' => 0]);
+            });
+            return Redirect::route('trangThaiDonHang.index');
+        }
+    }
 }

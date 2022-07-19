@@ -46,7 +46,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $lstTaiKhoan = User::paginate(5);
+        // User::withTrashed()->find(7)->restore();
+        $lstTaiKhoan = User::withTrashed()->paginate(5);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
         // foreach ($lstTaiKhoan as $taiKhoan) {
         //     foreach ($lstHinhAnh as $hinhAnh)
@@ -251,7 +252,7 @@ class UserController extends Controller
         );
         $hinhAnh = HinhAnh::where('user_id', $taiKhoan->id)->get();
         if ($request->hasFile('images')) {
-            $images = $request->file('images')->store('images/user/' . $taiKhoan->id, 'public');
+            $images = $request->file('images')->store('images/taiKhoan/' . $taiKhoan->id, 'public');
             foreach ($hinhAnh as $hinh) {
                 $hinh->update([
                     'trang_thai' => 0,
@@ -306,7 +307,9 @@ class UserController extends Controller
 
     public function khoa_mo($id)
     {
+        User::withTrashed()->where('id', $id)->restore();
         $taiKhoan = User::find($id);
+        // dd($taiKhoan);
         $lstDiemMuaHang = DiemMuaHang::all()->where('trang_thai', 1);
         if ($taiKhoan->trang_thai == 0) {
 
@@ -315,6 +318,7 @@ class UserController extends Controller
             $taiKhoan->donHangs()->update(['don_hangs.trang_thai' => 1]);
             $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 1]);
             $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 1]);
+            
             // foreach ($lstDiemMuaHang as $diemMuaHang) {
             //     dd($diemMuaHang->user_id == $id);
             //     if ($diemMuaHang->user_id == $id) {
@@ -330,7 +334,7 @@ class UserController extends Controller
             $taiKhoan->donHangs()->update(['don_hangs.trang_thai' => 0]);
             $taiKhoan->danhGias()->update(['danh_gias.trang_thai' => 0]);
             $taiKhoan->binhLuans()->update(['binh_luans.trang_thai' => 0]);
-
+            $taiKhoan->delete();
             // foreach ($lstDiemMuaHang as $diemMuaHang) {
             //     if ($diemMuaHang->user_id == $id) {
             //         $diemMuaHang->update([

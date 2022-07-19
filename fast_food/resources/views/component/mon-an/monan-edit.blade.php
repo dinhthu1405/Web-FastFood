@@ -169,7 +169,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlSelect1" class="form-label">Tình trạng món ăn</label>
+                                <label for="exampleFormControlSelect1" class="form-label">Tình trạng món</label>
                                 <select class="form-select" name="TinhTrang" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
                                     <option {{ $monAn->tinh_trang == 'Còn món' ? 'selected' : '' }}>Còn món</option>

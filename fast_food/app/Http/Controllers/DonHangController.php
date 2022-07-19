@@ -219,7 +219,9 @@ class DonHangController extends Controller
         $lstChiTietDonHang = ChiTietDonHang::where('trang_thai', 1)->where('don_hang_id', $id)->paginate(5);
         $lstMonAn = MonAn::all()->where('trang_thai', 1);
         $lstHinhAnh = HinhAnh::all()->where('trang_thai', 1);
-        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn', 'lstHinhAnh', 'id'));
+        $lstTaiKhoan = User::all()->where('trang_thai', 1);
+        $lstDonHang = DonHang::all()->where('trang_thai', 1);
+        return view('component/don-hang/donhang-show', compact('lstChiTietDonHang', 'lstMonAn', 'lstHinhAnh', 'id', 'lstTaiKhoan', 'lstDonHang'));
     }
 
     /**
@@ -262,5 +264,19 @@ class DonHangController extends Controller
         $donHang->trang_thai = 0;
         $donHang->save();
         return Redirect::route('donHang.index');
+    }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        if ($id == null) {
+            return Redirect::route('donHang.index');
+        } else {
+            DonHang::find($id)->each(function ($donHang, $key) {
+                $donHang->trang_thai = 0;
+                $donHang->save();
+            });
+            return Redirect::route('donHang.index');
+        }
     }
 }

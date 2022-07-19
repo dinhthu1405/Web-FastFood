@@ -47,19 +47,29 @@
                                 </div>
                                 <div class="mb-3 col-md-4">
                                     <label for="exampleFormControlInput1" class="form-label">Tiền giảm</label>
-                                    <select class="form-select" name="LoaiGiamGia" id="exampleFormControlSelect1"
+                                    <select class="form-select" name="TienGiam" id="exampleFormControlSelect1"
                                         aria-label="Default select example">
                                         <option value='' selected>-- Chọn tiền giảm --</option>
-                                        <option value="1">10%</option>
-                                        <option value="2">20%</option>
-                                        <option value="3">30%</option>
-                                        <option value="4">40%</option>
-                                        <option value="5">50%</option>
-                                        <option value="6">60%</option>
-                                        <option value="7">70%</option>
-                                        <option value="8">80%</option>
-                                        <option value="9">90%</option>
-                                        <option value="10">100%</option>
+                                        <option value="1" {{ $maGiamGium->tien_giam == 0.1 ? 'selected' : '' }}>10%
+                                        </option>
+                                        <option value="2"{{ $maGiamGium->tien_giam == 0.2 ? 'selected' : '' }}>20%
+                                        </option>
+                                        <option value="3"{{ $maGiamGium->tien_giam == 0.3 ? 'selected' : '' }}>30%
+                                        </option>
+                                        <option value="4"{{ $maGiamGium->tien_giam == 0.4 ? 'selected' : '' }}>40%
+                                        </option>
+                                        <option value="5"{{ $maGiamGium->tien_giam == 0.5 ? 'selected' : '' }}>50%
+                                        </option>
+                                        <option value="6"{{ $maGiamGium->tien_giam == 0.6 ? 'selected' : '' }}>60%
+                                        </option>
+                                        <option value="7"{{ $maGiamGium->tien_giam == 0.7 ? 'selected' : '' }}>70%
+                                        </option>
+                                        <option value="8"{{ $maGiamGium->tien_giam == 0.8 ? 'selected' : '' }}>80%
+                                        </option>
+                                        <option value="9"{{ $maGiamGium->tien_giam == 0.9 ? 'selected' : '' }}>90%
+                                        </option>
+                                        <option value="10"{{ $maGiamGium->tien_giam == 1 ? 'selected' : '' }}>100%
+                                        </option>
                                     </select>
                                     @error('TienGiam')
                                         <div class="error">

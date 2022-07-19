@@ -299,4 +299,24 @@ class DiaDiemController extends Controller
         // $diaDiem->donHangs()->update(['don_hangs.trang_thai' => 0]);
         return Redirect::route('diaDiem.index');
     }
+
+    public function xoaNhieu(Request $request)
+    {
+        $id = $request->get('ids');
+        // dd($id);
+        if ($id == null) {
+            return Redirect::route('diaDiem.index');
+        } else {
+            DiaDiem::find($id)->each(function ($diaDiem, $key) {
+                $diaDiem->trang_thai = 0;
+                $diaDiem->save();
+                $diaDiem->monAns()->update(['mon_ans.trang_thai' => 0]);
+                $diaDiem->hinhAnhs()->update(['hinh_anhs.trang_thai' => 0]);
+                $diaDiem->danhGias()->update(['danh_gias.trang_thai' => 0]);
+                $diaDiem->anhBias()->update(['anh_bias.trang_thai' => 0]);
+                $diaDiem->chiTietDonHangs()->update(['chi_tiet_don_hangs.trang_thai' => 0]);
+            });
+            return Redirect::route('diaDiem.index');
+        }
+    }
 }

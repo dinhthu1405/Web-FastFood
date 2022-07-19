@@ -56,7 +56,7 @@
                     </div>
                     <div class="col-md-1">
                         {{-- <input type="text" name="top_dh" class="form-control" value="{{ $topDH }}" /> --}}
-                        <div class="form-group" id="TopDH" style="display: {{ $value != 9 ? 'none' : 'block' }}">
+                        <div class="form-group" id="TopDH" style="display: {{ $value != 11 ? 'none' : 'block' }}">
                             <label for="">Top</label>
                             <select class="form-select" name="TOPDH" id="" aria-label="Default select example">
                                 <option value="1" {{ $value_top == 1 ? 'selected' : '' }}>5</option>
@@ -73,17 +73,20 @@
                                 <option value="0">-- Hãy chọn một loại thống kê --</option>
                                 <option value="1" {{ $value == 1 ? 'selected' : '' }}>Thống kê theo ngày/tháng/năm
                                 </option>
-                                <option value="2" {{ $value == 2 ? 'selected' : '' }}>Thống kê ngày hiện tại
-                                </option>
-                                <option value="3" {{ $value == 3 ? 'selected' : '' }}>Thống kê ngày hôm qua</option>
+                                {{-- <option value="2" {{ $value == 2 ? 'selected' : '' }}>Thống kê ngày hiện tại
+                                </option> --}}
+                                {{-- <option value="3" {{ $value == 3 ? 'selected' : '' }}>Thống kê ngày hôm qua</option> --}}
                                 <option value="4" {{ $value == 4 ? 'selected' : '' }}>Thống kê tuần hiện tại
                                 </option>
-                                <option value="5" {{ $value == 5 ? 'selected' : '' }}>Thống kê tuần trước</option>
-                                <option value="6" {{ $value == 6 ? 'selected' : '' }}>Thống kê tháng hiện tại
-                                </option>
-                                <option value="7" {{ $value == 7 ? 'selected' : '' }}>Thống kê tháng trước</option>
-                                <option value="8" {{ $value == 8 ? 'selected' : '' }}>Thống kê năm hiện tại</option>
-                                <option value="9" {{ $value == 9 ? 'selected' : '' }}>Thống kê đơn hàng có tổng tiền
+                                {{-- <option value="5" {{ $value == 5 ? 'selected' : '' }}>Thống kê tuần trước</option> --}}
+                                {{-- <option value="6" {{ $value == 6 ? 'selected' : '' }}>Thống kê tháng hiện tại
+                                </option> --}}
+                                {{-- <option value="7" {{ $value == 7 ? 'selected' : '' }}>Thống kê tháng trước</option> --}}
+                                {{-- <option value="8" {{ $value == 8 ? 'selected' : '' }}>Thống kê năm hiện tại</option> --}}
+                                <option value="9" {{ $value == 9 ? 'selected' : '' }}>Thống kê theo quý</option>
+                                <option value="10" {{ $value == 10 ? 'selected' : '' }}>Thống kê theo tháng</option>
+                                <option value="11" {{ $value == 11 ? 'selected' : '' }}>Thống kê đơn hàng có tổng
+                                    tiền
                                     lớn
                                     nhất</option>
                                 {{-- <option value="10" {{ $value == 10 ? 'selected' : '' }}>Thống kê đơn hàng chưa nhận
@@ -116,7 +119,7 @@
                     <div class="col-md-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <a href="{{ route('thongKe.exportExcel', [$tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
+                            <a href="{{ route('thongKe.exportExcel', [$quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
                                 type="button" class="form-control btn btn-primary"><img style="width: 50%"
                                     src="../assets/img/icons/unicons/excel.png" alt="Credit Card" class="rounded" /></a>
                         </div>
@@ -124,11 +127,53 @@
                     <div class="col-md-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <a href="{{ route('thongKe.exportPDF', [$tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
+                            <a href="{{ route('thongKe.exportPDF', [$quy, $thang, $tu_ngay, $den_ngay, $topDH, $thongKe]) }}"
                                 type="button" class="form-control btn btn-primary"><img style="width: 50%"
                                     src="../assets/img/icons/unicons/pdf.png" alt="Credit Card" class="rounded" /></a>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group" id="Quy" style="display: {{ $value != 9 ? 'none' : 'block' }}">
+                            <label for="">Quý</label>
+                            <select class="form-select" name="quy" id="" aria-label="Default select example">
+                                <option value="1" {{ $value_quy == 1 ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ $value_quy == 2 ? 'selected' : '' }}>2</option>
+                                <option value="3" {{ $value_quy == 3 ? 'selected' : '' }}>3</option>
+                                <option value="4" {{ $value_quy == 4 ? 'selected' : '' }}>4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group" id="Thang" style="display: {{ $value != 10 ? 'none' : 'block' }}">
+                            <label for="">Tháng</label>
+                            <input type="month" name="thang" id="thang" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $thang }}">
+                            {{-- <select class="form-select" name="quy" id="" aria-label="Default select example">
+                                <option value="1" {{ $value_top == 1 ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ $value_top == 2 ? 'selected' : '' }}>2</option>
+                                <option value="3" {{ $value_top == 3 ? 'selected' : '' }}>3</option>
+                                <option value="4" {{ $value_top == 4 ? 'selected' : '' }}>4</option>
+                                <option value="5" {{ $value_top == 5 ? 'selected' : '' }}>5</option>
+                                <option value="6" {{ $value_top == 6 ? 'selected' : '' }}>6</option>
+                                <option value="7" {{ $value_top == 7 ? 'selected' : '' }}>7</option>
+                                <option value="8" {{ $value_top == 8 ? 'selected' : '' }}>8</option>
+                                <option value="9" {{ $value_top == 9 ? 'selected' : '' }}>9</option>
+                                <option value="10" {{ $value_top == 10 ? 'selected' : '' }}>10</option>
+                                <option value="11" {{ $value_top == 11 ? 'selected' : '' }}>11</option>
+                                <option value="12" {{ $value_top == 12 ? 'selected' : '' }}>12</option>
+
+                            </select> --}}
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-1">
+                        <div class="form-group" id="Nam" style="display: {{ $value != 11 ? 'none' : 'block' }}">
+                            <label for="">Năm</label>
+                            <input type="date" name="tu_ngay" id="tu_ngay" class="form-control" placeholder=""
+                                aria-describedby="helpId" value="{{ $tu_ngay }}">
+                        </div>
+                    </div> --}}
                 </div>
             </form>
             <br />
@@ -328,6 +373,8 @@
             function getThongKe() {
                 var tuNgay = document.getElementById('TuNgay');
                 var denNgay = document.getElementById('DenNgay');
+                var quy = document.getElementById('Quy');
+                var thang = document.getElementById('Thang');
                 var topDH = document.getElementById('TopDH');
                 var paginate = document.getElementById('paginate');
                 //Lấy giá trị đoạn text trong select
@@ -364,6 +411,16 @@
                     // }
                 }
                 if (select != 9) {
+                    quy.style.display = 'none';
+                } else {
+                    quy.style.display = 'block';
+                }
+                if (select != 10) {
+                    thang.style.display = 'none';
+                } else {
+                    thang.style.display = 'block';
+                }
+                if (select != 11) {
                     topDH.style.display = 'none';
                 } else {
                     topDH.style.display = 'block';

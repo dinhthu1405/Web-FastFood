@@ -20,9 +20,10 @@ class MaGiamGiaController extends Controller
     {
         //
         // MaGiamGia::withTrashed()->find(1)->restore();
-        $lstMaGiamGia = MaGiamGia::where('deleted_at', null)->paginate(5);
+        $lstMaGiamGia = MaGiamGia::paginate(5);
+        $lstLoaiGiamGia = LoaiGiamGia::all()->where('trang_thai', 1);
         // $lstMaGiamGia->restore();
-        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'request'));
+        return view('component/ma-giam-gia/magiamgia-show', compact('lstMaGiamGia', 'lstLoaiGiamGia', 'request'));
     }
 
     public function search(Request $request)
@@ -81,6 +82,7 @@ class MaGiamGiaController extends Controller
             $request,
             [
                 'TenMaGiamGia' => 'required',
+                'TienGiam' => 'required',
                 'LoaiGiamGia' => 'required',
                 'SoLuong' => 'required',
                 'NgayBatDau' => 'required',
@@ -88,15 +90,51 @@ class MaGiamGiaController extends Controller
             ],
             [
                 'TenMaGiamGia.required' => 'Bạn chưa nhập tên mã giảm giá',
+                'TienGiam.required' => 'Bạn chưa chọn % giảm',
                 'LoaiGiamGia.required' => 'Bạn chưa chọn loại giảm giá',
                 'SoLuong.required' => 'Bạn chưa nhập số lượng',
                 'NgayBatDau.required' => 'Bạn chưa chọn ngày bắt đầu',
                 'NgayKetThuc.required' => 'Bạn chưa chọn ngày kết thúc',
             ]
         );
+        $phan_tram_giam = '0.0';
+        switch ($request->input('TienGiam')) {
+            case (1):
+                $phan_tram_giam = '0.1';
+                break;
+            case (2):
+                $phan_tram_giam = '0.2';
+                break;
+            case (3):
+                $phan_tram_giam = '0.3';
+                break;
+            case (4):
+                $phan_tram_giam = '0.4';
+                break;
+            case (5):
+                $phan_tram_giam = '0.5';
+                break;
+            case (6):
+                $phan_tram_giam = '0.6';
+                break;
+            case (7):
+                $phan_tram_giam = '0.7';
+                break;
+            case (8):
+                $phan_tram_giam = '0.8';
+                break;
+            case (9):
+                $phan_tram_giam = '0.9';
+                break;
+            case (10):
+                $phan_tram_giam = '1';
+                break;
+        }
+        // dd($phan_tram_giam);
         $maGiamGia = new MaGiamGia();
         $maGiamGia->fill([
             'ten_ma' => $request->input('TenMaGiamGia'),
+            'tien_giam' => $phan_tram_giam,
             'so_luong' => $request->input('SoLuong'),
             'ngay_bat_dau' => $request->input('NgayBatDau'),
             'ngay_ket_thuc' => $request->input('NgayKetThuc'),
@@ -164,7 +202,41 @@ class MaGiamGiaController extends Controller
                 'NgayKetThuc.required' => 'Bạn chưa chọn ngày kết thúc',
             ]
         );
+        $phan_tram_giam = '0.0';
+        switch ($request->input('TienGiam')) {
+            case (1):
+                $phan_tram_giam = '0.1';
+                break;
+            case (2):
+                $phan_tram_giam = '0.2';
+                break;
+            case (3):
+                $phan_tram_giam = '0.3';
+                break;
+            case (4):
+                $phan_tram_giam = '0.4';
+                break;
+            case (5):
+                $phan_tram_giam = '0.5';
+                break;
+            case (6):
+                $phan_tram_giam = '0.6';
+                break;
+            case (7):
+                $phan_tram_giam = '0.7';
+                break;
+            case (8):
+                $phan_tram_giam = '0.8';
+                break;
+            case (9):
+                $phan_tram_giam = '0.9';
+                break;
+            case (10):
+                $phan_tram_giam = '1';
+                break;
+        }
         $maGiamGium->fill([
+            'tien_giam' => $phan_tram_giam,
             'so_luong' => $request->input('SoLuong'),
             'ngay_bat_dau' => $request->input('NgayBatDau'),
             'ngay_ket_thuc' => $request->input('NgayKetThuc'),

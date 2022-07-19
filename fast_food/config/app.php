@@ -167,6 +167,7 @@ return [
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Tightenco\Quicksand\QuicksandServiceProvider::class,
         /*
          * Application Service Providers...
          */

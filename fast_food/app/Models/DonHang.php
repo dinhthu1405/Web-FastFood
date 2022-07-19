@@ -25,6 +25,7 @@ class DonHang extends Model
         'trang_thai_don_hang_id',
         'nguoi_giao_hang_id',
         'user_id',
+        'ma_giam_gia_id',
         'trang_thai',
     ];
     public function trangThaiDonHang()
@@ -45,5 +46,10 @@ class DonHang extends Model
     public function diemMuaHang()
     {
         return $this->belongsTo(DiemMuaHang::class, 'id');
+    }
+
+    public function maGiamGia()
+    {
+        return $this->belongsTo(MaGiamGia::class, 'id');
     }
 }

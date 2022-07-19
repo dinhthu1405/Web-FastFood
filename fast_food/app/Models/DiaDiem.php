@@ -32,7 +32,7 @@ class DiaDiem extends Model
 
     public function danhGias()
     {
-        return $this->hasMany(DanhGia::class);
+        return $this->hasMany(DanhGia::class, 'id');
     }
 
     public function hinhAnhs()
