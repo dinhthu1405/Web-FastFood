@@ -35,7 +35,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('app', SinglePageController::class);
-Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
 
 //Resource
 Route::resource('monAn', MonAnController::class)->middleware('auth');
@@ -48,7 +48,7 @@ Route::resource('chiTietDonHang', ChiTietDonHangController::class)->middleware('
 Route::resource('danhGia', DanhGiaController::class)->middleware('auth');
 Route::resource('binhLuan', BinhLuanController::class)->middleware('auth');
 Route::resource('maGiamGia', MaGiamGiaController::class)->middleware('auth');
-Route::resource('loaiGiamGia', LoaiGiamGiaController::class)->middleware('auth');
+Route::resource('loaiGiamGia', LoaiGiamGiaController::class);
 // Route::resource('anhBia', AnhBiaController::class)->middleware('auth');
 Route::resource('anhBias', AnhBiaController::class)->middleware('auth');
 Route::resource('diemMuaHang', DiemMuaHangController::class)->middleware('auth');
