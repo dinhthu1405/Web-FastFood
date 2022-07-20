@@ -66,7 +66,7 @@
                                         @if ($danhGia->noi_dung == null)
                                             <td></td>
                                         @else
-                                            <td>{{ str_limit($danhGia->noi_dung, 10) }}</td>
+                                            <td>{{ $danhGia->noi_dung }}</td>
                                         @endif
                                         @if ($danhGia->thoi_gian == null)
                                             <td></td>

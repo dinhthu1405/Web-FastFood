@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 use App\Models\DonHang;
 use App\Http\Controllers\Controller;
 use App\Models\ChiTietDonHang;
+use App\Models\DiemMuaHang;
 use App\Models\HinhAnh;
+use App\Models\MaGiamGia;
 use App\Models\MonAn;
 use App\Models\TrangThaiDonHang;
 use App\Models\User;
@@ -75,8 +77,8 @@ class HoaDonApi extends Controller
         $donHang = new DonHang();
         $donHang->fill([
             'ngay_lap_dh' => $request->input('ngaylapdh'),
-            'loai_thanh_toan'=>'thanh toán trực tiếp',
-            'dia_chi'=>"Nhà B lầu 3 phòng F.12",
+            'loai_thanh_toan'=>'Tiền mặt',
+            'dia_chi'=>$request->input('diachi'),
             'tong_tien'=>$request->input('tongtien'),
             'trang_thai_don_hang_id' => 1,
             'nguoi_giao_hang_id' => 1,
@@ -97,12 +99,22 @@ class HoaDonApi extends Controller
             $chitietdonhang->save();
             
         }
+        $diemMuaHang= new DiemMuaHang();
+        $diemMuaHang->fill([
+            'so_diem'=>$donHang->tong_tien*0.05,
+            'user_id'=>$donHang->user_id,
+            'don_hang_id'=>$donHang->id,
+        ]);
+        $diemMuaHang->save();
         return [$donHang,
         $chitietdonhang
     ]; 
         
     }
-
+  public function showMaGiamGia(){
+    $magiamgia=MaGiamGia::all();
+    return $magiamgia;
+  }
     /**
      * Display the specified resource.
      *
@@ -121,21 +133,15 @@ class HoaDonApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,DonHang $donHang)
+    public function update(Request $request,$id)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'tongtien' => 'required',
-        //         'trangthaidonhang' => 'required',
-        //     ],
-        // );
-        $donHang->tong_tien=$request->input('tongtien');
-        $donHang->trang_thai_don_hang_id= $request->input('trangthaidonhang');
-        
-        
-        $donHang->save(); 
-     
+        $donHang=DonHang::where('id',$id)->get();
+        // dd($donHang);
+        foreach ($donHang as  $value) {
+           $value->trang_thai_don_hang_id= $request->input('trangthai')+2;
+           $value->nguoi_giao_hang_id=$request->input('nguoigiaohang');
+           $value->save(); 
+        }
         return $donHang; 
         
     }

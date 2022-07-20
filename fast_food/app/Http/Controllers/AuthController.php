@@ -60,6 +60,7 @@ class AuthController extends Controller
             ]
         );
         $user_data = (['email' => $request->email, 'password' => $request->password, 'trang_thai' => 1]);
+        // dd($user_data);
         if (Auth::attempt($user_data)) {
             // dd(Auth::check() && Auth::user()->phan_loai_tai_khoan != 1);
             if ((Auth::check() && Auth::user()->phan_loai_tai_khoan == 0) || (Auth::check() && Auth::user()->phan_loai_tai_khoan == 3)) {

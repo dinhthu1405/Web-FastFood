@@ -9,6 +9,7 @@ use App\Models\DanhGia;
 use App\Models\DiaDiem;
 use App\Models\HinhAnh;
 use App\Models\LoaiMonAn;
+use App\Models\LuuTru;
 use App\Models\User;
 use App\Models\YeuThich;
 use Illuminate\Http\Request;
@@ -37,21 +38,20 @@ class MonAnApi extends Controller
             "trang_thai"=>0,
         ]);
         $danhGia->save();
-        $get_name =$request->file('hinhanh');
-        dd($get_name);
-        foreach ($get_name as $value) {
-            $hinhAnh = new hinhAnh();
-            $hinhAnh->danh_gia_id=$danhGia->id;
-            $get_image=$value;
-            $path='images/food/';
-            $get_name_images=$get_image->getClientOriginalName();
-            $name_images= current(explode('.',$get_name_images));
-            $new_images= $name_images.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-            $get_image->move($path,$new_images);
-            $hinhAnh->duong_dan=$path+$new_images;
-            $hinhAnh->save();
+        // $get_name =$request->file('hinhanh');
+        // foreach ($get_name as $value) {
+        //     $hinhAnh = new hinhAnh();
+        //     $hinhAnh->danh_gia_id=$danhGia->id;
+        //     $get_image=$value;
+        //     $path='images/food/';
+        //     $get_name_images=$get_image->getClientOriginalName();
+        //     $name_images= current(explode('.',$get_name_images));
+        //     $new_images= $name_images.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+        //     $get_image->move($path,$new_images);
+        //     $hinhAnh->duong_dan=$path+$new_images;
+        //     $hinhAnh->save();
 
-        }
+        // }
         $danhGia->save();
         return $danhGia;
     }
@@ -66,10 +66,10 @@ class MonAnApi extends Controller
                 $count=1;
             }
             $item->danhGias=round($tong/$count,1) ;
-            $item->hinhAnhs=HinhAnh::find($item->id);
+            $item->hinhAnh=HinhAnh::where('mon_an_id',$item->id)->get();
             $item->diaDiem=DiaDiem::find($item->dia_diem_id);
             $item->loaiMonAn = LoaiMonAn::find($item->loai_mon_an_id);
-            // $item->yeuThich=YeuThich::find($item->id);
+            $item->luuTrus=LuuTru::where('mon_an_id',$item->id)->get();
         }
         return $monAn;
     }
@@ -132,7 +132,7 @@ class MonAnApi extends Controller
     public function MonAnWithType(LoaiMonAn $loaiMonAn){
         $loaiMonAn->monAns = MonAn::where('loai_mon_an_id',$loaiMonAn->id)->get();
         foreach ($loaiMonAn->monAns as $value) {
-            $value->hinhAnhs= HinhAnh::find($value->id);
+            $value->hinhAnh= HinhAnh::where('mon_an_id',$value->id)->get();
         }
         return $loaiMonAn;
     }
@@ -149,9 +149,10 @@ class MonAnApi extends Controller
     public function showMonAn($id)
     {    
         $monAn=MonAn::find($id);
-        $monAn->hinhAnhs=HinhAnh::find($monAn->id);
+        $monAn->hinhAnh=HinhAnh::where('mon_an_id',$monAn->id)->get();
         $monAn->diaDiem=DiaDiem::find($monAn->dia_diem_id);
         $monAn->loaiMonAn=LoaiMonAn::find($monAn->loai_mon_an_id);
+        $monAn->luuTrus=LuuTru::where('mon_an_id',$monAn->id)->get();
         $sum= $monAn->danhGias =DanhGia::where('mon_an_id',$monAn->id)->get();
         $tong= $sum->sum('danh_gia_sao');
         $count=count($sum); 
@@ -162,7 +163,7 @@ class MonAnApi extends Controller
         return $monAn;
     }
     public function FoodFavorite(Request $request){
-        $favorite = new YeuThich();
+        $favorite = new LuuTru();
         $favorite->fill(
             [
                 'yeu_thich'=>1,
@@ -199,11 +200,17 @@ class MonAnApi extends Controller
             "messages"=>"Xoá thành công bình luận ",
         ];
     }
-    public function destroyLike($id){
-        $yeuThich= YeuThich::find($id);
-        $yeuThich->delete();
-        return[
-            'message'=>'Xoa'
-        ];
+    public function destroyLike(MonAn $monAn){
+        $monAn=LuuTru::where('mon_an_id',$monAn->id)->get();
+        foreach ($monAn as $value) {
+            $value->fill(
+                [
+                    'yeu_thich'=>0,
+                ]
+                );
+            $value->save();
+        }
+       
+        return $monAn;
     }
 }

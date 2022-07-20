@@ -37,9 +37,9 @@ class MonAn extends Model
         return $this->belongsTo(DiaDiem::class);
     }
 
-    public function hinhAnhs()
+    public function hinhAnh()
     {
-        return $this->hasMany(HinhAnh::class);
+        return $this->belongsTo(HinhAnh::class);
     }
 
     public function chiTietDonHang()
@@ -62,7 +62,7 @@ class MonAn extends Model
         return $this->hasMany(AnhBia::class);
     }
 
-    public function yeuThichs()
+    public function luutrus()
     {
         return $this->hasMany(YeuThich::class);
     }

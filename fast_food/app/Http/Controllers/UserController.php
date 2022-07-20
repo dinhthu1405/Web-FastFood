@@ -250,8 +250,9 @@ class UserController extends Controller
             ]
         );
         $hinhAnh = HinhAnh::where('user_id', $taiKhoan->id)->get();
+        // dd($request->hasFile('images'));
         if ($request->hasFile('images')) {
-            $images = $request->file('images')->store('images/user/' . $taiKhoan->id, 'public');
+            $images = $request->file('images')->store('images/taiKhoan/' . $taiKhoan->id, 'public');
             foreach ($hinhAnh as $hinh) {
                 $hinh->update([
                     'trang_thai' => 0,

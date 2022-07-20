@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForeignKeysTable extends Migration
+class CreateForeignKeys extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateForeignKeysTable extends Migration
      */
     public function up()
     {
-        // Schema::table('users', function (Blueprint $table) {
+         // Schema::table('users', function (Blueprint $table) {
         //     $table->foreign('diem_mua_hang_id')->references('id')->on('diem_mua_hangs');
         // });
         Schema::table('mon_ans', function (Blueprint $table) {
@@ -65,11 +65,17 @@ class CreateForeignKeysTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('don_hang_id')->references('id')->on('don_hangs');
         });
-        Schema::table('yeu_thichs', function (Blueprint $table) {
+        // Schema::table('yeu_thichs', function (Blueprint $table) {
+        //     $table->foreign('mon_an_id')->references('id')->on('mon_ans');
+        //     $table->foreign('user_id')->references('id')->on('users');
+        // });
+        Schema::table('luu_trus', function (Blueprint $table) {
             $table->foreign('mon_an_id')->references('id')->on('mon_ans');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
+
+    
 
     /**
      * Reverse the migrations.
@@ -78,6 +84,6 @@ class CreateForeignKeysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('foreign_key');
+        Schema::dropIfExists('foreign_keys');
     }
 }

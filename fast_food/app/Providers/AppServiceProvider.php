@@ -4,6 +4,7 @@ namespace App\Providers;
 use Laravel\Passport\Passport;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrap();
         Passport::routes();
+        Schema::defaultStringLength(191);
     }
 }

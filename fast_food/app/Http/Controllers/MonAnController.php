@@ -227,8 +227,7 @@ class MonAnController extends Controller
             }
             foreach ($request->file('images') as $file) {
                 $images = $file->store('images/mon_an/' . $monAn->id, 'public');
-
-                HinhAnh::insert([
+                $abc = HinhAnh::insert([
                     'duong_dan' => $images,
                     'mon_an_id' => $monAn->id,
                     'trang_thai' => 1,

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
+use App\Models\DiemMuaHang;
 use App\Models\User; 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Validator;
+use  Laravel\Sanctum\NewAccessToken;
 class UserApi extends Controller
 {
 
@@ -29,11 +31,11 @@ class UserApi extends Controller
         $user = new User([
             'ho_ten' => $request->ho_ten,
             'email' => $request->email,
-            'password' =>11111,
+            'password' =>$request->password,
             'sdt'=>'',
             'ngay_sinh'=> '1999/1/1',
             'dia_chi'=>'',
-            'phan_loai_tai_khoan'=>1,
+            'phan_loai_tai_khoan'=>0,
             'trang_thai'=>1
         ]);
  
@@ -102,8 +104,10 @@ class UserApi extends Controller
      */
     public function FindUser($id)
     {
-        $user =User::where('token',$id)->get();
-        return $user;
+        $user= User::find($id);
+        $user->diemMuaHangs=DiemMuaHang::where('user_id',$user->id)->get();
+        $tong = $user->diemMuaHangs->sum('so_diem');
+        return $tong;
     }
 
     /**
@@ -124,7 +128,7 @@ class UserApi extends Controller
                 'ngay_sinh'=>'1999/1/1',
                 'dia_chi'=>$request->input('diachi'),
                 'token'=>$request->input('token'),
-                'phan_loai_tai_khoan'=>1,
+                'phan_loai_tai_khoan'=>0,
                 'trang_thai'=>1,
             ]    
             );
@@ -150,9 +154,14 @@ class UserApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,User $user)
     {
-        //
+        // $user=User::where('id',$id)->get();
+        $user->dia_chi= $request->input('diachi');
+        $user->sdt=$request->input('sdt');
+        $user->ho_ten=$request->input('hoten');
+        $user->save();
+        return $user;
     }
 
     /**
@@ -163,6 +172,6 @@ class UserApi extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+      
+}
 }

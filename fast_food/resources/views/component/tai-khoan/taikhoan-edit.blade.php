@@ -12,7 +12,6 @@
                 <h4 class="fw-bold py-3 mb-4"><a href="{{ route('taiKhoan.index') }}"><span class="text-muted fw-light">Danh
                             sách
                             /</span></a> Sửa tài khoản</h4>
-                {!! @csrf_field() !!}
                 @if (Session::has('success'))
                     <div class="alert alert-success" role="alert">{{ Session::get('success') }}</div>
                 @endif
@@ -30,6 +29,10 @@
                     <div class="card mb-4">
                         <h5 class="card-header">Sửa tài khoản</h5>
                         <!-- Account -->
+                                                    <form action="{{ route('taiKhoan.update', ['taiKhoan' => $taiKhoan]) }}" method="post"
+                                enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                @method('PATCH')
                         <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                                 {{-- <img src="../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100"
@@ -66,10 +69,7 @@
                         </div>
                         <hr class="my-0" />
                         <div class="card-body">
-                            <form action="{{ route('taiKhoan.update', ['taiKhoan' => $taiKhoan]) }}" method="post"
-                                enctype="multipart/form-data">
-                                {{ csrf_field() }}
-                                @method('PATCH')
+
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">Email</label>
@@ -169,6 +169,7 @@
                                 </div>
                             </form>
                         </div>
+                        </form>
                         <!-- /Account -->
                     </div>
                 </div>
