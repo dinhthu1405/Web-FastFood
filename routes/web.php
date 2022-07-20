@@ -35,7 +35,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('app', SinglePageController::class);
-Route::get('/home', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 //Resource
 Route::resource('monAn', MonAnController::class)->middleware('auth');
